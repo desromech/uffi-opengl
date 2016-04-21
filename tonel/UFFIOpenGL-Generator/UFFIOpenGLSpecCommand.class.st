@@ -53,7 +53,7 @@ UFFIOpenGLSpecCommand >> emitBindingsCallout: out [
 		self emitBindingsParameter: parameter on: out
 	].
 
-	out nextPutAll: ') ) options: #(+optIndirectCall)'
+	out nextPutAll: ') ) options: #( +optIndirectCallOpenGL )'
 	
 ]
 
@@ -67,8 +67,14 @@ UFFIOpenGLSpecCommand >> emitBindingsParameter: parameter on: out [
 UFFIOpenGLSpecCommand >> emitBindingsSelector: out [
 	out nextPutAll: self nameWithoutPrefix.
 	parameters doWithIndex: [:param :index |
-		index = 1 ifTrue: [ out nextPut: $_ ] ifFalse: [ out space ].
-		out nextPutAll: param name; nextPut: $:; space; nextPutAll: param name.
+		parameters size > 1 ifTrue: [
+			index = 1 ifTrue: [ out nextPut: $_ ] ifFalse: [ out space ].
+			out nextPutAll: param name; nextPut: $:.
+		] ifFalse: [
+			out nextPut: $: 
+		].
+	
+		out space; nextPutAll: param name.
 	].
 	out cr.
 ]
