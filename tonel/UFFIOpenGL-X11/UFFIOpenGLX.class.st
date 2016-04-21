@@ -9,6 +9,11 @@ Class {
 }
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> associateDMPbufferSGIX_dpy: dpy pbuffer: pbuffer params: params dmbuffer: dmbuffer [
+	^ self ffiCall: #( Bool glXAssociateDMPbufferSGIX ( Display dpy , GLXPbufferSGIX pbuffer , DMparams params , DMbuffer dmbuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> bindChannelToWindowSGIX_display: display screen: screen channel: channel window: window [
 	^ self ffiCall: #( int glXBindChannelToWindowSGIX ( Display display , int screen , int channel , Window window ) ) options: #(+optIndirectCall)
 ]
@@ -16,6 +21,11 @@ UFFIOpenGLX >> bindChannelToWindowSGIX_display: display screen: screen channel: 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> bindHyperpipeSGIX_dpy: dpy hpId: hpId [
 	^ self ffiCall: #( int glXBindHyperpipeSGIX ( Display dpy , int hpId ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> bindSwapBarrierNV_dpy: dpy group: group barrier: barrier [
+	^ self ffiCall: #( Bool glXBindSwapBarrierNV ( Display dpy , GLuint group , GLuint barrier ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -60,17 +70,17 @@ UFFIOpenGLX >> channelRectSyncSGIX_display: display screen: screen channel: chan
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> chooseFBConfigSGIX_dpy: dpy screen: screen attrib_list: attrib_list nelements: nelements [
-	^ self ffiCall: #( * glXChooseFBConfigSGIX ( Display dpy , int screen , int* attrib_list , int* nelements ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLXFBConfigSGIX glXChooseFBConfigSGIX ( Display dpy , int screen , int* attrib_list , int* nelements ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> chooseFBConfig_dpy: dpy screen: screen attrib_list: attrib_list nelements: nelements [
-	^ self ffiCall: #( * glXChooseFBConfig ( Display dpy , int screen , int* attrib_list , int* nelements ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLXFBConfig glXChooseFBConfig ( Display dpy , int screen , int* attrib_list , int* nelements ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> chooseVisual_dpy: dpy screen: screen attribList: attribList [
-	^ self ffiCall: #( * glXChooseVisual ( Display dpy , int screen , int* attribList ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( XVisualInfo glXChooseVisual ( Display dpy , int screen , int* attribList ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -89,8 +99,88 @@ UFFIOpenGLX >> copySubBufferMESA_dpy: dpy drawable: drawable x: x y: y width: wi
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> createAssociatedContextAMD_id: id share_list: share_list [
+	^ self ffiCall: #( GLXContext glXCreateAssociatedContextAMD ( unsigned int id , GLXContext share_list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createAssociatedContextAttribsAMD_id: id share_context: share_context attribList: attribList [
+	^ self ffiCall: #( GLXContext glXCreateAssociatedContextAttribsAMD ( unsigned int id , GLXContext share_context , int* attribList ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createContextAttribsARB_dpy: dpy config: config share_context: share_context direct: direct attrib_list: attrib_list [
+	^ self ffiCall: #( GLXContext glXCreateContextAttribsARB ( Display dpy , GLXFBConfig config , GLXContext share_context , Bool direct , int* attrib_list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createContextWithConfigSGIX_dpy: dpy config: config render_type: render_type share_list: share_list direct: direct [
+	^ self ffiCall: #( GLXContext glXCreateContextWithConfigSGIX ( Display dpy , GLXFBConfigSGIX config , int render_type , GLXContext share_list , Bool direct ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createContext_dpy: dpy vis: vis shareList: shareList direct: direct [
+	^ self ffiCall: #( GLXContext glXCreateContext ( Display dpy , XVisualInfo vis , GLXContext shareList , Bool direct ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createGLXPbufferSGIX_dpy: dpy config: config width: width height: height attrib_list: attrib_list [
+	^ self ffiCall: #( GLXPbufferSGIX glXCreateGLXPbufferSGIX ( Display dpy , GLXFBConfigSGIX config , unsigned int width , unsigned int height , int* attrib_list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createGLXPixmapMESA_dpy: dpy visual: visual pixmap: pixmap cmap: cmap [
+	^ self ffiCall: #( GLXPixmap glXCreateGLXPixmapMESA ( Display dpy , XVisualInfo visual , Pixmap pixmap , Colormap cmap ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createGLXPixmapWithConfigSGIX_dpy: dpy config: config pixmap: pixmap [
+	^ self ffiCall: #( GLXPixmap glXCreateGLXPixmapWithConfigSGIX ( Display dpy , GLXFBConfigSGIX config , Pixmap pixmap ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createGLXPixmap_dpy: dpy visual: visual pixmap: pixmap [
+	^ self ffiCall: #( GLXPixmap glXCreateGLXPixmap ( Display dpy , XVisualInfo visual , Pixmap pixmap ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createGLXVideoSourceSGIX_display: display screen: screen server: server path: path nodeClass: nodeClass drainNode: drainNode [
+	^ self ffiCall: #( GLXVideoSourceSGIX glXCreateGLXVideoSourceSGIX ( Display display , int screen , VLServer server , VLPath path , int nodeClass , VLNode drainNode ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createNewContext_dpy: dpy config: config render_type: render_type share_list: share_list direct: direct [
+	^ self ffiCall: #( GLXContext glXCreateNewContext ( Display dpy , GLXFBConfig config , int render_type , GLXContext share_list , Bool direct ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createPbuffer_dpy: dpy config: config attrib_list: attrib_list [
+	^ self ffiCall: #( GLXPbuffer glXCreatePbuffer ( Display dpy , GLXFBConfig config , int* attrib_list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createPixmap_dpy: dpy config: config pixmap: pixmap attrib_list: attrib_list [
+	^ self ffiCall: #( GLXPixmap glXCreatePixmap ( Display dpy , GLXFBConfig config , Pixmap pixmap , int* attrib_list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> createWindow_dpy: dpy config: config win: win attrib_list: attrib_list [
+	^ self ffiCall: #( GLXWindow glXCreateWindow ( Display dpy , GLXFBConfig config , Window win , int* attrib_list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> cushionSGI_dpy: dpy window: window cushion: cushion [
 	^ self ffiCall: #( void glXCushionSGI ( Display dpy , Window window , float cushion ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> delayBeforeSwapNV_dpy: dpy drawable: drawable seconds: seconds [
+	^ self ffiCall: #( Bool glXDelayBeforeSwapNV ( Display dpy , GLXDrawable drawable , GLfloat seconds ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> deleteAssociatedContextAMD_ctx: ctx [
+	^ self ffiCall: #( Bool glXDeleteAssociatedContextAMD ( GLXContext ctx ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -135,7 +225,7 @@ UFFIOpenGLX >> destroyWindow_dpy: dpy win: win [
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> enumerateVideoCaptureDevicesNV_dpy: dpy screen: screen nelements: nelements [
-	^ self ffiCall: #( * glXEnumerateVideoCaptureDevicesNV ( Display dpy , int screen , int* nelements ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLXVideoCaptureDeviceNV glXEnumerateVideoCaptureDevicesNV ( Display dpy , int screen , int* nelements ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -169,13 +259,43 @@ UFFIOpenGLX >> getContextGPUIDAMD_ctx: ctx [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> getContextIDEXT_context: context [
+	^ self ffiCall: #( GLXContextID glXGetContextIDEXT ( GLXContext context ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getCurrentAssociatedContextAMD [
+	^ self ffiCall: #( GLXContext glXGetCurrentAssociatedContextAMD ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getCurrentContext [
+	^ self ffiCall: #( GLXContext glXGetCurrentContext ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> getCurrentDisplay [
-	^ self ffiCall: #( * glXGetCurrentDisplay ( ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( Display glXGetCurrentDisplay ( ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> getCurrentDisplayEXT [
-	^ self ffiCall: #( * glXGetCurrentDisplayEXT ( ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( Display glXGetCurrentDisplayEXT ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getCurrentDrawable [
+	^ self ffiCall: #( GLXDrawable glXGetCurrentDrawable ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getCurrentReadDrawable [
+	^ self ffiCall: #( GLXDrawable glXGetCurrentReadDrawable ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getCurrentReadDrawableSGI [
+	^ self ffiCall: #( GLXDrawable glXGetCurrentReadDrawableSGI ( ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -189,8 +309,13 @@ UFFIOpenGLX >> getFBConfigAttrib_dpy: dpy config: config attribute: attribute va
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> getFBConfigFromVisualSGIX_dpy: dpy vis: vis [
+	^ self ffiCall: #( GLXFBConfigSGIX glXGetFBConfigFromVisualSGIX ( Display dpy , XVisualInfo vis ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> getFBConfigs_dpy: dpy screen: screen nelements: nelements [
-	^ self ffiCall: #( * glXGetFBConfigs ( Display dpy , int screen , int* nelements ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLXFBConfig glXGetFBConfigs ( Display dpy , int screen , int* nelements ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -204,6 +329,21 @@ UFFIOpenGLX >> getGPUInfoAMD_id: id property: property dataType: dataType size: 
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> getMscRateOML_dpy: dpy drawable: drawable numerator: numerator denominator: denominator [
+	^ self ffiCall: #( Bool glXGetMscRateOML ( Display dpy , GLXDrawable drawable , int32_t numerator , int32_t denominator ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getProcAddressARB_procName: procName [
+	^ self ffiCall: #( __GLXextFuncPtr glXGetProcAddressARB ( GLubyte procName ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getProcAddress_procName: procName [
+	^ self ffiCall: #( __GLXextFuncPtr glXGetProcAddress ( GLubyte procName ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> getSelectedEventSGIX_dpy: dpy drawable: drawable mask: mask [
 	^ self ffiCall: #( void glXGetSelectedEventSGIX ( Display dpy , GLXDrawable drawable , unsigned long* mask ) ) options: #(+optIndirectCall)
 ]
@@ -211,6 +351,16 @@ UFFIOpenGLX >> getSelectedEventSGIX_dpy: dpy drawable: drawable mask: mask [
 { #category : #'generated bindings' }
 UFFIOpenGLX >> getSelectedEvent_dpy: dpy draw: draw event_mask: event_mask [
 	^ self ffiCall: #( void glXGetSelectedEvent ( Display dpy , GLXDrawable draw , unsigned long* event_mask ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getSyncValuesOML_dpy: dpy drawable: drawable ust: ust msc: msc sbc: sbc [
+	^ self ffiCall: #( Bool glXGetSyncValuesOML ( Display dpy , GLXDrawable drawable , int64_t ust , int64_t msc , int64_t sbc ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> getTransparentIndexSUN_dpy: dpy overlay: overlay underlay: underlay pTransparentIndex: pTransparentIndex [
+	^ self ffiCall: #( Status glXGetTransparentIndexSUN ( Display dpy , Window overlay , Window underlay , long* pTransparentIndex ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -230,12 +380,12 @@ UFFIOpenGLX >> getVideoSyncSGI_count: count [
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> getVisualFromFBConfigSGIX_dpy: dpy config: config [
-	^ self ffiCall: #( * glXGetVisualFromFBConfigSGIX ( Display dpy , GLXFBConfigSGIX config ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( XVisualInfo glXGetVisualFromFBConfigSGIX ( Display dpy , GLXFBConfigSGIX config ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> getVisualFromFBConfig_dpy: dpy config: config [
-	^ self ffiCall: #( * glXGetVisualFromFBConfig ( Display dpy , GLXFBConfig config ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( XVisualInfo glXGetVisualFromFBConfig ( Display dpy , GLXFBConfig config ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -249,6 +399,21 @@ UFFIOpenGLX >> hyperpipeConfigSGIX_dpy: dpy networkId: networkId npipes: npipes 
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> importContextEXT_dpy: dpy contextID: contextID [
+	^ self ffiCall: #( GLXContext glXImportContextEXT ( Display dpy , GLXContextID contextID ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> isDirect_dpy: dpy ctx: ctx [
+	^ self ffiCall: #( Bool glXIsDirect ( Display dpy , GLXContext ctx ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> joinSwapGroupNV_dpy: dpy drawable: drawable group: group [
+	^ self ffiCall: #( Bool glXJoinSwapGroupNV ( Display dpy , GLXDrawable drawable , GLuint group ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> joinSwapGroupSGIX_dpy: dpy drawable: drawable member: member [
 	^ self ffiCall: #( void glXJoinSwapGroupSGIX ( Display dpy , GLXDrawable drawable , GLXDrawable member ) ) options: #(+optIndirectCall)
 ]
@@ -256,6 +421,26 @@ UFFIOpenGLX >> joinSwapGroupSGIX_dpy: dpy drawable: drawable member: member [
 { #category : #'generated bindings' }
 UFFIOpenGLX >> lockVideoCaptureDeviceNV_dpy: dpy device: device [
 	^ self ffiCall: #( void glXLockVideoCaptureDeviceNV ( Display dpy , GLXVideoCaptureDeviceNV device ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> makeAssociatedContextCurrentAMD_ctx: ctx [
+	^ self ffiCall: #( Bool glXMakeAssociatedContextCurrentAMD ( GLXContext ctx ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> makeContextCurrent_dpy: dpy draw: draw read: read ctx: ctx [
+	^ self ffiCall: #( Bool glXMakeContextCurrent ( Display dpy , GLXDrawable draw , GLXDrawable read , GLXContext ctx ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> makeCurrentReadSGI_dpy: dpy draw: draw read: read ctx: ctx [
+	^ self ffiCall: #( Bool glXMakeCurrentReadSGI ( Display dpy , GLXDrawable draw , GLXDrawable read , GLXContext ctx ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> makeCurrent_dpy: dpy drawable: drawable ctx: ctx [
+	^ self ffiCall: #( Bool glXMakeCurrent ( Display dpy , GLXDrawable drawable , GLXContext ctx ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -284,6 +469,11 @@ UFFIOpenGLX >> queryContext_dpy: dpy ctx: ctx attribute: attribute value: value 
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> queryCurrentRendererIntegerMESA_attribute: attribute value: value [
+	^ self ffiCall: #( Bool glXQueryCurrentRendererIntegerMESA ( int attribute , unsigned int* value ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> queryCurrentRendererStringMESA_attribute: attribute [
 	^ self ffiCall: #( char* glXQueryCurrentRendererStringMESA ( int attribute ) ) options: #(+optIndirectCall)
 ]
@@ -294,8 +484,18 @@ UFFIOpenGLX >> queryDrawable_dpy: dpy draw: draw attribute: attribute value: val
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> queryExtension_dpy: dpy errorb: errorb event: event [
+	^ self ffiCall: #( Bool glXQueryExtension ( Display dpy , int* errorb , int* event ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> queryExtensionsString_dpy: dpy screen: screen [
 	^ self ffiCall: #( char* glXQueryExtensionsString ( Display dpy , int screen ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> queryFrameCountNV_dpy: dpy screen: screen count: count [
+	^ self ffiCall: #( Bool glXQueryFrameCountNV ( Display dpy , int screen , GLuint count ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -315,12 +515,27 @@ UFFIOpenGLX >> queryHyperpipeBestAttribSGIX_dpy: dpy timeSlice: timeSlice attrib
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> queryHyperpipeConfigSGIX_dpy: dpy hpId: hpId npipes: npipes [
-	^ self ffiCall: #( * glXQueryHyperpipeConfigSGIX ( Display dpy , int hpId , int* npipes ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLXHyperpipeConfigSGIX glXQueryHyperpipeConfigSGIX ( Display dpy , int hpId , int* npipes ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenGLX >> queryHyperpipeNetworkSGIX_dpy: dpy npipes: npipes [
-	^ self ffiCall: #( * glXQueryHyperpipeNetworkSGIX ( Display dpy , int* npipes ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLXHyperpipeNetworkSGIX glXQueryHyperpipeNetworkSGIX ( Display dpy , int* npipes ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> queryMaxSwapBarriersSGIX_dpy: dpy screen: screen max: max [
+	^ self ffiCall: #( Bool glXQueryMaxSwapBarriersSGIX ( Display dpy , int screen , int* max ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> queryMaxSwapGroupsNV_dpy: dpy screen: screen maxGroups: maxGroups maxBarriers: maxBarriers [
+	^ self ffiCall: #( Bool glXQueryMaxSwapGroupsNV ( Display dpy , int screen , GLuint maxGroups , GLuint maxBarriers ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> queryRendererIntegerMESA_dpy: dpy screen: screen renderer: renderer attribute: attribute value: value [
+	^ self ffiCall: #( Bool glXQueryRendererIntegerMESA ( Display dpy , int screen , int renderer , int attribute , unsigned int* value ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -334,8 +549,23 @@ UFFIOpenGLX >> queryServerString_dpy: dpy screen: screen name: name [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> querySwapGroupNV_dpy: dpy drawable: drawable group: group barrier: barrier [
+	^ self ffiCall: #( Bool glXQuerySwapGroupNV ( Display dpy , GLXDrawable drawable , GLuint group , GLuint barrier ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> queryVersion_dpy: dpy maj: maj min: min [
+	^ self ffiCall: #( Bool glXQueryVersion ( Display dpy , int* maj , int* min ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> queryVideoCaptureDeviceNV_dpy: dpy device: device attribute: attribute value: value [
 	^ self ffiCall: #( int glXQueryVideoCaptureDeviceNV ( Display dpy , GLXVideoCaptureDeviceNV device , int attribute , int* value ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> releaseBuffersMESA_dpy: dpy drawable: drawable [
+	^ self ffiCall: #( Bool glXReleaseBuffersMESA ( Display dpy , GLXDrawable drawable ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -359,6 +589,11 @@ UFFIOpenGLX >> releaseVideoImageNV_dpy: dpy pbuf: pbuf [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGLX >> resetFrameCountNV_dpy: dpy screen: screen [
+	^ self ffiCall: #( Bool glXResetFrameCountNV ( Display dpy , int screen ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGLX >> selectEventSGIX_dpy: dpy drawable: drawable mask: mask [
 	^ self ffiCall: #( void glXSelectEventSGIX ( Display dpy , GLXDrawable drawable , unsigned long mask ) ) options: #(+optIndirectCall)
 ]
@@ -371,6 +606,16 @@ UFFIOpenGLX >> selectEvent_dpy: dpy draw: draw event_mask: event_mask [
 { #category : #'generated bindings' }
 UFFIOpenGLX >> sendPbufferToVideoNV_dpy: dpy pbuf: pbuf iBufferType: iBufferType pulCounterPbuffer: pulCounterPbuffer bBlock: bBlock [
 	^ self ffiCall: #( int glXSendPbufferToVideoNV ( Display dpy , GLXPbuffer pbuf , int iBufferType , unsigned long* pulCounterPbuffer , GLboolean bBlock ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> set3DfxModeMESA_mode: mode [
+	^ self ffiCall: #( Bool glXSet3DfxModeMESA ( int mode ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> swapBuffersMscOML_dpy: dpy drawable: drawable target_msc: target_msc divisor: divisor remainder: remainder [
+	^ self ffiCall: #( int64_t glXSwapBuffersMscOML ( Display dpy , GLXDrawable drawable , int64_t target_msc , int64_t divisor , int64_t remainder ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -391,6 +636,16 @@ UFFIOpenGLX >> swapIntervalSGI_interval: interval [
 { #category : #'generated bindings' }
 UFFIOpenGLX >> useXFont_font: font first: first count: count list: list [
 	^ self ffiCall: #( void glXUseXFont ( Font font , int first , int count , int list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> waitForMscOML_dpy: dpy drawable: drawable target_msc: target_msc divisor: divisor remainder: remainder ust: ust msc: msc sbc: sbc [
+	^ self ffiCall: #( Bool glXWaitForMscOML ( Display dpy , GLXDrawable drawable , int64_t target_msc , int64_t divisor , int64_t remainder , int64_t ust , int64_t msc , int64_t sbc ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGLX >> waitForSbcOML_dpy: dpy drawable: drawable target_sbc: target_sbc ust: ust msc: msc sbc: sbc [
+	^ self ffiCall: #( Bool glXWaitForSbcOML ( Display dpy , GLXDrawable drawable , int64_t target_sbc , int64_t ust , int64_t msc , int64_t sbc ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
