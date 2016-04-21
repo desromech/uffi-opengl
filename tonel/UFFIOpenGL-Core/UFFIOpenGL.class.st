@@ -99,6 +99,21 @@ UFFIOpenGL >> applyTextureEXT_mode: mode [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> areProgramsResidentNV_n: n programs: programs residences: residences [
+	^ self ffiCall: #( GLboolean glAreProgramsResidentNV ( GLsizei n , GLuint programs , GLboolean residences ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> areTexturesResidentEXT_n: n textures: textures residences: residences [
+	^ self ffiCall: #( GLboolean glAreTexturesResidentEXT ( GLsizei n , GLuint textures , GLboolean residences ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> areTexturesResident_n: n textures: textures residences: residences [
+	^ self ffiCall: #( GLboolean glAreTexturesResident ( GLsizei n , GLuint textures , GLboolean residences ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> arrayElementEXT_i: i [
 	^ self ffiCall: #( void glArrayElementEXT ( GLint i ) ) options: #(+optIndirectCall)
 ]
@@ -339,8 +354,23 @@ UFFIOpenGL >> bindImageTextures_first: first count: count textures: textures [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> bindLightParameterEXT_light: light value: value [
+	^ self ffiCall: #( GLuint glBindLightParameterEXT ( GLenum light , GLenum value ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> bindMaterialParameterEXT_face: face value: value [
+	^ self ffiCall: #( GLuint glBindMaterialParameterEXT ( GLenum face , GLenum value ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> bindMultiTextureEXT_texunit: texunit target: target texture: texture [
 	^ self ffiCall: #( void glBindMultiTextureEXT ( GLenum texunit , GLenum target , GLuint texture ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> bindParameterEXT_value: value [
+	^ self ffiCall: #( GLuint glBindParameterEXT ( GLenum value ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -389,8 +419,18 @@ UFFIOpenGL >> bindSamplers_first: first count: count samplers: samplers [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> bindTexGenParameterEXT_unit: unit coord: coord value: value [
+	^ self ffiCall: #( GLuint glBindTexGenParameterEXT ( GLenum unit , GLenum coord , GLenum value ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> bindTextureEXT_target: target texture: texture [
 	^ self ffiCall: #( void glBindTextureEXT ( GLenum target , GLuint texture ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> bindTextureUnitParameterEXT_unit: unit value: value [
+	^ self ffiCall: #( GLuint glBindTextureUnitParameterEXT ( GLenum unit , GLenum value ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -799,6 +839,31 @@ UFFIOpenGL >> callLists_n: n type: type lists: lists [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> checkFramebufferStatusEXT_target: target [
+	^ self ffiCall: #( GLenum glCheckFramebufferStatusEXT ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> checkFramebufferStatusOES_target: target [
+	^ self ffiCall: #( GLenum glCheckFramebufferStatusOES ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> checkFramebufferStatus_target: target [
+	^ self ffiCall: #( GLenum glCheckFramebufferStatus ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> checkNamedFramebufferStatusEXT_framebuffer: framebuffer target: target [
+	^ self ffiCall: #( GLenum glCheckNamedFramebufferStatusEXT ( GLuint framebuffer , GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> checkNamedFramebufferStatus_framebuffer: framebuffer target: target [
+	^ self ffiCall: #( GLenum glCheckNamedFramebufferStatus ( GLuint framebuffer , GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> clampColorARB_target: target clamp: clamp [
 	^ self ffiCall: #( void glClampColorARB ( GLenum target , GLenum clamp ) ) options: #(+optIndirectCall)
 ]
@@ -991,6 +1056,16 @@ UFFIOpenGL >> clientActiveVertexStreamATI_stream: stream [
 { #category : #'generated bindings' }
 UFFIOpenGL >> clientAttribDefaultEXT_mask: mask [
 	^ self ffiCall: #( void glClientAttribDefaultEXT ( GLbitfield mask ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> clientWaitSyncAPPLE_sync: sync flags: flags timeout: timeout [
+	^ self ffiCall: #( GLenum glClientWaitSyncAPPLE ( GLsync sync , GLbitfield flags , GLuint64 timeout ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> clientWaitSync_sync: sync flags: flags timeout: timeout [
+	^ self ffiCall: #( GLenum glClientWaitSync ( GLsync sync , GLbitfield flags , GLuint64 timeout ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -1964,6 +2039,16 @@ UFFIOpenGL >> createPerfQueryINTEL_queryId: queryId queryHandle: queryHandle [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> createProgram [
+	^ self ffiCall: #( GLuint glCreateProgram ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> createProgramObjectARB [
+	^ self ffiCall: #( GLhandleARB glCreateProgramObjectARB ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> createProgramPipelines_n: n pipelines: pipelines [
 	^ self ffiCall: #( void glCreateProgramPipelines ( GLsizei n , GLuint pipelines ) ) options: #(+optIndirectCall)
 ]
@@ -1984,8 +2069,38 @@ UFFIOpenGL >> createSamplers_n: n samplers: samplers [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> createShaderObjectARB_shaderType: shaderType [
+	^ self ffiCall: #( GLhandleARB glCreateShaderObjectARB ( GLenum shaderType ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> createShaderProgramEXT_type: type string: string [
+	^ self ffiCall: #( GLuint glCreateShaderProgramEXT ( GLenum type , GLchar string ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> createShaderProgramvEXT_type: type count: count strings: strings [
+	^ self ffiCall: #( GLuint glCreateShaderProgramvEXT ( GLenum type , GLsizei count , GLchar strings ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> createShaderProgramv_type: type count: count strings: strings [
+	^ self ffiCall: #( GLuint glCreateShaderProgramv ( GLenum type , GLsizei count , GLchar strings ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> createShader_type: type [
+	^ self ffiCall: #( GLuint glCreateShader ( GLenum type ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> createStatesNV_n: n states: states [
 	^ self ffiCall: #( void glCreateStatesNV ( GLsizei n , GLuint states ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> createSyncFromCLeventARB_context: context event: event flags: flags [
+	^ self ffiCall: #( GLsync glCreateSyncFromCLeventARB ( struct _cl_context context , struct _cl_event event , GLbitfield flags ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -3194,6 +3309,11 @@ UFFIOpenGL >> extGetTexturesQCOM_textures: textures maxTextures: maxTextures num
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> extIsProgramBinaryQCOM_program: program [
+	^ self ffiCall: #( GLboolean glExtIsProgramBinaryQCOM ( GLuint program ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> extTexObjectStateOverrideiQCOM_target: target pname: pname param: param [
 	^ self ffiCall: #( void glExtTexObjectStateOverrideiQCOM ( GLenum target , GLenum pname , GLint param ) ) options: #(+optIndirectCall)
 ]
@@ -3214,6 +3334,16 @@ UFFIOpenGL >> feedbackBufferxOES_n: n type: type buffer: buffer [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> fenceSyncAPPLE_condition: condition flags: flags [
+	^ self ffiCall: #( GLsync glFenceSyncAPPLE ( GLenum condition , GLbitfield flags ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> fenceSync_condition: condition flags: flags [
+	^ self ffiCall: #( GLsync glFenceSync ( GLenum condition , GLbitfield flags ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> finalCombinerInputNV_variable: variable input: input mapping: mapping componentUsage: componentUsage [
 	^ self ffiCall: #( void glFinalCombinerInputNV ( GLenum variable , GLenum input , GLenum mapping , GLenum componentUsage ) ) options: #(+optIndirectCall)
 ]
@@ -3221,6 +3351,11 @@ UFFIOpenGL >> finalCombinerInputNV_variable: variable input: input mapping: mapp
 { #category : #'generated bindings' }
 UFFIOpenGL >> finish [
 	^ self ffiCall: #( void glFinish ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> finishAsyncSGIX_markerp: markerp [
+	^ self ffiCall: #( GLint glFinishAsyncSGIX ( GLuint markerp ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -3694,6 +3829,11 @@ UFFIOpenGL >> frustumx_l: l r: r b: b t: t n: n f: f [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> genAsyncMarkersSGIX_range: range [
+	^ self ffiCall: #( GLuint glGenAsyncMarkersSGIX ( GLsizei range ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> genBuffersARB_n: n buffers: buffers [
 	^ self ffiCall: #( void glGenBuffersARB ( GLsizei n , GLuint buffers ) ) options: #(+optIndirectCall)
 ]
@@ -3714,6 +3854,11 @@ UFFIOpenGL >> genFencesNV_n: n fences: fences [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> genFragmentShadersATI_range: range [
+	^ self ffiCall: #( GLuint glGenFragmentShadersATI ( GLuint range ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> genFramebuffersEXT_n: n framebuffers: framebuffers [
 	^ self ffiCall: #( void glGenFramebuffersEXT ( GLsizei n , GLuint framebuffers ) ) options: #(+optIndirectCall)
 ]
@@ -3729,6 +3874,11 @@ UFFIOpenGL >> genFramebuffers_n: n framebuffers: framebuffers [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> genLists_range: range [
+	^ self ffiCall: #( GLuint glGenLists ( GLsizei range ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> genNamesAMD_identifier: identifier num: num names: names [
 	^ self ffiCall: #( void glGenNamesAMD ( GLenum identifier , GLuint num , GLuint names ) ) options: #(+optIndirectCall)
 ]
@@ -3736,6 +3886,11 @@ UFFIOpenGL >> genNamesAMD_identifier: identifier num: num names: names [
 { #category : #'generated bindings' }
 UFFIOpenGL >> genOcclusionQueriesNV_n: n ids: ids [
 	^ self ffiCall: #( void glGenOcclusionQueriesNV ( GLsizei n , GLuint ids ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> genPathsNV_range: range [
+	^ self ffiCall: #( GLuint glGenPathsNV ( GLsizei range ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -3799,6 +3954,11 @@ UFFIOpenGL >> genSamplers_count: count samplers: samplers [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> genSymbolsEXT_datatype: datatype storagetype: storagetype range: range components: components [
+	^ self ffiCall: #( GLuint glGenSymbolsEXT ( GLenum datatype , GLenum storagetype , GLenum range , GLuint components ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> genTexturesEXT_n: n textures: textures [
 	^ self ffiCall: #( void glGenTexturesEXT ( GLsizei n , GLuint textures ) ) options: #(+optIndirectCall)
 ]
@@ -3831,6 +3991,11 @@ UFFIOpenGL >> genVertexArraysOES_n: n arrays: arrays [
 { #category : #'generated bindings' }
 UFFIOpenGL >> genVertexArrays_n: n arrays: arrays [
 	^ self ffiCall: #( void glGenVertexArrays ( GLsizei n , GLuint arrays ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> genVertexShadersEXT_range: range [
+	^ self ffiCall: #( GLuint glGenVertexShadersEXT ( GLuint range ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -3946,6 +4111,16 @@ UFFIOpenGL >> getAttachedObjectsARB_containerObj: containerObj maxCount: maxCoun
 { #category : #'generated bindings' }
 UFFIOpenGL >> getAttachedShaders_program: program maxCount: maxCount count: count shaders: shaders [
 	^ self ffiCall: #( void glGetAttachedShaders ( GLuint program , GLsizei maxCount , GLsizei count , GLuint shaders ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getAttribLocationARB_programObj: programObj name: name [
+	^ self ffiCall: #( GLint glGetAttribLocationARB ( GLhandleARB programObj , GLcharARB name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getAttribLocation_program: program name: name [
+	^ self ffiCall: #( GLint glGetAttribLocation ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -4104,6 +4279,11 @@ UFFIOpenGL >> getCombinerStageParameterfvNV_stage: stage pname: pname params: pa
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getCommandHeaderNV_tokenID: tokenID size: size [
+	^ self ffiCall: #( GLuint glGetCommandHeaderNV ( GLenum tokenID , GLuint size ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getCompressedMultiTexImageEXT_texunit: texunit target: target lod: lod img: img [
 	^ self ffiCall: #( void glGetCompressedMultiTexImageEXT ( GLenum texunit , GLenum target , GLint lod , void* img ) ) options: #(+optIndirectCall)
 ]
@@ -4174,6 +4354,26 @@ UFFIOpenGL >> getCoverageModulationTableNV_bufsize: bufsize v: v [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getDebugMessageLogAMD_count: count bufsize: bufsize categories: categories severities: severities ids: ids lengths: lengths message: message [
+	^ self ffiCall: #( GLuint glGetDebugMessageLogAMD ( GLuint count , GLsizei bufsize , GLenum categories , GLuint severities , GLuint ids , GLsizei lengths , GLchar message ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getDebugMessageLogARB_count: count bufSize: bufSize sources: sources types: types ids: ids severities: severities lengths: lengths messageLog: messageLog [
+	^ self ffiCall: #( GLuint glGetDebugMessageLogARB ( GLuint count , GLsizei bufSize , GLenum sources , GLenum types , GLuint ids , GLenum severities , GLsizei lengths , GLchar messageLog ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getDebugMessageLogKHR_count: count bufSize: bufSize sources: sources types: types ids: ids severities: severities lengths: lengths messageLog: messageLog [
+	^ self ffiCall: #( GLuint glGetDebugMessageLogKHR ( GLuint count , GLsizei bufSize , GLenum sources , GLenum types , GLuint ids , GLenum severities , GLsizei lengths , GLchar messageLog ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getDebugMessageLog_count: count bufSize: bufSize sources: sources types: types ids: ids severities: severities lengths: lengths messageLog: messageLog [
+	^ self ffiCall: #( GLuint glGetDebugMessageLog ( GLuint count , GLsizei bufSize , GLenum sources , GLenum types , GLuint ids , GLenum severities , GLsizei lengths , GLchar messageLog ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getDetailTexFuncSGIS_target: target points: points [
 	^ self ffiCall: #( void glGetDetailTexFuncSGIS ( GLenum target , GLfloat points ) ) options: #(+optIndirectCall)
 ]
@@ -4206,6 +4406,11 @@ UFFIOpenGL >> getDriverControlStringQCOM_driverControl: driverControl bufSize: b
 { #category : #'generated bindings' }
 UFFIOpenGL >> getDriverControlsQCOM_num: num size: size driverControls: driverControls [
 	^ self ffiCall: #( void glGetDriverControlsQCOM ( GLint num , GLsizei size , GLuint driverControls ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getError [
+	^ self ffiCall: #( GLenum glGetError ( ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -4269,6 +4474,26 @@ UFFIOpenGL >> getFogFuncSGIS_points: points [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getFragDataIndexEXT_program: program name: name [
+	^ self ffiCall: #( GLint glGetFragDataIndexEXT ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getFragDataIndex_program: program name: name [
+	^ self ffiCall: #( GLint glGetFragDataIndex ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getFragDataLocationEXT_program: program name: name [
+	^ self ffiCall: #( GLint glGetFragDataLocationEXT ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getFragDataLocation_program: program name: name [
+	^ self ffiCall: #( GLint glGetFragDataLocation ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getFragmentLightfvSGIX_light: light pname: pname params: params [
 	^ self ffiCall: #( void glGetFragmentLightfvSGIX ( GLenum light , GLenum pname , GLfloat params ) ) options: #(+optIndirectCall)
 ]
@@ -4314,6 +4539,36 @@ UFFIOpenGL >> getFramebufferParameteriv_target: target pname: pname params: para
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getFramebufferPixelLocalStorageSizeEXT_target: target [
+	^ self ffiCall: #( GLsizei glGetFramebufferPixelLocalStorageSizeEXT ( GLuint target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getGraphicsResetStatus [
+	^ self ffiCall: #( GLenum glGetGraphicsResetStatus ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getGraphicsResetStatusARB [
+	^ self ffiCall: #( GLenum glGetGraphicsResetStatusARB ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getGraphicsResetStatusEXT [
+	^ self ffiCall: #( GLenum glGetGraphicsResetStatusEXT ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getGraphicsResetStatusKHR [
+	^ self ffiCall: #( GLenum glGetGraphicsResetStatusKHR ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getHandleARB_pname: pname [
+	^ self ffiCall: #( GLhandleARB glGetHandleARB ( GLenum pname ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getHistogramEXT_target: target reset: reset format: format type: type values: values [
 	^ self ffiCall: #( void glGetHistogramEXT ( GLenum target , GLboolean reset , GLenum format , GLenum type , void* values ) ) options: #(+optIndirectCall)
 ]
@@ -4349,6 +4604,16 @@ UFFIOpenGL >> getHistogram_target: target reset: reset format: format type: type
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getImageHandleARB_texture: texture level: level layered: layered layer: layer format: format [
+	^ self ffiCall: #( GLuint64 glGetImageHandleARB ( GLuint texture , GLint level , GLboolean layered , GLint layer , GLenum format ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getImageHandleNV_texture: texture level: level layered: layered layer: layer format: format [
+	^ self ffiCall: #( GLuint64 glGetImageHandleNV ( GLuint texture , GLint level , GLboolean layered , GLint layer , GLenum format ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getImageTransformParameterfvHP_target: target pname: pname params: params [
 	^ self ffiCall: #( void glGetImageTransformParameterfvHP ( GLenum target , GLenum pname , GLfloat params ) ) options: #(+optIndirectCall)
 ]
@@ -4361,6 +4626,11 @@ UFFIOpenGL >> getImageTransformParameterivHP_target: target pname: pname params:
 { #category : #'generated bindings' }
 UFFIOpenGL >> getInfoLogARB_obj: obj maxLength: maxLength length: length infoLog: infoLog [
 	^ self ffiCall: #( void glGetInfoLogARB ( GLhandleARB obj , GLsizei maxLength , GLsizei length , GLcharARB infoLog ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getInstrumentsSGIX [
+	^ self ffiCall: #( GLint glGetInstrumentsSGIX ( ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -4859,6 +5129,11 @@ UFFIOpenGL >> getPathDashArrayNV_path: path dashArray: dashArray [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getPathLengthNV_path: path startSegment: startSegment numSegments: numSegments [
+	^ self ffiCall: #( GLfloat glGetPathLengthNV ( GLuint path , GLsizei startSegment , GLsizei numSegments ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getPathMetricRangeNV_metricQueryMask: metricQueryMask firstPathName: firstPathName numPaths: numPaths stride: stride metrics: metrics [
 	^ self ffiCall: #( void glGetPathMetricRangeNV ( GLbitfield metricQueryMask , GLuint firstPathName , GLsizei numPaths , GLsizei stride , GLfloat metrics ) ) options: #(+optIndirectCall)
 ]
@@ -5114,6 +5389,26 @@ UFFIOpenGL >> getProgramPipelineiv_pipeline: pipeline pname: pname params: param
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getProgramResourceIndex_program: program programInterface: programInterface name: name [
+	^ self ffiCall: #( GLuint glGetProgramResourceIndex ( GLuint program , GLenum programInterface , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getProgramResourceLocationIndexEXT_program: program programInterface: programInterface name: name [
+	^ self ffiCall: #( GLint glGetProgramResourceLocationIndexEXT ( GLuint program , GLenum programInterface , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getProgramResourceLocationIndex_program: program programInterface: programInterface name: name [
+	^ self ffiCall: #( GLint glGetProgramResourceLocationIndex ( GLuint program , GLenum programInterface , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getProgramResourceLocation_program: program programInterface: programInterface name: name [
+	^ self ffiCall: #( GLint glGetProgramResourceLocation ( GLuint program , GLenum programInterface , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getProgramResourceName_program: program programInterface: programInterface index: index bufSize: bufSize length: length name: name [
 	^ self ffiCall: #( void glGetProgramResourceName ( GLuint program , GLenum programInterface , GLuint index , GLsizei bufSize , GLsizei length , GLchar name ) ) options: #(+optIndirectCall)
 ]
@@ -5349,13 +5644,28 @@ UFFIOpenGL >> getSharpenTexFuncSGIS_target: target points: points [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getStageIndexNV_shadertype: shadertype [
+	^ self ffiCall: #( GLushort glGetStageIndexNV ( GLenum shadertype ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getString_name: name [
-	^ self ffiCall: #(  glGetString ( GLenum name ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLubyte glGetString ( GLenum name ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenGL >> getStringi_name: name index: index [
-	^ self ffiCall: #(  glGetStringi ( GLenum name , GLuint index ) ) options: #(+optIndirectCall)
+	^ self ffiCall: #( GLubyte glGetStringi ( GLenum name , GLuint index ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getSubroutineIndex_program: program shadertype: shadertype name: name [
+	^ self ffiCall: #( GLuint glGetSubroutineIndex ( GLuint program , GLenum shadertype , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getSubroutineUniformLocation_program: program shadertype: shadertype name: name [
+	^ self ffiCall: #( GLint glGetSubroutineUniformLocation ( GLuint program , GLenum shadertype , GLchar name ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -5509,6 +5819,16 @@ UFFIOpenGL >> getTexParameterxv_target: target pname: pname params: params [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getTextureHandleARB_texture: texture [
+	^ self ffiCall: #( GLuint64 glGetTextureHandleARB ( GLuint texture ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getTextureHandleNV_texture: texture [
+	^ self ffiCall: #( GLuint64 glGetTextureHandleNV ( GLuint texture ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getTextureImageEXT_texture: texture target: target level: level format: format type: type pixels: pixels [
 	^ self ffiCall: #( void glGetTextureImageEXT ( GLuint texture , GLenum target , GLint level , GLenum format , GLenum type , void* pixels ) ) options: #(+optIndirectCall)
 ]
@@ -5579,6 +5899,16 @@ UFFIOpenGL >> getTextureParameteriv_texture: texture pname: pname params: params
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getTextureSamplerHandleARB_texture: texture sampler: sampler [
+	^ self ffiCall: #( GLuint64 glGetTextureSamplerHandleARB ( GLuint texture , GLuint sampler ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getTextureSamplerHandleNV_texture: texture sampler: sampler [
+	^ self ffiCall: #( GLuint64 glGetTextureSamplerHandleNV ( GLuint texture , GLuint sampler ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getTextureSubImage_texture: texture level: level xoffset: xoffset yoffset: yoffset zoffset: zoffset width: width height: height depth: depth format: format type: type bufSize: bufSize pixels: pixels [
 	^ self ffiCall: #( void glGetTextureSubImage ( GLuint texture , GLint level , GLint xoffset , GLint yoffset , GLint zoffset , GLsizei width , GLsizei height , GLsizei depth , GLenum format , GLenum type , GLsizei bufSize , void* pixels ) ) options: #(+optIndirectCall)
 ]
@@ -5624,8 +5954,33 @@ UFFIOpenGL >> getTranslatedShaderSourceANGLE_shader: shader bufsize: bufsize len
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> getUniformBlockIndex_program: program uniformBlockName: uniformBlockName [
+	^ self ffiCall: #( GLuint glGetUniformBlockIndex ( GLuint program , GLchar uniformBlockName ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getUniformBufferSizeEXT_program: program location: location [
+	^ self ffiCall: #( GLint glGetUniformBufferSizeEXT ( GLuint program , GLint location ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> getUniformIndices_program: program uniformCount: uniformCount uniformNames: uniformNames uniformIndices: uniformIndices [
 	^ self ffiCall: #( void glGetUniformIndices ( GLuint program , GLsizei uniformCount , GLchar uniformNames , GLuint uniformIndices ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getUniformLocationARB_programObj: programObj name: name [
+	^ self ffiCall: #( GLint glGetUniformLocationARB ( GLhandleARB programObj , GLcharARB name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getUniformLocation_program: program name: name [
+	^ self ffiCall: #( GLint glGetUniformLocation ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getUniformOffsetEXT_program: program location: location [
+	^ self ffiCall: #( GLintptr glGetUniformOffsetEXT ( GLuint program , GLint location ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -5716,6 +6071,11 @@ UFFIOpenGL >> getVariantIntegervEXT_id: id value: value data: data [
 { #category : #'generated bindings' }
 UFFIOpenGL >> getVariantPointervEXT_id: id value: value data: data [
 	^ self ffiCall: #( void glGetVariantPointervEXT ( GLuint id , GLenum value , void** data ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> getVaryingLocationNV_program: program name: name [
+	^ self ffiCall: #( GLint glGetVaryingLocationNV ( GLuint program , GLchar name ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -6209,6 +6569,11 @@ UFFIOpenGL >> imageTransformParameterivHP_target: target pname: pname params: pa
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> importSyncEXT_external_sync_type: external_sync_type external_sync: external_sync flags: flags [
+	^ self ffiCall: #( GLsync glImportSyncEXT ( GLenum external_sync_type , GLintptr external_sync , GLbitfield flags ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> indexFormatNV_type: type stride: stride [
 	^ self ffiCall: #( void glIndexFormatNV ( GLenum type , GLsizei stride ) ) options: #(+optIndirectCall)
 ]
@@ -6371,6 +6736,276 @@ UFFIOpenGL >> invalidateTexImage_texture: texture level: level [
 { #category : #'generated bindings' }
 UFFIOpenGL >> invalidateTexSubImage_texture: texture level: level xoffset: xoffset yoffset: yoffset zoffset: zoffset width: width height: height depth: depth [
 	^ self ffiCall: #( void glInvalidateTexSubImage ( GLuint texture , GLint level , GLint xoffset , GLint yoffset , GLint zoffset , GLsizei width , GLsizei height , GLsizei depth ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isAsyncMarkerSGIX_marker: marker [
+	^ self ffiCall: #( GLboolean glIsAsyncMarkerSGIX ( GLuint marker ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isBufferARB_buffer: buffer [
+	^ self ffiCall: #( GLboolean glIsBufferARB ( GLuint buffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isBufferResidentNV_target: target [
+	^ self ffiCall: #( GLboolean glIsBufferResidentNV ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isBuffer_buffer: buffer [
+	^ self ffiCall: #( GLboolean glIsBuffer ( GLuint buffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isCommandListNV_list: list [
+	^ self ffiCall: #( GLboolean glIsCommandListNV ( GLuint list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isEnabledIndexedEXT_target: target index: index [
+	^ self ffiCall: #( GLboolean glIsEnabledIndexedEXT ( GLenum target , GLuint index ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isEnabled_cap: cap [
+	^ self ffiCall: #( GLboolean glIsEnabled ( GLenum cap ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isEnablediEXT_target: target index: index [
+	^ self ffiCall: #( GLboolean glIsEnablediEXT ( GLenum target , GLuint index ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isEnablediNV_target: target index: index [
+	^ self ffiCall: #( GLboolean glIsEnablediNV ( GLenum target , GLuint index ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isEnablediOES_target: target index: index [
+	^ self ffiCall: #( GLboolean glIsEnablediOES ( GLenum target , GLuint index ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isEnabledi_target: target index: index [
+	^ self ffiCall: #( GLboolean glIsEnabledi ( GLenum target , GLuint index ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isFenceAPPLE_fence: fence [
+	^ self ffiCall: #( GLboolean glIsFenceAPPLE ( GLuint fence ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isFenceNV_fence: fence [
+	^ self ffiCall: #( GLboolean glIsFenceNV ( GLuint fence ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isFramebufferEXT_framebuffer: framebuffer [
+	^ self ffiCall: #( GLboolean glIsFramebufferEXT ( GLuint framebuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isFramebufferOES_framebuffer: framebuffer [
+	^ self ffiCall: #( GLboolean glIsFramebufferOES ( GLuint framebuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isFramebuffer_framebuffer: framebuffer [
+	^ self ffiCall: #( GLboolean glIsFramebuffer ( GLuint framebuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isImageHandleResidentARB_handle: handle [
+	^ self ffiCall: #( GLboolean glIsImageHandleResidentARB ( GLuint64 handle ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isImageHandleResidentNV_handle: handle [
+	^ self ffiCall: #( GLboolean glIsImageHandleResidentNV ( GLuint64 handle ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isList_list: list [
+	^ self ffiCall: #( GLboolean glIsList ( GLuint list ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isNameAMD_identifier: identifier name: name [
+	^ self ffiCall: #( GLboolean glIsNameAMD ( GLenum identifier , GLuint name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isNamedBufferResidentNV_buffer: buffer [
+	^ self ffiCall: #( GLboolean glIsNamedBufferResidentNV ( GLuint buffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isNamedStringARB_namelen: namelen name: name [
+	^ self ffiCall: #( GLboolean glIsNamedStringARB ( GLint namelen , GLchar name ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isObjectBufferATI_buffer: buffer [
+	^ self ffiCall: #( GLboolean glIsObjectBufferATI ( GLuint buffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isOcclusionQueryNV_id: id [
+	^ self ffiCall: #( GLboolean glIsOcclusionQueryNV ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isPathNV_path: path [
+	^ self ffiCall: #( GLboolean glIsPathNV ( GLuint path ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isPointInFillPathNV_path: path mask: mask x: x y: y [
+	^ self ffiCall: #( GLboolean glIsPointInFillPathNV ( GLuint path , GLuint mask , GLfloat x , GLfloat y ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isPointInStrokePathNV_path: path x: x y: y [
+	^ self ffiCall: #( GLboolean glIsPointInStrokePathNV ( GLuint path , GLfloat x , GLfloat y ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isProgramARB_program: program [
+	^ self ffiCall: #( GLboolean glIsProgramARB ( GLuint program ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isProgramNV_id: id [
+	^ self ffiCall: #( GLboolean glIsProgramNV ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isProgramPipelineEXT_pipeline: pipeline [
+	^ self ffiCall: #( GLboolean glIsProgramPipelineEXT ( GLuint pipeline ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isProgramPipeline_pipeline: pipeline [
+	^ self ffiCall: #( GLboolean glIsProgramPipeline ( GLuint pipeline ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isProgram_program: program [
+	^ self ffiCall: #( GLboolean glIsProgram ( GLuint program ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isQueryARB_id: id [
+	^ self ffiCall: #( GLboolean glIsQueryARB ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isQueryEXT_id: id [
+	^ self ffiCall: #( GLboolean glIsQueryEXT ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isQuery_id: id [
+	^ self ffiCall: #( GLboolean glIsQuery ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isRenderbufferEXT_renderbuffer: renderbuffer [
+	^ self ffiCall: #( GLboolean glIsRenderbufferEXT ( GLuint renderbuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isRenderbufferOES_renderbuffer: renderbuffer [
+	^ self ffiCall: #( GLboolean glIsRenderbufferOES ( GLuint renderbuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isRenderbuffer_renderbuffer: renderbuffer [
+	^ self ffiCall: #( GLboolean glIsRenderbuffer ( GLuint renderbuffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isSampler_sampler: sampler [
+	^ self ffiCall: #( GLboolean glIsSampler ( GLuint sampler ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isShader_shader: shader [
+	^ self ffiCall: #( GLboolean glIsShader ( GLuint shader ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isStateNV_state: state [
+	^ self ffiCall: #( GLboolean glIsStateNV ( GLuint state ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isSyncAPPLE_sync: sync [
+	^ self ffiCall: #( GLboolean glIsSyncAPPLE ( GLsync sync ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isSync_sync: sync [
+	^ self ffiCall: #( GLboolean glIsSync ( GLsync sync ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isTextureEXT_texture: texture [
+	^ self ffiCall: #( GLboolean glIsTextureEXT ( GLuint texture ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isTextureHandleResidentARB_handle: handle [
+	^ self ffiCall: #( GLboolean glIsTextureHandleResidentARB ( GLuint64 handle ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isTextureHandleResidentNV_handle: handle [
+	^ self ffiCall: #( GLboolean glIsTextureHandleResidentNV ( GLuint64 handle ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isTexture_texture: texture [
+	^ self ffiCall: #( GLboolean glIsTexture ( GLuint texture ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isTransformFeedbackNV_id: id [
+	^ self ffiCall: #( GLboolean glIsTransformFeedbackNV ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isTransformFeedback_id: id [
+	^ self ffiCall: #( GLboolean glIsTransformFeedback ( GLuint id ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isVariantEnabledEXT_id: id cap: cap [
+	^ self ffiCall: #( GLboolean glIsVariantEnabledEXT ( GLuint id , GLenum cap ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isVertexArrayAPPLE_array: array [
+	^ self ffiCall: #( GLboolean glIsVertexArrayAPPLE ( GLuint array ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isVertexArrayOES_array: array [
+	^ self ffiCall: #( GLboolean glIsVertexArrayOES ( GLuint array ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isVertexArray_array: array [
+	^ self ffiCall: #( GLboolean glIsVertexArray ( GLuint array ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> isVertexAttribEnabledAPPLE_index: index pname: pname [
+	^ self ffiCall: #( GLboolean glIsVertexAttribEnabledAPPLE ( GLuint index , GLenum pname ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -8049,6 +8684,11 @@ UFFIOpenGL >> newList_list: list mode: mode [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> newObjectBufferATI_size: size pointer: pointer usage: usage [
+	^ self ffiCall: #( GLuint glNewObjectBufferATI ( GLsizei size , void* pointer , GLenum usage ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> normal3b_nx: nx ny: ny nz: nz [
 	^ self ffiCall: #( void glNormal3b ( GLbyte nx , GLbyte ny , GLbyte nz ) ) options: #(+optIndirectCall)
 ]
@@ -8239,6 +8879,16 @@ UFFIOpenGL >> objectPtrLabel_ptr: ptr length: length label: label [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> objectPurgeableAPPLE_objectType: objectType name: name option: option [
+	^ self ffiCall: #( GLenum glObjectPurgeableAPPLE ( GLenum objectType , GLuint name , GLenum option ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> objectUnpurgeableAPPLE_objectType: objectType name: name option: option [
+	^ self ffiCall: #( GLenum glObjectUnpurgeableAPPLE ( GLenum objectType , GLuint name , GLenum option ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> ortho_left: left right: right bottom: bottom top: top zNear: zNear zFar: zFar [
 	^ self ffiCall: #( void glOrtho ( GLdouble left , GLdouble right , GLdouble bottom , GLdouble top , GLdouble zNear , GLdouble zFar ) ) options: #(+optIndirectCall)
 ]
@@ -8339,6 +8989,16 @@ UFFIOpenGL >> pathFogGenNV_genMode: genMode [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> pathGlyphIndexArrayNV_firstPathName: firstPathName fontTarget: fontTarget fontName: fontName fontStyle: fontStyle firstGlyphIndex: firstGlyphIndex numGlyphs: numGlyphs pathParameterTemplate: pathParameterTemplate emScale: emScale [
+	^ self ffiCall: #( GLenum glPathGlyphIndexArrayNV ( GLuint firstPathName , GLenum fontTarget , void* fontName , GLbitfield fontStyle , GLuint firstGlyphIndex , GLsizei numGlyphs , GLuint pathParameterTemplate , GLfloat emScale ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> pathGlyphIndexRangeNV_fontTarget: fontTarget fontName: fontName fontStyle: fontStyle pathParameterTemplate: pathParameterTemplate emScale: emScale baseAndCount: baseAndCount [
+	^ self ffiCall: #( GLenum glPathGlyphIndexRangeNV ( GLenum fontTarget , void* fontName , GLbitfield fontStyle , GLuint pathParameterTemplate , GLfloat emScale , GLuint baseAndCount ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> pathGlyphRangeNV_firstPathName: firstPathName fontTarget: fontTarget fontName: fontName fontStyle: fontStyle firstGlyph: firstGlyph numGlyphs: numGlyphs handleMissingGlyphs: handleMissingGlyphs pathParameterTemplate: pathParameterTemplate emScale: emScale [
 	^ self ffiCall: #( void glPathGlyphRangeNV ( GLuint firstPathName , GLenum fontTarget , void* fontName , GLbitfield fontStyle , GLuint firstGlyph , GLsizei numGlyphs , GLenum handleMissingGlyphs , GLuint pathParameterTemplate , GLfloat emScale ) ) options: #(+optIndirectCall)
 ]
@@ -8346,6 +9006,11 @@ UFFIOpenGL >> pathGlyphRangeNV_firstPathName: firstPathName fontTarget: fontTarg
 { #category : #'generated bindings' }
 UFFIOpenGL >> pathGlyphsNV_firstPathName: firstPathName fontTarget: fontTarget fontName: fontName fontStyle: fontStyle numGlyphs: numGlyphs type: type charcodes: charcodes handleMissingGlyphs: handleMissingGlyphs pathParameterTemplate: pathParameterTemplate emScale: emScale [
 	^ self ffiCall: #( void glPathGlyphsNV ( GLuint firstPathName , GLenum fontTarget , void* fontName , GLbitfield fontStyle , GLsizei numGlyphs , GLenum type , void* charcodes , GLenum handleMissingGlyphs , GLuint pathParameterTemplate , GLfloat emScale ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> pathMemoryGlyphIndexArrayNV_firstPathName: firstPathName fontTarget: fontTarget fontSize: fontSize fontData: fontData faceIndex: faceIndex firstGlyphIndex: firstGlyphIndex numGlyphs: numGlyphs pathParameterTemplate: pathParameterTemplate emScale: emScale [
+	^ self ffiCall: #( GLenum glPathMemoryGlyphIndexArrayNV ( GLuint firstPathName , GLenum fontTarget , GLsizeiptr fontSize , void* fontData , GLsizei faceIndex , GLuint firstGlyphIndex , GLsizei numGlyphs , GLuint pathParameterTemplate , GLfloat emScale ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -8519,6 +9184,11 @@ UFFIOpenGL >> pixelZoomxOES_xfactor: xfactor yfactor: yfactor [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> pointAlongPathNV_path: path startSegment: startSegment numSegments: numSegments distance: distance x: x y: y tangentX: tangentX tangentY: tangentY [
+	^ self ffiCall: #( GLboolean glPointAlongPathNV ( GLuint path , GLsizei startSegment , GLsizei numSegments , GLfloat distance , GLfloat x , GLfloat y , GLfloat tangentX , GLfloat tangentY ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> pointParameterfARB_pname: pname param: param [
 	^ self ffiCall: #( void glPointParameterfARB ( GLenum pname , GLfloat param ) ) options: #(+optIndirectCall)
 ]
@@ -8616,6 +9286,16 @@ UFFIOpenGL >> pointSizexOES_size: size [
 { #category : #'generated bindings' }
 UFFIOpenGL >> pointSizex_size: size [
 	^ self ffiCall: #( void glPointSizex ( GLfixed size ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> pollAsyncSGIX_markerp: markerp [
+	^ self ffiCall: #( GLint glPollAsyncSGIX ( GLuint markerp ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> pollInstrumentsSGIX_marker_p: marker_p [
+	^ self ffiCall: #( GLint glPollInstrumentsSGIX ( GLint marker_p ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -9724,6 +10404,11 @@ UFFIOpenGL >> queryCounter_id: id target: target [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> queryMatrixxOES_mantissa: mantissa exponent: exponent [
+	^ self ffiCall: #( GLbitfield glQueryMatrixxOES ( GLfixed mantissa , GLint exponent ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> queryObjectParameteruiAMD_target: target id: id pname: pname param: param [
 	^ self ffiCall: #( void glQueryObjectParameteruiAMD ( GLenum target , GLuint id , GLenum pname , GLuint param ) ) options: #(+optIndirectCall)
 ]
@@ -9986,6 +10671,11 @@ UFFIOpenGL >> referencePlaneSGIX_equation: equation [
 { #category : #'generated bindings' }
 UFFIOpenGL >> releaseShaderCompiler [
 	^ self ffiCall: #( void glReleaseShaderCompiler ( ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> renderMode_mode: mode [
+	^ self ffiCall: #( GLint glRenderMode ( GLenum mode ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -10901,6 +11591,21 @@ UFFIOpenGL >> tessellationFactorAMD_factor: factor [
 { #category : #'generated bindings' }
 UFFIOpenGL >> tessellationModeAMD_mode: mode [
 	^ self ffiCall: #( void glTessellationModeAMD ( GLenum mode ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> testFenceAPPLE_fence: fence [
+	^ self ffiCall: #( GLboolean glTestFenceAPPLE ( GLuint fence ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> testFenceNV_fence: fence [
+	^ self ffiCall: #( GLboolean glTestFenceNV ( GLuint fence ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> testObjectAPPLE_object: object name: name [
+	^ self ffiCall: #( GLboolean glTestObjectAPPLE ( GLenum object , GLuint name ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -12644,6 +13349,31 @@ UFFIOpenGL >> unlockArraysEXT [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> unmapBufferARB_target: target [
+	^ self ffiCall: #( GLboolean glUnmapBufferARB ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> unmapBufferOES_target: target [
+	^ self ffiCall: #( GLboolean glUnmapBufferOES ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> unmapBuffer_target: target [
+	^ self ffiCall: #( GLboolean glUnmapBuffer ( GLenum target ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> unmapNamedBufferEXT_buffer: buffer [
+	^ self ffiCall: #( GLboolean glUnmapNamedBufferEXT ( GLuint buffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> unmapNamedBuffer_buffer: buffer [
+	^ self ffiCall: #( GLboolean glUnmapNamedBuffer ( GLuint buffer ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> unmapObjectBufferATI_buffer: buffer [
 	^ self ffiCall: #( void glUnmapObjectBufferATI ( GLuint buffer ) ) options: #(+optIndirectCall)
 ]
@@ -12699,8 +13429,23 @@ UFFIOpenGL >> vDPAUInitNV_vdpDevice: vdpDevice getProcAddress: getProcAddress [
 ]
 
 { #category : #'generated bindings' }
+UFFIOpenGL >> vDPAUIsSurfaceNV_surface: surface [
+	^ self ffiCall: #( GLboolean glVDPAUIsSurfaceNV ( GLvdpauSurfaceNV surface ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
 UFFIOpenGL >> vDPAUMapSurfacesNV_numSurfaces: numSurfaces surfaces: surfaces [
 	^ self ffiCall: #( void glVDPAUMapSurfacesNV ( GLsizei numSurfaces , GLvdpauSurfaceNV surfaces ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> vDPAURegisterOutputSurfaceNV_vdpSurface: vdpSurface target: target numTextureNames: numTextureNames textureNames: textureNames [
+	^ self ffiCall: #( GLvdpauSurfaceNV glVDPAURegisterOutputSurfaceNV ( void* vdpSurface , GLenum target , GLsizei numTextureNames , GLuint textureNames ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> vDPAURegisterVideoSurfaceNV_vdpSurface: vdpSurface target: target numTextureNames: numTextureNames textureNames: textureNames [
+	^ self ffiCall: #( GLvdpauSurfaceNV glVDPAURegisterVideoSurfaceNV ( void* vdpSurface , GLenum target , GLsizei numTextureNames , GLuint textureNames ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
@@ -14536,6 +15281,11 @@ UFFIOpenGL >> vertexWeighthNV_weight: weight [
 { #category : #'generated bindings' }
 UFFIOpenGL >> vertexWeighthvNV_weight: weight [
 	^ self ffiCall: #( void glVertexWeighthvNV ( GLhalfNV weight ) ) options: #(+optIndirectCall)
+]
+
+{ #category : #'generated bindings' }
+UFFIOpenGL >> videoCaptureNV_video_capture_slot: video_capture_slot sequence_num: sequence_num capture_time: capture_time [
+	^ self ffiCall: #( GLenum glVideoCaptureNV ( GLuint video_capture_slot , GLuint sequence_num , GLuint64EXT capture_time ) ) options: #(+optIndirectCall)
 ]
 
 { #category : #'generated bindings' }
