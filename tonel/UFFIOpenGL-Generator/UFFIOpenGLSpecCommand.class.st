@@ -21,6 +21,8 @@ UFFIOpenGLSpecCommand class >> initialize [
 	super initialize.
 	
 	FunctionBlacklist := Set newFrom: #(
+		eglStreamConsumerGLTextureExternalAttribsNV
+		wglCopyImageSubDataNV
 		glXCopyImageSubDataNV
 	).
 ]

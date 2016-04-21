@@ -31,9 +31,10 @@ UFFIOpenGLSpecParser class >> parseSpecFromFileNamed: aFileName prefix: anApiPre
 
 { #category : #parsing }
 UFFIOpenGLSpecParser >> parseCommand: commandElement [
-	| protoElement command returnType name paramType paramName param paramTypeElement |
+	| protoElement command returnType name paramType paramName param paramTypeElement returnTypeElement |
 	protoElement := commandElement elementAt: 'proto'.
-	returnType := protoElement strings first.
+	returnTypeElement := protoElement elementAt: 'ptype'.
+	returnType := returnTypeElement ifNotNil: [ returnTypeElement strings first ] ifNil: [ protoElement strings first ].
 	name := (protoElement elementAt: 'name') strings first.
 	
 	command := UFFIOpenGLSpecCommand new.
