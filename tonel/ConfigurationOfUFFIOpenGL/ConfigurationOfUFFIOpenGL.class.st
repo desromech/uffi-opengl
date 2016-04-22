@@ -114,21 +114,16 @@ ConfigurationOfUFFIOpenGL >> baseline01: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
-		spec project: 'OSWindows' with: [
-				spec
-					className: #ConfigurationOfOSWindows;
-					versionString: #'stable';
-					repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main/' ].
 		spec 
 			package: #'UFFIOpenGL-Core';
 			package: #'UFFIOpenGL-EGL' with: [
 				spec requires: #(#'UFFIOpenGL-Core' ). ];
-			package: #'UFFIOpenGL-Generator' with: [
-				spec requires: #(#'UFFIOpenGL-Core' #'UFFIOpenGL-EGL' #'UFFIOpenGL-Windows' #'UFFIOpenGL-X11' ). ];
 			package: #'UFFIOpenGL-Windows' with: [
-				spec requires: #(#'UFFIOpenGL-Core' 'OSWindows' ). ];
+				spec requires: #(#'UFFIOpenGL-Core' ). ];
 			package: #'UFFIOpenGL-X11' with: [
-				spec requires: #(#'UFFIOpenGL-Core' ). ]. ].
+				spec requires: #(#'UFFIOpenGL-Core' ). ];
+			package: #'UFFIOpenGL-Generator' with: [
+				spec requires: #(#'UFFIOpenGL-Core' #'UFFIOpenGL-EGL' #'UFFIOpenGL-Windows' #'UFFIOpenGL-X11' ). ]. ].
 
 ]
 
@@ -158,4 +153,30 @@ ConfigurationOfUFFIOpenGL >> project [
             (Smalltalk at: #'MetacelloVersionConstructor') on: self project: project.	"Construct the project"
             project loadType: #'linear'.	"change to #atomic if desired"
             project ]
+]
+
+{ #category : #'symbolic versions' }
+ConfigurationOfUFFIOpenGL >> stable: spec [
+	<symbolicVersion: #'stable'>
+
+	spec for: #'common' version: '1.0'.
+
+]
+
+{ #category : #versions }
+ConfigurationOfUFFIOpenGL >> version10: spec [
+	<version: '1.0' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.0'.
+		spec author: 'RonieSalgado'.
+		spec timestamp: '4/22/2016 09:26'.
+		spec 
+			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.3';
+			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.3';
+			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.3';
+			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.3';
+			package: #'UFFIOpenGL-Generator' with: 'UFFIOpenGL-Generator-RonieSalgado.3'. ].
+
 ]
