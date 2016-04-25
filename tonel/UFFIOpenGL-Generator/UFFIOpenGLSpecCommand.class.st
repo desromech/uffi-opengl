@@ -131,5 +131,5 @@ UFFIOpenGLSpecCommand >> returnType: anObject [
 
 { #category : #'code generation' }
 UFFIOpenGLSpecCommand >> sanitizeBindingsType: aTypeString [
-	^ (((aTypeString copyReplaceAll: 'const ' with: ' ') copyReplaceAll: ' *' with: '*' ) copyReplaceAll: '* ' with: '*') trim
+	^ ((((aTypeString copyReplaceAll: 'const ' with: ' ') copyReplaceAll: ' *' with: '*' ) copyReplaceAll: '* ' with: '*') copyReplaceAll: 'const*' with: '*') trim
 ]

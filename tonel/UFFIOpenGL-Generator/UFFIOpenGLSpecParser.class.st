@@ -31,11 +31,11 @@ UFFIOpenGLSpecParser class >> parseSpecFromFileNamed: aFileName prefix: anApiPre
 
 { #category : #parsing }
 UFFIOpenGLSpecParser >> parseCommand: commandElement [
-	| protoElement command returnType name paramType paramName param paramTypeElement returnTypeElement |
+	| protoElement command returnType name paramType paramName param paramTypeAndName returnTypeAndName |
 	protoElement := commandElement elementAt: 'proto'.
-	returnTypeElement := protoElement elementAt: 'ptype'.
-	returnType := returnTypeElement ifNotNil: [ returnTypeElement strings first ] ifNil: [ protoElement strings first ].
-	name := (protoElement elementAt: 'name') strings first.
+	returnTypeAndName := self parseTypeNamePair: protoElement.
+	returnType := returnTypeAndName first.
+	name := returnTypeAndName second.
 	
 	command := UFFIOpenGLSpecCommand new.
 	command returnType: returnType;
@@ -44,9 +44,9 @@ UFFIOpenGLSpecParser >> parseCommand: commandElement [
 	spec addCommand: command.
 
 	commandElement elementsAt: 'param' do: [ :paramElement | 
-		paramTypeElement := paramElement elementAt: 'ptype'.
-		paramType := paramTypeElement ifNotNil: [ paramTypeElement strings first ] ifNil: [ paramElement strings first ].
-		paramName := (paramElement elementAt: 'name') strings first.
+		paramTypeAndName := self parseTypeNamePair: paramElement.
+		paramType := paramTypeAndName first.
+		paramName := paramTypeAndName second.
 		param := UFFIOpenGLSpecCommandParam new name: paramName; type: paramType; yourself.
 		command addParameter: param.
 	].
@@ -118,6 +118,21 @@ UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
 	].
 
 	^ spec
+]
+
+{ #category : #parsing }
+UFFIOpenGLSpecParser >> parseTypeNamePair: element [
+	| type name |
+	type := ''.
+	name := ''.
+	element nodesDo: [ :node |
+		node isStringNode ifTrue: [ type := type, node string ].
+		node isElement ifTrue: [
+			node name = 'ptype' ifTrue: [ type := type , node strings first ].
+			node name = 'name' ifTrue: [ name := node strings first ].
+		]
+	].
+	^ { type . name }
 ]
 
 { #category : #parsing }
