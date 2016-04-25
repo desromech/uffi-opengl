@@ -16,7 +16,7 @@ UFFIOpenWGL >> allocateMemoryNV_size: size readfreq: readfreq writefreq: writefr
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> associateImageBufferEventsI3D_hDC: hDC pEvent: pEvent pAddress: pAddress pSize: pSize count: count [
-	^ self ffiCall: #( BOOL wglAssociateImageBufferEventsI3D ( HDC hDC , HANDLE pEvent , LPVOID pAddress , DWORD pSize , UINT count ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglAssociateImageBufferEventsI3D ( HDC hDC , HANDLE* pEvent , LPVOID* pAddress , DWORD* pSize , UINT count ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -61,12 +61,12 @@ UFFIOpenWGL >> blitContextFramebufferAMD_dstCtx: dstCtx srcX0: srcX0 srcY0: srcY
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> choosePixelFormatARB_hdc: hdc piAttribIList: piAttribIList pfAttribFList: pfAttribFList nMaxFormats: nMaxFormats piFormats: piFormats nNumFormats: nNumFormats [
-	^ self ffiCall: #( BOOL wglChoosePixelFormatARB ( HDC hdc , int* piAttribIList , FLOAT pfAttribFList , UINT nMaxFormats , int* piFormats , UINT nNumFormats ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglChoosePixelFormatARB ( HDC hdc , int* piAttribIList , FLOAT* pfAttribFList , UINT nMaxFormats , int* piFormats , UINT* nNumFormats ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> choosePixelFormatEXT_hdc: hdc piAttribIList: piAttribIList pfAttribFList: pfAttribFList nMaxFormats: nMaxFormats piFormats: piFormats nNumFormats: nNumFormats [
-	^ self ffiCall: #( BOOL wglChoosePixelFormatEXT ( HDC hdc , int* piAttribIList , FLOAT pfAttribFList , UINT nMaxFormats , int* piFormats , UINT nNumFormats ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglChoosePixelFormatEXT ( HDC hdc , int* piAttribIList , FLOAT* pfAttribFList , UINT nMaxFormats , int* piFormats , UINT* nNumFormats ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -76,7 +76,7 @@ UFFIOpenWGL >> copyContext_hglrcSrc: hglrcSrc hglrcDst: hglrcDst mask: mask [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> createAffinityDCNV: phGpuList [
-	^ self ffiCall: #( HDC wglCreateAffinityDCNV ( HGPUNV phGpuList ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( HDC wglCreateAffinityDCNV ( HGPUNV* phGpuList ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -131,7 +131,7 @@ UFFIOpenWGL >> createPbufferEXT_hDC: hDC iPixelFormat: iPixelFormat iWidth: iWid
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> cribePixelFormat_hdc: hdc ipfd: ipfd cjpfd: cjpfd ppfd: ppfd [
-	^ self ffiCall: #( int DescribePixelFormat ( HDC hdc , int ipfd , UINT cjpfd , PIXELFORMATDESCRIPTOR ppfd ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( int DescribePixelFormat ( HDC hdc , int ipfd , UINT cjpfd , PIXELFORMATDESCRIPTOR* ppfd ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -141,7 +141,7 @@ UFFIOpenWGL >> dXCloseDeviceNV: hDevice [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> dXLockObjectsNV_hDevice: hDevice count: count hObjects: hObjects [
-	^ self ffiCall: #( BOOL wglDXLockObjectsNV ( HANDLE hDevice , GLint count , HANDLE hObjects ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglDXLockObjectsNV ( HANDLE hDevice , GLint count , HANDLE* hObjects ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -166,7 +166,7 @@ UFFIOpenWGL >> dXSetResourceShareHandleNV_dxObject: dxObject shareHandle: shareH
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> dXUnlockObjectsNV_hDevice: hDevice count: count hObjects: hObjects [
-	^ self ffiCall: #( BOOL wglDXUnlockObjectsNV ( HANDLE hDevice , GLint count , HANDLE hObjects ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglDXUnlockObjectsNV ( HANDLE hDevice , GLint count , HANDLE* hObjects ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -201,7 +201,7 @@ UFFIOpenWGL >> deleteDCNV: hdc [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> describeLayerPlane_hDc: hDc pixelFormat: pixelFormat layerPlane: layerPlane nBytes: nBytes plpd: plpd [
-	^ self ffiCall: #( BOOL wglDescribeLayerPlane ( HDC hDc , int pixelFormat , int layerPlane , UINT nBytes , LAYERPLANEDESCRIPTOR plpd ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglDescribeLayerPlane ( HDC hDc , int pixelFormat , int layerPlane , UINT nBytes , LAYERPLANEDESCRIPTOR* plpd ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -251,7 +251,7 @@ UFFIOpenWGL >> endFrameTrackingI3D [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> enhMetaFilePixelFormat_hemf: hemf ppfd: ppfd [
-	^ self ffiCall: #( UINT GetEnhMetaFilePixelFormat ( HENHMETAFILE hemf , PIXELFORMATDESCRIPTOR ppfd ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( UINT GetEnhMetaFilePixelFormat ( HENHMETAFILE hemf , PIXELFORMATDESCRIPTOR* ppfd ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -261,22 +261,22 @@ UFFIOpenWGL >> enumGpuDevicesNV_hGpu: hGpu iDeviceIndex: iDeviceIndex lpGpuDevic
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> enumGpusFromAffinityDCNV_hAffinityDC: hAffinityDC iGpuIndex: iGpuIndex hGpu: hGpu [
-	^ self ffiCall: #( BOOL wglEnumGpusFromAffinityDCNV ( HDC hAffinityDC , UINT iGpuIndex , HGPUNV hGpu ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglEnumGpusFromAffinityDCNV ( HDC hAffinityDC , UINT iGpuIndex , HGPUNV* hGpu ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> enumGpusNV_iGpuIndex: iGpuIndex phGpu: phGpu [
-	^ self ffiCall: #( BOOL wglEnumGpusNV ( UINT iGpuIndex , HGPUNV phGpu ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglEnumGpusNV ( UINT iGpuIndex , HGPUNV* phGpu ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> enumerateVideoCaptureDevicesNV_hDc: hDc phDeviceList: phDeviceList [
-	^ self ffiCall: #( UINT wglEnumerateVideoCaptureDevicesNV ( HDC hDc , HVIDEOINPUTDEVICENV phDeviceList ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( UINT wglEnumerateVideoCaptureDevicesNV ( HDC hDc , HVIDEOINPUTDEVICENV* phDeviceList ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> enumerateVideoDevicesNV_hDC: hDC phDeviceList: phDeviceList [
-	^ self ffiCall: #( int wglEnumerateVideoDevicesNV ( HDC hDC , HVIDEOOUTPUTDEVICENV phDeviceList ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( int wglEnumerateVideoDevicesNV ( HDC hDC , HVIDEOOUTPUTDEVICENV* phDeviceList ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -361,7 +361,7 @@ UFFIOpenWGL >> getFrameUsageI3D: pUsage [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getGPUIDsAMD_maxCount: maxCount ids: ids [
-	^ self ffiCall: #( UINT wglGetGPUIDsAMD ( UINT maxCount , UINT ids ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( UINT wglGetGPUIDsAMD ( UINT maxCount , UINT* ids ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -371,7 +371,7 @@ UFFIOpenWGL >> getGPUInfoAMD_id: id property: property dataType: dataType size: 
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getGammaTableI3D_hDC: hDC iEntries: iEntries puRed: puRed puGreen: puGreen puBlue: puBlue [
-	^ self ffiCall: #( BOOL wglGetGammaTableI3D ( HDC hDC , int iEntries , USHORT puRed , USHORT puGreen , USHORT puBlue ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetGammaTableI3D ( HDC hDC , int iEntries , USHORT* puRed , USHORT* puGreen , USHORT* puBlue ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -381,32 +381,32 @@ UFFIOpenWGL >> getGammaTableParametersI3D_hDC: hDC iAttribute: iAttribute piValu
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getGenlockSampleRateI3D_hDC: hDC uRate: uRate [
-	^ self ffiCall: #( BOOL wglGetGenlockSampleRateI3D ( HDC hDC , UINT uRate ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetGenlockSampleRateI3D ( HDC hDC , UINT* uRate ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getGenlockSourceDelayI3D_hDC: hDC uDelay: uDelay [
-	^ self ffiCall: #( BOOL wglGetGenlockSourceDelayI3D ( HDC hDC , UINT uDelay ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetGenlockSourceDelayI3D ( HDC hDC , UINT* uDelay ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getGenlockSourceEdgeI3D_hDC: hDC uEdge: uEdge [
-	^ self ffiCall: #( BOOL wglGetGenlockSourceEdgeI3D ( HDC hDC , UINT uEdge ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetGenlockSourceEdgeI3D ( HDC hDC , UINT* uEdge ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getGenlockSourceI3D_hDC: hDC uSource: uSource [
-	^ self ffiCall: #( BOOL wglGetGenlockSourceI3D ( HDC hDC , UINT uSource ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetGenlockSourceI3D ( HDC hDC , UINT* uSource ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getLayerPaletteEntries_hdc: hdc iLayerPlane: iLayerPlane iStart: iStart cEntries: cEntries pcr: pcr [
-	^ self ffiCall: #( int wglGetLayerPaletteEntries ( HDC hdc , int iLayerPlane , int iStart , int cEntries , COLORREF pcr ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( int wglGetLayerPaletteEntries ( HDC hdc , int iLayerPlane , int iStart , int cEntries , COLORREF* pcr ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getMscRateOML_hdc: hdc numerator: numerator denominator: denominator [
-	^ self ffiCall: #( BOOL wglGetMscRateOML ( HDC hdc , INT32 numerator , INT32 denominator ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetMscRateOML ( HDC hdc , INT32* numerator , INT32* denominator ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -421,12 +421,12 @@ UFFIOpenWGL >> getPbufferDCEXT: hPbuffer [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getPixelFormatAttribfvARB_hdc: hdc iPixelFormat: iPixelFormat iLayerPlane: iLayerPlane nAttributes: nAttributes piAttributes: piAttributes pfValues: pfValues [
-	^ self ffiCall: #( BOOL wglGetPixelFormatAttribfvARB ( HDC hdc , int iPixelFormat , int iLayerPlane , UINT nAttributes , int* piAttributes , FLOAT pfValues ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetPixelFormatAttribfvARB ( HDC hdc , int iPixelFormat , int iLayerPlane , UINT nAttributes , int* piAttributes , FLOAT* pfValues ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getPixelFormatAttribfvEXT_hdc: hdc iPixelFormat: iPixelFormat iLayerPlane: iLayerPlane nAttributes: nAttributes piAttributes: piAttributes pfValues: pfValues [
-	^ self ffiCall: #( BOOL wglGetPixelFormatAttribfvEXT ( HDC hdc , int iPixelFormat , int iLayerPlane , UINT nAttributes , int* piAttributes , FLOAT pfValues ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetPixelFormatAttribfvEXT ( HDC hdc , int iPixelFormat , int iLayerPlane , UINT nAttributes , int* piAttributes , FLOAT* pfValues ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -451,12 +451,12 @@ UFFIOpenWGL >> getSwapIntervalEXT [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getSyncValuesOML_hdc: hdc ust: ust msc: msc sbc: sbc [
-	^ self ffiCall: #( BOOL wglGetSyncValuesOML ( HDC hdc , INT64 ust , INT64 msc , INT64 sbc ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetSyncValuesOML ( HDC hdc , INT64* ust , INT64* msc , INT64* sbc ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> getVideoDeviceNV_hDC: hDC numDevices: numDevices hVideoDevice: hVideoDevice [
-	^ self ffiCall: #( BOOL wglGetVideoDeviceNV ( HDC hDC , int numDevices , HPVIDEODEV hVideoDevice ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglGetVideoDeviceNV ( HDC hDC , int numDevices , HPVIDEODEV* hVideoDevice ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -466,12 +466,12 @@ UFFIOpenWGL >> getVideoInfoNV_hpVideoDevice: hpVideoDevice pulCounterOutputPbuff
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> isEnabledFrameLockI3D: pFlag [
-	^ self ffiCall: #( BOOL wglIsEnabledFrameLockI3D ( BOOL pFlag ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglIsEnabledFrameLockI3D ( BOOL* pFlag ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> isEnabledGenlockI3D_hDC: hDC pFlag: pFlag [
-	^ self ffiCall: #( BOOL wglIsEnabledGenlockI3D ( HDC hDC , BOOL pFlag ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglIsEnabledGenlockI3D ( HDC hDC , BOOL* pFlag ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -481,7 +481,7 @@ UFFIOpenWGL >> joinSwapGroupNV_hDC: hDC group: group [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> loadDisplayColorTableEXT_table: table length: length [
-	^ self ffiCall: #( GLboolean wglLoadDisplayColorTableEXT ( GLushort table , GLuint length ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( GLboolean wglLoadDisplayColorTableEXT ( GLushort* table , GLuint length ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -511,7 +511,7 @@ UFFIOpenWGL >> makeCurrent_hDc: hDc newContext: newContext [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> osePixelFormat_hDc: hDc pPfd: pPfd [
-	^ self ffiCall: #( int ChoosePixelFormat ( HDC hDc , PIXELFORMATDESCRIPTOR pPfd ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( int ChoosePixelFormat ( HDC hDc , PIXELFORMATDESCRIPTOR* pPfd ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -526,7 +526,7 @@ UFFIOpenWGL >> pixelFormat: hdc [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> pixelFormat_hdc: hdc ipfd: ipfd ppfd: ppfd [
-	^ self ffiCall: #( BOOL SetPixelFormat ( HDC hdc , int ipfd , PIXELFORMATDESCRIPTOR ppfd ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL SetPixelFormat ( HDC hdc , int ipfd , PIXELFORMATDESCRIPTOR* ppfd ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -536,27 +536,27 @@ UFFIOpenWGL >> queryCurrentContextNV_iAttribute: iAttribute piValue: piValue [
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> queryFrameCountNV_hDC: hDC count: count [
-	^ self ffiCall: #( BOOL wglQueryFrameCountNV ( HDC hDC , GLuint count ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglQueryFrameCountNV ( HDC hDC , GLuint* count ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> queryFrameLockMasterI3D: pFlag [
-	^ self ffiCall: #( BOOL wglQueryFrameLockMasterI3D ( BOOL pFlag ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglQueryFrameLockMasterI3D ( BOOL* pFlag ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> queryFrameTrackingI3D_pFrameCount: pFrameCount pMissedFrames: pMissedFrames pLastMissedUsage: pLastMissedUsage [
-	^ self ffiCall: #( BOOL wglQueryFrameTrackingI3D ( DWORD pFrameCount , DWORD pMissedFrames , float* pLastMissedUsage ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglQueryFrameTrackingI3D ( DWORD* pFrameCount , DWORD* pMissedFrames , float* pLastMissedUsage ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> queryGenlockMaxSourceDelayI3D_hDC: hDC uMaxLineDelay: uMaxLineDelay uMaxPixelDelay: uMaxPixelDelay [
-	^ self ffiCall: #( BOOL wglQueryGenlockMaxSourceDelayI3D ( HDC hDC , UINT uMaxLineDelay , UINT uMaxPixelDelay ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglQueryGenlockMaxSourceDelayI3D ( HDC hDC , UINT* uMaxLineDelay , UINT* uMaxPixelDelay ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> queryMaxSwapGroupsNV_hDC: hDC maxGroups: maxGroups maxBarriers: maxBarriers [
-	^ self ffiCall: #( BOOL wglQueryMaxSwapGroupsNV ( HDC hDC , GLuint maxGroups , GLuint maxBarriers ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglQueryMaxSwapGroupsNV ( HDC hDC , GLuint* maxGroups , GLuint* maxBarriers ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -571,7 +571,7 @@ UFFIOpenWGL >> queryPbufferEXT_hPbuffer: hPbuffer iAttribute: iAttribute piValue
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> querySwapGroupNV_hDC: hDC group: group barrier: barrier [
-	^ self ffiCall: #( BOOL wglQuerySwapGroupNV ( HDC hDC , GLuint group , GLuint barrier ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglQuerySwapGroupNV ( HDC hDC , GLuint* group , GLuint* barrier ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -586,7 +586,7 @@ UFFIOpenWGL >> realizeLayerPalette_hdc: hdc iLayerPlane: iLayerPlane bRealize: b
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> releaseImageBufferEventsI3D_hDC: hDC pAddress: pAddress count: count [
-	^ self ffiCall: #( BOOL wglReleaseImageBufferEventsI3D ( HDC hDC , LPVOID pAddress , UINT count ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglReleaseImageBufferEventsI3D ( HDC hDC , LPVOID* pAddress , UINT count ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -646,7 +646,7 @@ UFFIOpenWGL >> setDigitalVideoParametersI3D_hDC: hDC iAttribute: iAttribute piVa
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> setGammaTableI3D_hDC: hDC iEntries: iEntries puRed: puRed puGreen: puGreen puBlue: puBlue [
-	^ self ffiCall: #( BOOL wglSetGammaTableI3D ( HDC hDC , int iEntries , USHORT puRed , USHORT puGreen , USHORT puBlue ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglSetGammaTableI3D ( HDC hDC , int iEntries , USHORT* puRed , USHORT* puGreen , USHORT* puBlue ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -656,7 +656,7 @@ UFFIOpenWGL >> setGammaTableParametersI3D_hDC: hDC iAttribute: iAttribute piValu
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> setLayerPaletteEntries_hdc: hdc iLayerPlane: iLayerPlane iStart: iStart cEntries: cEntries pcr: pcr [
-	^ self ffiCall: #( int wglSetLayerPaletteEntries ( HDC hdc , int iLayerPlane , int iStart , int cEntries , COLORREF pcr ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( int wglSetLayerPaletteEntries ( HDC hdc , int iLayerPlane , int iStart , int cEntries , COLORREF* pcr ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
@@ -726,10 +726,10 @@ UFFIOpenWGL >> useFontOutlines_hDC: hDC first: first count: count listBase: list
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> waitForMscOML_hdc: hdc target_msc: target_msc divisor: divisor remainder: remainder ust: ust msc: msc sbc: sbc [
-	^ self ffiCall: #( BOOL wglWaitForMscOML ( HDC hdc , INT64 target_msc , INT64 divisor , INT64 remainder , INT64 ust , INT64 msc , INT64 sbc ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglWaitForMscOML ( HDC hdc , INT64 target_msc , INT64 divisor , INT64 remainder , INT64* ust , INT64* msc , INT64* sbc ) ) options: #( +optIndirectCallOpenGL )
 ]
 
 { #category : #'generated bindings' }
 UFFIOpenWGL >> waitForSbcOML_hdc: hdc target_sbc: target_sbc ust: ust msc: msc sbc: sbc [
-	^ self ffiCall: #( BOOL wglWaitForSbcOML ( HDC hdc , INT64 target_sbc , INT64 ust , INT64 msc , INT64 sbc ) ) options: #( +optIndirectCallOpenGL )
+	^ self ffiCall: #( BOOL wglWaitForSbcOML ( HDC hdc , INT64 target_sbc , INT64* ust , INT64* msc , INT64* sbc ) ) options: #( +optIndirectCallOpenGL )
 ]
