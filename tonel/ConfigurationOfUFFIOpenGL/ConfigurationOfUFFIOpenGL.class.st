@@ -114,6 +114,27 @@ ConfigurationOfUFFIOpenGL >> baseline01: spec [
 
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
+		spec repository: 'http://smalltalkhub.com/mc/ronsaldo/UFFIOpenGL/main/'.
+		spec 
+			package: #'UFFIOpenGL-Core';
+			package: #'UFFIOpenGL-EGL' with: [
+				spec requires: #(#'UFFIOpenGL-Core' ). ];
+			package: #'UFFIOpenGL-Windows' with: [
+				spec requires: #(#'UFFIOpenGL-Core' ). ];
+			package: #'UFFIOpenGL-X11' with: [
+				spec requires: #(#'UFFIOpenGL-Core' ). ];
+			package: #'UFFIOpenGL-Generator' with: [
+				spec requires: #(#'UFFIOpenGL-Core' #'UFFIOpenGL-EGL' #'UFFIOpenGL-Windows' #'UFFIOpenGL-X11' ). ]. ].
+
+]
+
+{ #category : #baselines }
+ConfigurationOfUFFIOpenGL >> baseline02: spec [
+	<version: '0.2-baseline'>
+
+	spec for: #'common' do: [
+		spec blessing: #'baseline'.
+		spec repository: 'http://smalltalkhub.com/mc/ronsaldo/UFFIOpenGL/main/'.
 		spec 
 			package: #'UFFIOpenGL-Core';
 			package: #'UFFIOpenGL-EGL' with: [
@@ -139,7 +160,7 @@ ConfigurationOfUFFIOpenGL >> customProjectAttributes [
 ConfigurationOfUFFIOpenGL >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.1-baseline'.
+	spec for: #'common' version: '0.2-baseline'.
 
 ]
 
