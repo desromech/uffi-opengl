@@ -135,16 +135,22 @@ ConfigurationOfUFFIOpenGL >> baseline02: spec [
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
 		spec repository: 'http://smalltalkhub.com/mc/ronsaldo/UFFIOpenGL/main/'.
+		spec project: 'OSWindows' with: [
+				spec
+					className: #ConfigurationOfOSWindows;
+					versionString: #'stable';
+					repository: 'http://smalltalkhub.com/mc/OS/OS-Windows/main/' ].
 		spec 
 			package: #'UFFIOpenGL-Core';
 			package: #'UFFIOpenGL-EGL' with: [
 				spec requires: #(#'UFFIOpenGL-Core' ). ];
 			package: #'UFFIOpenGL-Windows' with: [
-				spec requires: #(#'UFFIOpenGL-Core' ). ];
+				spec requires: #(#'UFFIOpenGL-Core' 'OSWindows' ). ];
 			package: #'UFFIOpenGL-X11' with: [
 				spec requires: #(#'UFFIOpenGL-Core' ). ];
 			package: #'UFFIOpenGL-Generator' with: [
-				spec requires: #(#'UFFIOpenGL-Core' #'UFFIOpenGL-EGL' #'UFFIOpenGL-Windows' #'UFFIOpenGL-X11' ). ]. ].
+				spec requires: #(#'UFFIOpenGL-Core' #'UFFIOpenGL-EGL' #'UFFIOpenGL-Windows' #'UFFIOpenGL-X11' ). ].
+		spec group: 'default' with: #(#'UFFIOpenGL-Core' ). ].
 
 ]
 
@@ -180,7 +186,7 @@ ConfigurationOfUFFIOpenGL >> project [
 ConfigurationOfUFFIOpenGL >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.1'.
+	spec for: #'common' version: '1.2'.
 
 ]
 
@@ -211,6 +217,25 @@ ConfigurationOfUFFIOpenGL >> version11: spec [
 		spec description: 'version 1.1'.
 		spec author: 'RonieSalgado'.
 		spec timestamp: '4/25/2016 11:10'.
+		spec 
+			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.4';
+			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.4';
+			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.4';
+			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.4';
+			package: #'UFFIOpenGL-Generator' with: 'UFFIOpenGL-Generator-RonieSalgado.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfUFFIOpenGL >> version12: spec [
+	<version: '1.2' imports: #('0.2-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.2'.
+		spec author: 'RonieSalgado'.
+		spec timestamp: '4/25/2016 11:16'.
+		spec project: 'OSWindows' with: '2.1'.
 		spec 
 			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.4';
 			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.4';
