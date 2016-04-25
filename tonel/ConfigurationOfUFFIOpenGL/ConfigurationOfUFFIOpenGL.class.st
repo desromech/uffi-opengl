@@ -127,32 +127,6 @@ ConfigurationOfUFFIOpenGL >> baseline01: spec [
 
 ]
 
-{ #category : #baselines }
-ConfigurationOfUFFIOpenGL >> baseline02: spec [
-	<version: '0.2-baseline'>
-
-	spec for: #'common' do: [
-		spec blessing: #'baseline'.
-		spec repository: 'http://smalltalkhub.com/mc/ronsaldo/UFFIOpenGL/main'.
-		spec project: 'OSWindows' with: [
-				spec
-					className: #ConfigurationOfOSWindows;
-					versionString: #'stable';
-					repository: 'http://smalltalkhub.com/mc/Pharo/MetaRepoForPharo50/main/' ].
-		spec 
-			package: #'UFFIOpenGL-Core';
-			package: #'UFFIOpenGL-EGL' with: [
-				spec requires: #(#'UFFIOpenGL-Core' ). ];
-			package: #'UFFIOpenGL-Windows' with: [
-				spec requires: #(#'UFFIOpenGL-Core' 'OSWindows' ). ];
-			package: #'UFFIOpenGL-X11' with: [
-				spec requires: #(#'UFFIOpenGL-Core' ). ];
-			package: #'UFFIOpenGL-Generator' with: [
-				spec requires: #(#'UFFIOpenGL-Core' #'UFFIOpenGL-EGL' #'UFFIOpenGL-Windows' #'UFFIOpenGL-X11' ). ].
-		spec group: 'default' with: #(#'UFFIOpenGL-Core' ). ].
-
-]
-
 { #category : #accessing }
 ConfigurationOfUFFIOpenGL >> customProjectAttributes [
     "Edit to return a collection of any custom attributes e.g. for conditional loading: Array with: #'Condition1' with: #'Condition2.
@@ -165,7 +139,7 @@ ConfigurationOfUFFIOpenGL >> customProjectAttributes [
 ConfigurationOfUFFIOpenGL >> development: spec [
 	<symbolicVersion: #'development'>
 
-	spec for: #'common' version: '0.2-baseline'.
+	spec for: #'common' version: '0.1-baseline'.
 
 ]
 
@@ -185,26 +159,7 @@ ConfigurationOfUFFIOpenGL >> project [
 ConfigurationOfUFFIOpenGL >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.0.1'.
-
-]
-
-{ #category : #versions }
-ConfigurationOfUFFIOpenGL >> version101: spec [
-	<version: '1.0.1' imports: #('0.2-baseline' )>
-
-	spec for: #'common' do: [
-		spec blessing: #'stable'.
-		spec description: 'version 1.0.1'.
-		spec author: 'RonieSalgado'.
-		spec timestamp: '4/22/2016 13:10'.
-		spec project: 'OSWindows' with: '2.1'.
-		spec 
-			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.3';
-			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.3';
-			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.3';
-			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.3';
-			package: #'UFFIOpenGL-Generator' with: 'UFFIOpenGL-Generator-RonieSalgado.3'. ].
+	spec for: #'common' version: '1.1'.
 
 ]
 
@@ -223,5 +178,23 @@ ConfigurationOfUFFIOpenGL >> version10: spec [
 			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.3';
 			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.3';
 			package: #'UFFIOpenGL-Generator' with: 'UFFIOpenGL-Generator-RonieSalgado.3'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfUFFIOpenGL >> version11: spec [
+	<version: '1.1' imports: #('0.1-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.1'.
+		spec author: 'RonieSalgado'.
+		spec timestamp: '4/25/2016 11:10'.
+		spec 
+			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.4';
+			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.4';
+			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.4';
+			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.4';
+			package: #'UFFIOpenGL-Generator' with: 'UFFIOpenGL-Generator-RonieSalgado.4'. ].
 
 ]
