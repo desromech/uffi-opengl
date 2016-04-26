@@ -275,7 +275,7 @@ ConfigurationOfUFFIOpenGL >> version12: spec [
 
 { #category : #versions }
 ConfigurationOfUFFIOpenGL >> version13: spec [
-	<version: '1.2' imports: #('0.2-baseline' )>
+	<version: '1.3' imports: #('0.3-baseline' )>
 
 	spec for: #'common' do: [
 		spec blessing: #'stable'.
