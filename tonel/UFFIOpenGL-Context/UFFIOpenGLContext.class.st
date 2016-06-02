@@ -33,6 +33,9 @@ UFFIOpenGLContext >> initialize [
 
 	window := OSWindow createWithAttributes: attributes.
 	renderer := window newOpenGLRenderer.
+	(Smalltalk platformName beginsWith: 'Mac') ifTrue: [
+		window show; hide
+	]
 ]
 
 { #category : #misc }
