@@ -122,6 +122,11 @@ UFFIOpenGLOffscreenBuffer >> framebufferObject: anObject [
 	framebufferObject := anObject
 ]
 
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> height [
+	^ extent y
+]
+
 { #category : #initialization }
 UFFIOpenGLOffscreenBuffer >> initialize [
 	super initialize.
@@ -130,4 +135,9 @@ UFFIOpenGLOffscreenBuffer >> initialize [
 
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> resizeAttachments [
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> width [
+	^ extent x
 ]
