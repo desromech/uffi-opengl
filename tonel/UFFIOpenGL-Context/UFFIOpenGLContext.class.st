@@ -21,6 +21,16 @@ UFFIOpenGLContext class >> globalContext [
 	^ GlobalContext
 ]
 
+{ #category : #'context activation' }
+UFFIOpenGLContext >> asCurrentDo: aBlock [
+	^ renderer asCurrentDo: aBlock
+]
+
+{ #category : #'context activation' }
+UFFIOpenGLContext >> asCurrentDo: aBlock ifFailure: aFailureBlock [
+	^ renderer asCurrentDo: aBlock ifFailure: aFailureBlock
+]
+
 { #category : #initialization }
 UFFIOpenGLContext >> initialize [
 	| glAttributes attributes |
@@ -38,9 +48,14 @@ UFFIOpenGLContext >> initialize [
 	]
 ]
 
-{ #category : #misc }
+{ #category : #'context activation' }
 UFFIOpenGLContext >> makeCurrent [
 	^ renderer makeCurrent
+]
+
+{ #category : #'context activation' }
+UFFIOpenGLContext >> makeCurrent: aWindow [
+	^ renderer makeCurrent: aWindow
 ]
 
 { #category : #accessing }
@@ -48,7 +63,27 @@ UFFIOpenGLContext >> renderer [
 	^ renderer
 ]
 
+{ #category : #'context activation' }
+UFFIOpenGLContext >> swapBuffers [
+	^ renderer swapBuffers
+]
+
+{ #category : #'context activation' }
+UFFIOpenGLContext >> swapBuffers: aWindow [
+	^ renderer swapBuffers: aWindow
+]
+
 { #category : #accessing }
 UFFIOpenGLContext >> window [
 	^ window
+]
+
+{ #category : #'context activation' }
+UFFIOpenGLContext >> withWindow: aWindow do: aBlock [
+	^ renderer withWindow: aWindow do: aBlock
+]
+
+{ #category : #'context activation' }
+UFFIOpenGLContext >> withWindow: aWindow do: aBlock ifFailure: aFailureBlock [
+	^ renderer withWindow: aWindow do: aBlock ifFailure: aFailureBlock
 ]
