@@ -5,11 +5,21 @@ Class {
 		'window',
 		'renderer',
 		'session',
-		'gl'
+		'gl',
+		'versionString',
+		'vendorString',
+		'rendererString',
+		'shadingLanguageVersionString',
+		'extensionsString',
+		'version',
+		'shadingLanguageVersion'
 	],
 	#classVars : [
 		'GlobalContext',
 		'Session'
+	],
+	#pools : [
+		'UFFIOpenGLConstants'
 	],
 	#category : #'UFFIOpenGL-Context'
 }
@@ -35,7 +45,14 @@ UFFIOpenGLContext >> asCurrentDo: aBlock ifFailure: aFailureBlock [
 	^ renderer asCurrentDo: aBlock ifFailure: aFailureBlock
 ]
 
-{ #category : #initialization }
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> bufferObject [
+	^ (UFFIOpenGLBufferHandle for: self)
+		generate;
+		yourself
+]
+
+{ #category : #'session management' }
 UFFIOpenGLContext >> checkSession [
 	| glAttributes attributes |
 	session == Smalltalk session ifTrue: [ ^ self ].
@@ -53,6 +70,23 @@ UFFIOpenGLContext >> checkSession [
 	].
 
 	session := Smalltalk session.
+	
+	self asCurrentDo: [
+		versionString := (self gl getString: GL_VERSION) readString.
+		vendorString := (self gl getString:  GL_VENDOR) readString.
+		rendererString := (self gl getString:  GL_RENDERER) readString.
+		shadingLanguageVersionString := (self gl getString: GL_SHADING_LANGUAGE_VERSION) readString.
+		extensionsString := (self gl getString: GL_EXTENSIONS) readString.
+	].
+
+	version :=  (versionString splitOn: '.') collect: #asInteger.
+	shadingLanguageVersion :=  (shadingLanguageVersionString splitOn: '.') collect: #asInteger.
+	
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> extensionsString [
+	^ extensionsString
 ]
 
 { #category : #accessing }
@@ -70,6 +104,56 @@ UFFIOpenGLContext >> hasValidSession [
 UFFIOpenGLContext >> initialize [
 	self checkSession.
 
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL30 [
+	^ self isAtLeastVersionMajor: 3 versionMinor: 0
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL31 [
+	^ self isAtLeastVersionMajor: 3 versionMinor: 1
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL32 [
+	^ self isAtLeastVersionMajor: 3 versionMinor: 2
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL33 [
+	^ self isAtLeastVersionMajor: 3 versionMinor: 3
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL40 [
+	^ self isAtLeastVersionMajor: 4 versionMinor: 0
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL42 [
+	^ self isAtLeastVersionMajor: 4 versionMinor: 2
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL43 [
+	^ self isAtLeastVersionMajor: 4 versionMinor: 3
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL44 [
+	^ self isAtLeastVersionMajor: 4 versionMinor: 4
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL45 [
+	^ self isAtLeastVersionMajor: 4 versionMinor: 4
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> isAtLeastVersionMajor: versionMajor versionMinor: versionMinor [
+	^ (version first > versionMajor) or: [ version first = versionMajor and: [ version second >= versionMinor] ]
 ]
 
 { #category : #'context activation' }
@@ -95,6 +179,21 @@ UFFIOpenGLContext >> renderer [
 	^ renderer
 ]
 
+{ #category : #version }
+UFFIOpenGLContext >> rendererString [
+	^ rendererString
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> shadingLanguageVersion [
+	^ shadingLanguageVersion
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> shadingLanguageVersionString [
+	^ shadingLanguageVersionString
+]
+
 { #category : #'context activation' }
 UFFIOpenGLContext >> swapBuffers [
 	self checkSession.
@@ -105,6 +204,28 @@ UFFIOpenGLContext >> swapBuffers [
 UFFIOpenGLContext >> swapBuffers: aWindow [
 	self checkSession.
 	^ renderer swapBuffers: aWindow
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> textureObject [
+	^ (UFFIOpenGLTextureHandle for: self)
+		generate;
+		yourself
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> vendor [
+	^ vendorString
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> version [
+	^ version
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> versionString [
+	^ versionString
 ]
 
 { #category : #accessing }

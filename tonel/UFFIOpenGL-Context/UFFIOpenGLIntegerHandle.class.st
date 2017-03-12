@@ -8,7 +8,7 @@ Class {
 	#pools : [
 		'UFFIOpenGLConstants'
 	],
-	#category : #'UFFIOpenGL-Context'
+	#category : #'UFFIOpenGL-Context-Object'
 }
 
 { #category : #finalization }

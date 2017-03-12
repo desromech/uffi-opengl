@@ -1,7 +1,7 @@
 Class {
 	#name : #UFFIOpenGLTextureHandle,
 	#superclass : #UFFIOpenGLIntegerHandle,
-	#category : #'UFFIOpenGL-Context'
+	#category : #'UFFIOpenGL-Context-Object'
 }
 
 { #category : #finalization }
