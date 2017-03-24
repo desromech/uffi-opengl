@@ -19,7 +19,7 @@ Class {
 { #category : #activation }
 UFFIOpenGLOffscreenBuffer >> activate [
 	self checkSession.
-	context gl bindFramebuffer_target: GL_FRAMEBUFFER framebuffer: framebufferObject handle
+	context gl bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle
 ]
 
 { #category : #converting }
@@ -34,9 +34,9 @@ UFFIOpenGLOffscreenBuffer >> asForm [
 	context asCurrentDo: [
 		self activate.
 		context gl
-			bindFramebuffer_target: GL_FRAMEBUFFER framebuffer: 0;
+			bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: 0;
 			bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
-			pixelStorei_pname: GL_PACK_ALIGNMENT param: 4;
+			pixelStorei_pname: GL_PACK_ALIGNMENT param: 1;
 			pixelStorei_pname: GL_PACK_ROW_LENGTH param: extent x;
 			pixelStorei_pname: GL_PACK_IMAGE_HEIGHT param: extent y;
 			pixelStorei_pname: GL_PACK_SKIP_PIXELS param: 0;
@@ -77,14 +77,14 @@ UFFIOpenGLOffscreenBuffer >> createColorBuffer [
 		bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
 		texImage2D_target: GL_TEXTURE_2D level: 0 internalformat: GL_RGBA
 			width: extent x height: extent y border: 0 format: GL_RGBA type: GL_UNSIGNED_BYTE pixels: nil;
-		framebufferTexture2D_target: GL_FRAMEBUFFER attachment: GL_COLOR_ATTACHMENT0 textarget: GL_TEXTURE_2D texture: colorTexture handle level: 0.
+		framebufferTexture2DEXT_target: GL_FRAMEBUFFER_EXT attachment: GL_COLOR_ATTACHMENT0_EXT textarget: GL_TEXTURE_2D texture: colorTexture handle level: 0.
 
 ]
 
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> createFramebufferObject [
 	framebufferObject := (UFFIOpenGLFBOHandle for: context) generate.
-	context gl bindFramebuffer_target: GL_FRAMEBUFFER framebuffer: framebufferObject handle.
+	context gl bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle.
 ]
 
 { #category : #'session management' }

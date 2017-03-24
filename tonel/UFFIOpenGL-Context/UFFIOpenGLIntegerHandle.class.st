@@ -1,10 +1,6 @@
 Class {
 	#name : #UFFIOpenGLIntegerHandle,
-	#superclass : #Object,
-	#instVars : [
-		'handle',
-		'context'
-	],
+	#superclass : #UFFIOpenGLHandle,
 	#pools : [
 		'UFFIOpenGLConstants'
 	],
@@ -24,34 +20,6 @@ UFFIOpenGLIntegerHandle class >> finalizeResourceData: contextAndHandle [
 	]
 ]
 
-{ #category : #'instance creation' }
-UFFIOpenGLIntegerHandle class >> for: context [
-	^ self new context: context;
-		yourself
-]
-
-{ #category : #'instance creation' }
-UFFIOpenGLIntegerHandle class >> for: context handle: value [
-	^ self new context: context;
-		handle: value;
-		yourself
-]
-
-{ #category : #finalization }
-UFFIOpenGLIntegerHandle class >> primitiveFinalizeOpenGL: gl resource: handleBuffer [
-	self subclassResponsibility
-]
-
-{ #category : #accessing }
-UFFIOpenGLIntegerHandle >> context [
-	^ context
-]
-
-{ #category : #accessing }
-UFFIOpenGLIntegerHandle >> context: anObject [
-	context := anObject
-]
-
 { #category : #translating }
 UFFIOpenGLIntegerHandle >> generate [	
 	| handleBuffer |
@@ -61,22 +29,7 @@ UFFIOpenGLIntegerHandle >> generate [
 	handle ~= 0 ifTrue: [ self registerFinalization ]
 ]
 
-{ #category : #accessing }
-UFFIOpenGLIntegerHandle >> handle [
-	^ handle
-]
-
-{ #category : #accessing }
-UFFIOpenGLIntegerHandle >> handle: anObject [
-	handle := anObject
-]
-
 { #category : #translating }
 UFFIOpenGLIntegerHandle >> primitiveGenerate: outputHandle [
 	self subclassResponsibility
-]
-
-{ #category : #initialization }
-UFFIOpenGLIntegerHandle >> registerFinalization [
-	FFIExternalResourceManager addResource: self data: {context . handle}.
 ]

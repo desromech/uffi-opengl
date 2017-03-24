@@ -174,6 +174,13 @@ UFFIOpenGLContext >> offscreenBufferExtent: anExtent [
 		yourself
 ]
 
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> program [
+	^ (UFFIOpenGLProgramHandle for: self)
+		generate;
+		yourself
+]
+
 { #category : #accessing }
 UFFIOpenGLContext >> renderer [
 	^ renderer
@@ -182,6 +189,14 @@ UFFIOpenGLContext >> renderer [
 { #category : #version }
 UFFIOpenGLContext >> rendererString [
 	^ rendererString
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> shader: type [
+	^ (UFFIOpenGLShaderHandle for: self)
+		type: type;
+		generate;
+		yourself
 ]
 
 { #category : #version }

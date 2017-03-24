@@ -6,10 +6,10 @@ Class {
 
 { #category : #finalization }
 UFFIOpenGLFBOHandle class >> primitiveFinalizeOpenGL: gl resource: handleBuffer [
-	gl deleteFramebuffers_n: 1 framebuffers: handleBuffer
+	gl deleteFramebuffersEXT_n: 1 framebuffers: handleBuffer
 ]
 
 { #category : #translating }
 UFFIOpenGLFBOHandle >> primitiveGenerate: outputHandle [
-	context gl genFramebuffers_n: 1 framebuffers: outputHandle
+	context gl genFramebuffersEXT_n: 1 framebuffers: outputHandle
 ]
