@@ -1,6 +1,9 @@
 Class {
 	#name : #UFFIOpenGLProgramHandle,
 	#superclass : #UFFIOpenGLHandle,
+	#instVars : [
+		'uniformLocationMap'
+	],
 	#pools : [
 		'UFFIOpenGLConstants'
 	],
@@ -67,4 +70,39 @@ UFFIOpenGLProgramHandle >> linkStatus [
 	result := ByteArray new: 4.
 	context gl getProgramiv_program: self validHandle pname: GL_LINK_STATUS params: result.
 	^ (result unsignedLongAt: 1) = GL_TRUE
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> primitiveUniformLocation: aName [
+	| namePointer |
+	namePointer := ExternalAddress fromString: aName.
+	[ 
+		^ context gl getUniformLocation_program: self validHandle name: namePointer
+	] ensure: [ namePointer free ]
+	
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name int: value [
+	context gl uniform1i_location: (self uniformLocation: name) v0: value
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name transposedMatrix3: matrixData [
+	context gl uniformMatrix3fv_location: (self uniformLocation: name) count: 1 transpose: true value: matrixData
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name transposedMatrix4: matrixData [
+	context gl uniformMatrix4fv_location: (self uniformLocation: name) count: 1 transpose: true value: matrixData
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniformLocation: aName [
+	^ self uniformLocationMap at: aName ifAbsentPut: [ self primitiveUniformLocation: aName asString ]
+]
+
+{ #category : #accessing }
+UFFIOpenGLProgramHandle >> uniformLocationMap [
+	^ uniformLocationMap ifNil: [ uniformLocationMap := Dictionary new ]
 ]
