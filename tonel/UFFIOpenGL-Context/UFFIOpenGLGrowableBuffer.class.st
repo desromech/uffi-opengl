@@ -66,11 +66,32 @@ UFFIOpenGLGrowableBuffer >> putColor4F: aColor [
 ]
 
 { #category : #adding }
+UFFIOpenGLGrowableBuffer >> putColor4FSRGB: aColor [
+	self
+		putFloatSRGB: aColor red;
+		putFloatSRGB: aColor green;
+		putFloatSRGB: aColor blue;
+		putFloat: aColor alpha
+]
+
+{ #category : #adding }
 UFFIOpenGLGrowableBuffer >> putFloat: value [
 	self ensureCapacityFor: 4.
 	buffer floatAt: size + 1 put: value.
 	size := size + 4
 	
+]
+
+{ #category : #adding }
+UFFIOpenGLGrowableBuffer >> putFloatSRGB: aFloat [
+	| value |
+	value := (aFloat <= 0.04045 ifTrue: [
+		aFloat / 12.92
+	] ifFalse: [
+		((aFloat + 0.055) / 1.055) raisedTo: 2.4
+	]).
+
+	self putFloat: value.
 ]
 
 { #category : #adding }

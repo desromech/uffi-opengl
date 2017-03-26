@@ -1,3 +1,6 @@
+"
+I have examples for using OpenGL with an offscreen buffer.
+"
 Class {
 	#name : #UFFIOpenGLOffscreenSamples,
 	#superclass : #Object,

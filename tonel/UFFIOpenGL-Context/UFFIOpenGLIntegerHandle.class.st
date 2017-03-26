@@ -1,3 +1,6 @@
+"
+I wrap an OpenGL integer handle that is generated and deleted via glGen*s and glDelete*s functions.
+"
 Class {
 	#name : #UFFIOpenGLIntegerHandle,
 	#superclass : #UFFIOpenGLHandle,

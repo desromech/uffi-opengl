@@ -1,3 +1,6 @@
+"
+I wrap an OpenGL FBO object handle.
+"
 Class {
 	#name : #UFFIOpenGLFBOHandle,
 	#superclass : #UFFIOpenGLIntegerHandle,

@@ -1,3 +1,6 @@
+"
+I wrap an OpenGL texture object handle.
+"
 Class {
 	#name : #UFFIOpenGLTextureHandle,
 	#superclass : #UFFIOpenGLIntegerHandle,

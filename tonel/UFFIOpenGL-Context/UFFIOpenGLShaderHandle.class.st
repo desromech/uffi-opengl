@@ -1,3 +1,6 @@
+"
+I wrap a GLSL shader object.
+"
 Class {
 	#name : #UFFIOpenGLShaderHandle,
 	#superclass : #UFFIOpenGLHandle,

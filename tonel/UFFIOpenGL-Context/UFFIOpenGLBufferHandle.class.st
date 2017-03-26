@@ -1,3 +1,6 @@
+"
+I wrap an OpenGL buffer object handle.
+"
 Class {
 	#name : #UFFIOpenGLBufferHandle,
 	#superclass : #UFFIOpenGLIntegerHandle,

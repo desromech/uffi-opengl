@@ -1,3 +1,6 @@
+"
+I am used to encapsulate an integer OpenGL handle.
+"
 Class {
 	#name : #UFFIOpenGLHandle,
 	#superclass : #Object,

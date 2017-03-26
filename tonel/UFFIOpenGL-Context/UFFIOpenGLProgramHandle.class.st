@@ -1,3 +1,6 @@
+"
+I wrap a GLSL program object.
+"
 Class {
 	#name : #UFFIOpenGLProgramHandle,
 	#superclass : #UFFIOpenGLHandle,

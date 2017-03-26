@@ -1,3 +1,6 @@
+"
+I am used to bind an OpenGL context using OSWindow.
+"
 Class {
 	#name : #UFFIOpenGLContext,
 	#superclass : #Object,
@@ -12,7 +15,9 @@ Class {
 		'shadingLanguageVersionString',
 		'extensionsString',
 		'version',
-		'shadingLanguageVersion'
+		'shadingLanguageVersion',
+		'hasSRGB',
+		'hasMultisample'
 	],
 	#classVars : [
 		'GlobalContext',
@@ -52,6 +57,13 @@ UFFIOpenGLContext >> bufferObject [
 		yourself
 ]
 
+{ #category : #extensions }
+UFFIOpenGLContext >> checkImportantExtensions [
+	hasSRGB := (self hasExtension: #GL_EXT_texture_sRGB) and: [ self hasExtension: #GL_EXT_framebuffer_sRGB ].
+	hasMultisample := self hasExtension: #GL_EXT_framebuffer_multisample.
+	
+]
+
 { #category : #'session management' }
 UFFIOpenGLContext >> checkSession [
 	| glAttributes attributes |
@@ -81,7 +93,7 @@ UFFIOpenGLContext >> checkSession [
 
 	version :=  (versionString splitOn: '.') collect: #asInteger.
 	shadingLanguageVersion :=  (shadingLanguageVersionString splitOn: '.') collect: #asInteger.
-	
+	self checkImportantExtensions
 ]
 
 { #category : #version }
@@ -93,6 +105,21 @@ UFFIOpenGLContext >> extensionsString [
 UFFIOpenGLContext >> gl [
 	gl ifNil: [ gl := UFFIOpenGL new ].
 	^ gl
+]
+
+{ #category : #extensions }
+UFFIOpenGLContext >> hasExtension: extensionName [
+	^ extensionsString includesSubstring: extensionName
+]
+
+{ #category : #extensions }
+UFFIOpenGLContext >> hasMultisample [
+	^ hasMultisample
+]
+
+{ #category : #extensions }
+UFFIOpenGLContext >> hasSRGB [
+	^ hasSRGB
 ]
 
 { #category : #initialization }
@@ -168,8 +195,18 @@ UFFIOpenGLContext >> makeCurrent: aWindow [
 
 { #category : #'resource creation' }
 UFFIOpenGLContext >> offscreenBufferExtent: anExtent [
-	^ UFFIOpenGLOffscreenBuffer new
+	^ UFFIOpenGLOffscreenTextureBuffer new
 		extent: anExtent;
+		context: self
+		yourself
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> offscreenBufferExtent: anExtent sampleCount: sampleCount [
+	(sampleCount = 1 or: [hasMultisample not]) ifTrue: [ ^ self offscreenBufferExtent: anExtent ].
+	^ UFFIOpenGLOffscreenMultisampleBuffer new
+		extent: anExtent;
+		sampleCount: sampleCount;
 		context: self
 		yourself
 ]

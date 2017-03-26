@@ -1,3 +1,6 @@
+"
+I represent a framebuffer object.
+"
 Class {
 	#name : #UFFIOpenGLOffscreenBuffer,
 	#superclass : #Object,
@@ -6,9 +9,9 @@ Class {
 		'extent',
 		'form',
 		'framebufferObject',
-		'colorTexture',
-		'depthTexture',
-		'session'
+		'session',
+		'hasDepthBuffer',
+		'hasStencilBuffer'
 	],
 	#pools : [
 		'UFFIOpenGLConstants'
@@ -19,32 +22,27 @@ Class {
 { #category : #activation }
 UFFIOpenGLOffscreenBuffer >> activate [
 	self checkSession.
-	context gl bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle
+	context gl
+		bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle.
+	context hasSRGB ifTrue: [ context gl enable: GL_FRAMEBUFFER_SRGB_EXT ].
+		
+]
+
+{ #category : #activation }
+UFFIOpenGLOffscreenBuffer >> activateDrawBuffer [
+	self checkSession.
+	context gl bindFramebufferEXT_target: GL_DRAW_FRAMEBUFFER_EXT framebuffer: framebufferObject handle
+]
+
+{ #category : #activation }
+UFFIOpenGLOffscreenBuffer >> activateReadBuffer [
+	self checkSession.
+	context gl bindFramebufferEXT_target: GL_READ_FRAMEBUFFER_EXT framebuffer: framebufferObject handle
 ]
 
 { #category : #converting }
 UFFIOpenGLOffscreenBuffer >> asForm [
-	self checkSession.
-	(form isNil or: [ form extent ~= extent ]) ifTrue: [
-		form := Form extent: extent depth: 32.
-		self resizeAttachments.
-	].
-
-	form unhibernate.
-	context asCurrentDo: [
-		self activate.
-		context gl
-			bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: 0;
-			bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
-			pixelStorei_pname: GL_PACK_ALIGNMENT param: 1;
-			pixelStorei_pname: GL_PACK_ROW_LENGTH param: extent x;
-			pixelStorei_pname: GL_PACK_IMAGE_HEIGHT param: extent y;
-			pixelStorei_pname: GL_PACK_SKIP_PIXELS param: 0;
-			pixelStorei_pname: GL_PACK_SKIP_ROWS param: 0;
-			pixelStorei_pname: GL_PACK_SKIP_IMAGES param: 0;
-			getTexImage_target: GL_TEXTURE_2D level: 0 format: GL_BGRA type: GL_UNSIGNED_BYTE pixels: form bits
-	] ifFailure: [ self error: 'Failed to read pixels into the form' ].
-	^ form
+	self subclassResponsibility
 ]
 
 { #category : #'session management' }
@@ -53,11 +51,6 @@ UFFIOpenGLOffscreenBuffer >> checkSession [
 		self createSessionResources.
 		session := Smalltalk session.
 	]
-]
-
-{ #category : #accessing }
-UFFIOpenGLOffscreenBuffer >> colorTexture [
-	^ colorTexture
 ]
 
 { #category : #accessing }
@@ -72,13 +65,14 @@ UFFIOpenGLOffscreenBuffer >> context: anObject [
 
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> createColorBuffer [
-	colorTexture := (UFFIOpenGLTextureHandle for: context) generate.
-	context gl
-		bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
-		texImage2D_target: GL_TEXTURE_2D level: 0 internalformat: GL_RGBA
-			width: extent x height: extent y border: 0 format: GL_RGBA type: GL_UNSIGNED_BYTE pixels: nil;
-		framebufferTexture2DEXT_target: GL_FRAMEBUFFER_EXT attachment: GL_COLOR_ATTACHMENT0_EXT textarget: GL_TEXTURE_2D texture: colorTexture handle level: 0.
+	self subclassResponsibility
+]
 
+{ #category : #'as yet unclassified' }
+UFFIOpenGLOffscreenBuffer >> createDepthStencilBuffer [
+	(hasDepthBuffer not and: [ hasStencilBuffer not ]) ifTrue: [ ^ self ].
+	
+	self flag: 'TODO: Create the depth stencil buffer.'
 ]
 
 { #category : #'session management' }
@@ -92,14 +86,10 @@ UFFIOpenGLOffscreenBuffer >> createSessionResources [
 	context asCurrentDo: [
 		self
 			createFramebufferObject;
-			createColorBuffer.
+			createColorBuffer;
+			createDepthStencilBuffer
 		
 	] ifFailure: [ self error: 'Failed to set the OpenGL context.' ]
-]
-
-{ #category : #accessing }
-UFFIOpenGLOffscreenBuffer >> depthTexture [
-	^ depthTexture
 ]
 
 { #category : #accessing }
@@ -130,7 +120,13 @@ UFFIOpenGLOffscreenBuffer >> height [
 { #category : #initialization }
 UFFIOpenGLOffscreenBuffer >> initialize [
 	super initialize.
-	
+	hasDepthBuffer := false.
+	hasStencilBuffer := false.
+]
+
+{ #category : #'as yet unclassified' }
+UFFIOpenGLOffscreenBuffer >> internalColorFormat [
+	^ context hasSRGB ifTrue: [ GL_SRGB8_ALPHA8_EXT ] ifFalse: [ GL_RGBA8 ]
 ]
 
 { #category : #'session management' }
