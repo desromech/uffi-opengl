@@ -83,6 +83,26 @@ UFFIOpenGLProgramHandle >> primitiveUniformLocation: aName [
 ]
 
 { #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name float: value [
+	context gl uniform1f_location: (self uniformLocation: name) v0: value
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name float: value float: value2 [
+	context gl uniform2f_location: (self uniformLocation: name) v0: value v1: value2
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name float: value float: value2 float: value3 [
+	context gl uniform3f_location: (self uniformLocation: name) v0: value v1: value2 v2: value3
+]
+
+{ #category : #uniforms }
+UFFIOpenGLProgramHandle >> uniform: name float: value float: value2 float: value3 float: value4 [
+	context gl uniform4f_location: (self uniformLocation: name) v0: value v1: value2 v2: value3 v3: value4
+]
+
+{ #category : #uniforms }
 UFFIOpenGLProgramHandle >> uniform: name int: value [
 	context gl uniform1i_location: (self uniformLocation: name) v0: value
 ]
