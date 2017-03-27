@@ -49,15 +49,21 @@ UFFIOpenGLOffscreenMultisampleBuffer >> colorBuffer [
 { #category : #'session management' }
 UFFIOpenGLOffscreenMultisampleBuffer >> createColorBuffer [
 	colorBuffer := (UFFIOpenGLRenderbufferHandle for: context) generate.
+	self resizeColorBuffer.
 	context gl
-		bindRenderbufferEXT_target: GL_RENDERBUFFER_EXT renderbuffer: colorBuffer validHandle;
-		renderbufferStorageMultisampleEXT_target: GL_RENDERBUFFER_EXT samples: sampleCount internalformat: self internalColorFormat width: extent x asInteger height: extent y asInteger;
 		framebufferRenderbufferEXT_target: GL_FRAMEBUFFER attachment: GL_COLOR_ATTACHMENT0 renderbuffertarget: GL_RENDERBUFFER renderbuffer: colorBuffer validHandle
 ]
 
 { #category : #accessing }
 UFFIOpenGLOffscreenMultisampleBuffer >> depthBuffer [
 	^ depthBuffer
+]
+
+{ #category : #'session management' }
+UFFIOpenGLOffscreenMultisampleBuffer >> resizeColorBuffer [
+	context gl
+		bindRenderbufferEXT_target: GL_RENDERBUFFER_EXT renderbuffer: colorBuffer validHandle;
+		renderbufferStorageMultisampleEXT_target: GL_RENDERBUFFER_EXT samples: sampleCount internalformat: self internalColorFormat width: extent x asInteger height: extent y asInteger
 ]
 
 { #category : #accessing }

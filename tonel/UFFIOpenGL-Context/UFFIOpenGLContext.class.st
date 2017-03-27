@@ -20,6 +20,7 @@ Class {
 		'hasMultisample'
 	],
 	#classVars : [
+		'ErrorDictionary',
 		'GlobalContext',
 		'Session'
 	],
@@ -29,6 +30,11 @@ Class {
 	#category : #'UFFIOpenGL-Context'
 }
 
+{ #category : #settings }
+UFFIOpenGLContext class >> glAttributes [
+	^ OSWindowGLAttributes new.
+]
+
 { #category : #accessing }
 UFFIOpenGLContext class >> globalContext [
 	(Session ~~ Smalltalk session or: [ GlobalContext isNil ]) ifTrue: [
@@ -36,6 +42,19 @@ UFFIOpenGLContext class >> globalContext [
 		Session := Smalltalk session.
 	].
 	^ GlobalContext
+]
+
+{ #category : #initialization }
+UFFIOpenGLContext class >> initialize [
+	super initialize.
+	
+	ErrorDictionary := Dictionary newFromPairs: {
+		GL_INVALID_OPERATION . #GL_INVALID_OPERATION .
+		GL_INVALID_ENUM . #GL_INVALID_ENUM .
+		GL_INVALID_VALUE . #GL_INVALID_VALUE .
+		GL_OUT_OF_MEMORY . #GL_OUT_OF_MEMORY .
+		GL_INVALID_FRAMEBUFFER_OPERATION . #GL_INVALID_FRAMEBUFFER_OPERATION .
+	}
 ]
 
 { #category : #'context activation' }
@@ -57,6 +76,14 @@ UFFIOpenGLContext >> bufferObject [
 		yourself
 ]
 
+{ #category : #'as yet unclassified' }
+UFFIOpenGLContext >> checkErrors [
+	| error |
+	[(error := self gl getError) ~= GL_NO_ERROR] whileTrue: [
+		self printError: error
+	]
+]
+
 { #category : #extensions }
 UFFIOpenGLContext >> checkImportantExtensions [
 	hasSRGB := (self hasExtension: #GL_EXT_texture_sRGB) and: [ self hasExtension: #GL_EXT_framebuffer_sRGB ].
@@ -68,7 +95,7 @@ UFFIOpenGLContext >> checkImportantExtensions [
 UFFIOpenGLContext >> checkSession [
 	| glAttributes attributes |
 	session == Smalltalk session ifTrue: [ ^ self ].
-	glAttributes := OSWindowGLAttributes new.
+	glAttributes := self class glAttributes.
 	attributes := OSWindowAttributes new
 		visible: false;
 		extent: 1@1;
@@ -94,6 +121,12 @@ UFFIOpenGLContext >> checkSession [
 	version :=  (versionString splitOn: '.') collect: #asInteger.
 	shadingLanguageVersion :=  (shadingLanguageVersionString splitOn: '.') collect: #asInteger.
 	self checkImportantExtensions
+]
+
+{ #category : #initialization }
+UFFIOpenGLContext >> destroy [
+	window ifNotNil: [window destroy].
+	window := nil
 ]
 
 { #category : #version }
@@ -209,6 +242,14 @@ UFFIOpenGLContext >> offscreenBufferExtent: anExtent sampleCount: sampleCount [
 		sampleCount: sampleCount;
 		context: self
 		yourself
+]
+
+{ #category : #printing }
+UFFIOpenGLContext >> printError: errorID [
+	| errorMessage |
+	errorMessage := ErrorDictionary at: errorID ifAbsent: [ errorID asString ].
+	Transcript show: 'OpenGL error: '; show: errorMessage; cr.
+	FileStream stderr nextPutAll: 'OpenGL error: '; nextPutAll: errorMessage; lf
 ]
 
 { #category : #'resource creation' }

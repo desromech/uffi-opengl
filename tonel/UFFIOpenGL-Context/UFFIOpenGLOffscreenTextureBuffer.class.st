@@ -25,7 +25,6 @@ UFFIOpenGLOffscreenTextureBuffer >> asForm [
 	self checkSession.
 	(form isNil or: [ form extent ~= extent ]) ifTrue: [
 		form := Form extent: extent depth: 32.
-		self resizeAttachments.
 	].
 
 	form unhibernate.
@@ -53,10 +52,8 @@ UFFIOpenGLOffscreenTextureBuffer >> colorTexture [
 { #category : #'session management' }
 UFFIOpenGLOffscreenTextureBuffer >> createColorBuffer [
 	colorTexture := (UFFIOpenGLTextureHandle for: context) generate.
+	self resizeColorBuffer.
 	context gl
-		bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
-		texImage2D_target: GL_TEXTURE_2D level: 0 internalformat: self internalColorFormat
-			width: extent x height: extent y border: 0 format: GL_RGBA type: GL_UNSIGNED_BYTE pixels: nil;
 		framebufferTexture2DEXT_target: GL_FRAMEBUFFER_EXT attachment: GL_COLOR_ATTACHMENT0_EXT textarget: GL_TEXTURE_2D texture: colorTexture handle level: 0.
 
 ]
@@ -64,4 +61,13 @@ UFFIOpenGLOffscreenTextureBuffer >> createColorBuffer [
 { #category : #accessing }
 UFFIOpenGLOffscreenTextureBuffer >> depthTexture [
 	^ depthTexture
+]
+
+{ #category : #'session management' }
+UFFIOpenGLOffscreenTextureBuffer >> resizeColorBuffer [
+	context gl
+		bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
+		texImage2D_target: GL_TEXTURE_2D level: 0 internalformat: self internalColorFormat
+			width: extent x height: extent y border: 0 format: GL_RGBA type: GL_UNSIGNED_BYTE pixels: nil
+
 ]

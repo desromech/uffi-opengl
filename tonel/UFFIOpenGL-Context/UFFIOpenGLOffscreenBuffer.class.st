@@ -11,7 +11,8 @@ Class {
 		'framebufferObject',
 		'session',
 		'hasDepthBuffer',
-		'hasStencilBuffer'
+		'hasStencilBuffer',
+		'extentChanged'
 	],
 	#pools : [
 		'UFFIOpenGLConstants'
@@ -45,12 +46,23 @@ UFFIOpenGLOffscreenBuffer >> asForm [
 	self subclassResponsibility
 ]
 
+{ #category : #'as yet unclassified' }
+UFFIOpenGLOffscreenBuffer >> blitToMainFramebuffer [
+	self activateReadBuffer.
+	context gl
+		bindFramebufferEXT_target: GL_DRAW_FRAMEBUFFER_EXT framebuffer: 0;
+		blitFramebufferEXT_srcX0: 0 srcY0: 0 srcX1: extent x srcY1: extent y
+			dstX0: 0 dstY0: 0 dstX1: extent x dstY1: extent y mask: GL_COLOR_BUFFER_BIT filter: GL_NEAREST
+]
+
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> checkSession [
 	(session ~~ Smalltalk session) ifTrue: [
 		self createSessionResources.
 		session := Smalltalk session.
-	]
+	].
+
+	self resizeAttachments
 ]
 
 { #category : #accessing }
@@ -68,11 +80,12 @@ UFFIOpenGLOffscreenBuffer >> createColorBuffer [
 	self subclassResponsibility
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> createDepthStencilBuffer [
 	(hasDepthBuffer not and: [ hasStencilBuffer not ]) ifTrue: [ ^ self ].
 	
-	self flag: 'TODO: Create the depth stencil buffer.'
+	self flag: 'TODO: Create the depth stencil buffer.'.
+	self resizeDepthStencilBuffer
 ]
 
 { #category : #'session management' }
@@ -87,8 +100,9 @@ UFFIOpenGLOffscreenBuffer >> createSessionResources [
 		self
 			createFramebufferObject;
 			createColorBuffer;
-			createDepthStencilBuffer
-		
+			createDepthStencilBuffer.
+			
+		extentChanged := false
 	] ifFailure: [ self error: 'Failed to set the OpenGL context.' ]
 ]
 
@@ -98,8 +112,9 @@ UFFIOpenGLOffscreenBuffer >> extent [
 ]
 
 { #category : #accessing }
-UFFIOpenGLOffscreenBuffer >> extent: anObject [
-	extent := anObject
+UFFIOpenGLOffscreenBuffer >> extent: newExtent [
+	extentChanged := extent ~= newExtent.
+	extent := newExtent
 ]
 
 { #category : #accessing }
@@ -120,6 +135,7 @@ UFFIOpenGLOffscreenBuffer >> height [
 { #category : #initialization }
 UFFIOpenGLOffscreenBuffer >> initialize [
 	super initialize.
+	extentChanged := true.
 	hasDepthBuffer := false.
 	hasStencilBuffer := false.
 ]
@@ -131,6 +147,24 @@ UFFIOpenGLOffscreenBuffer >> internalColorFormat [
 
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> resizeAttachments [
+	extentChanged ifFalse: [ ^ self ].
+	
+	context asCurrentDo: [
+		self
+			resizeColorBuffer;
+			resizeDepthStencilBuffer.
+			
+		extentChanged := false
+	] ifFailure: [ self error: 'Failed to resize the framebuffer attachments.' ]
+]
+
+{ #category : #'session management' }
+UFFIOpenGLOffscreenBuffer >> resizeColorBuffer [
+	self subclassResponsibility
+]
+
+{ #category : #'session management' }
+UFFIOpenGLOffscreenBuffer >> resizeDepthStencilBuffer [
 ]
 
 { #category : #accessing }
