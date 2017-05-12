@@ -214,7 +214,7 @@ ConfigurationOfUFFIOpenGL >> project [
 ConfigurationOfUFFIOpenGL >> stable: spec [
 	<symbolicVersion: #'stable'>
 
-	spec for: #'common' version: '1.4'.
+	spec for: #'common' version: '1.5'.
 
 ]
 
@@ -306,6 +306,26 @@ ConfigurationOfUFFIOpenGL >> version14: spec [
 		spec 
 			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.4';
 			package: #'UFFIOpenGL-Context' with: 'UFFIOpenGL-Context-RonieSalgado.2';
+			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.4';
+			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.4';
+			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.4';
+			package: #'UFFIOpenGL-Generator' with: 'UFFIOpenGL-Generator-RonieSalgado.4'. ].
+
+]
+
+{ #category : #versions }
+ConfigurationOfUFFIOpenGL >> version15: spec [
+	<version: '1.5' imports: #('0.3-baseline' )>
+
+	spec for: #'common' do: [
+		spec blessing: #'stable'.
+		spec description: 'version 1.5'.
+		spec author: 'RonieSalgado'.
+		spec timestamp: '5/12/2017 11:45'.
+		spec project: 'OSWindows' with: '2.2'.
+		spec 
+			package: #'UFFIOpenGL-Core' with: 'UFFIOpenGL-Core-RonieSalgado.4';
+			package: #'UFFIOpenGL-Context' with: 'UFFIOpenGL-Context-RonieSalgado.11';
 			package: #'UFFIOpenGL-EGL' with: 'UFFIOpenGL-EGL-RonieSalgado.4';
 			package: #'UFFIOpenGL-Windows' with: 'UFFIOpenGL-Windows-RonieSalgado.4';
 			package: #'UFFIOpenGL-X11' with: 'UFFIOpenGL-X11-RonieSalgado.4';
