@@ -17,7 +17,7 @@ BaselineOfUFFIOpenGL >> baseline: spec [
 			package: #'UFFIOpenGL-EGL' with: [
 				spec requires: #(#'UFFIOpenGL-Core' ). ];
 			package: #'UFFIOpenGL-Windows' with: [
-				spec requires: #(#'UFFIOpenGL-Core' 'OSWindows' ). ];
+				spec requires: #(#'UFFIOpenGL-Core' ). ];
 			package: #'UFFIOpenGL-X11' with: [
 				spec requires: #(#'UFFIOpenGL-Core' ). ];
 			package: #'UFFIOpenGL-Generator' with: [
