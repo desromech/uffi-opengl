@@ -6,6 +6,7 @@ Class {
 
 { #category : #baselines }
 BaselineOfUFFIOpenGL >> baseline: spec [
+	<baseline>
 	spec for: #'common' do: [
 		spec blessing: #'baseline'.
 		spec repository: 'http://smalltalkhub.com/mc/ronsaldo/UFFIOpenGL/main/'.
