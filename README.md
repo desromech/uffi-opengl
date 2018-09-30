@@ -7,7 +7,7 @@
 
 ```smalltalk
 Metacello new
-	baseline: 'GitMigration';
+	baseline: 'UFFIOpenGL';
 	repository: 'github://ronsaldo/uffi-opengl/tonel';
 	load
 ```
