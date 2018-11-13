@@ -65,7 +65,7 @@ UFFIOpenGLHandle >> handle: anObject [
 
 { #category : #accessing }
 UFFIOpenGLHandle >> hasValidHandle [
-	^ handle ~= 0
+	^ handle ~= 0 and: [ handle isNotNil ]
 ]
 
 { #category : #initialization }
