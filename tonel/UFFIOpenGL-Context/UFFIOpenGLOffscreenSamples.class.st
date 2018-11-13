@@ -45,9 +45,9 @@ UFFIOpenGLOffscreenSamples >> blueBackground [
 { #category : #shaders }
 UFFIOpenGLOffscreenSamples >> colorFragmentShader [
 	^ '
-#version 130
+#version 120
 
-in vec4 fColor;
+varying vec4 fColor;
 
 void main()
 { 
@@ -65,11 +65,11 @@ UFFIOpenGLOffscreenSamples >> colorProgramFor: context [
 { #category : #shaders }
 UFFIOpenGLOffscreenSamples >> colorVertexShader [
 	^ '
-#version 130
-in vec3 vPosition;
-in vec4 vColor;
+#version 120
+attribute vec3 vPosition;
+attribute vec4 vColor;
 
-out vec4 fColor;
+varying vec4 fColor;
 
 void main()
 { 
