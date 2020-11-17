@@ -21,6 +21,11 @@ UFFIOpenGLSpec >> addEnum: anEnum [
 	enums add: anEnum
 ]
 
+{ #category : #adding }
+UFFIOpenGLSpec >> addType: aType [
+	types add: aType
+]
+
 { #category : #accessing }
 UFFIOpenGLSpec >> commands [
 	^ commands

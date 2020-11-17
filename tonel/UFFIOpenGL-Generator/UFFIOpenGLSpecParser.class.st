@@ -104,7 +104,7 @@ UFFIOpenGLSpecParser >> parseSpecFromDomParser: aDomParser prefix: anApiPrefix [
 	self assert: rootNode name = 'registry'.
 	rootNode elementsDo: [ :child |
 		childType := child name.
-		childType = 'type' ifTrue: [ self parseTypes: child ].
+		childType = 'types' ifTrue: [ self parseTypes: child ].
 		childType = 'enums' ifTrue: [ self parseEnums: child ].
 		childType = 'commands' ifTrue: [ self parseCommands: child ].
 		childType = 'feature' ifTrue: [ self parseFeature: child ].
@@ -147,4 +147,26 @@ UFFIOpenGLSpecParser >> parseTypeNamePair: element [
 
 { #category : #parsing }
 UFFIOpenGLSpecParser >> parseTypes: typesElement [
+	| type nameElement name api requires group text |
+	
+	typesElement elementsDo: [ :typeElement |
+		nameElement := typeElement findElementNamed: 'name'.
+		nameElement ifNil: [ name := typeElement attributeAt: 'name' ]
+			       ifNotNil: [ name := nameElement contentString ].
+
+		api := typeElement attributeAt: 'api'.
+		requires := typeElement attributeAt: 'requires'.
+		group := typeElement attributeAt: 'type'.
+		text := typeElement contentString.
+		
+		type := UFFIOpenGLSpecType new
+			name: name;				
+			api: api;
+			requires: requires;
+			group: group;
+			text: text;
+			yourself.
+		spec addType: type
+	].
+
 ]
