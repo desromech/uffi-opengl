@@ -1,3 +1,10 @@
+"
+I am the representation of GL specification.
+
+Only the commands are currently used to generate bindings.
+
+Needs usage example.
+"
 Class {
 	#name : #UFFIOpenGLSpec,
 	#superclass : #Object,

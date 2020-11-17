@@ -1,3 +1,15 @@
+"
+I generate an UFFIOpenGLSpec object from an XML specification file from Khronos.
+
+Specification files can be found at: https://github.com/KhronosGroup/OpenGL-Registry/tree/master/xml
+
+Currently, only types, enums and commands are parsed.
+
+Usage:
+UFFIOpenGLSpecParser new parseSpecFromFileNamed: 'gl.xml' prefix: 'gl'
+UFFIOpenGLSpecParser new parseSpecFromURL: 'https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/master/xml/wgl.xml'  prefix: 'wgl'
+
+"
 Class {
 	#name : #UFFIOpenGLSpecParser,
 	#superclass : #Object,
