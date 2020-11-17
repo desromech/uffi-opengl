@@ -3,7 +3,6 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'types',
-		'groups',
 		'enums',
 		'commands',
 		'features'
@@ -60,17 +59,11 @@ UFFIOpenGLSpec >> generateBindingsAt: bindingsClass constantsAt: constantsClass 
 	
 ]
 
-{ #category : #accessing }
-UFFIOpenGLSpec >> groups [
-	^ groups
-]
-
 { #category : #initialization }
 UFFIOpenGLSpec >> initialize [
 	super initialize.
 	
 	types := OrderedCollection new.
-	groups := OrderedCollection new.
 	enums := OrderedCollection new.
 	commands := OrderedCollection new.
 	features := OrderedCollection new.

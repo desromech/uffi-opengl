@@ -96,21 +96,15 @@ UFFIOpenGLSpecParser >> parseFeature: featuresElement [
 ]
 
 { #category : #parsing }
-UFFIOpenGLSpecParser >> parseGroups: typesElement [
-]
-
-{ #category : #parsing }
-UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
-	| xmlSpec rootNode childType |
-	xmlSpec := XMLDOMParser parseFileNamed: aFileName.
+UFFIOpenGLSpecParser >> parseSpecFromDomParser: aDomParser prefix: anApiPrefix [
+	| rootNode childType |
 	spec := UFFIOpenGLSpec new.
-	rootNode := xmlSpec root.
+	rootNode := aDomParser root.
 	prefix := anApiPrefix.
 	self assert: rootNode name = 'registry'.
 	rootNode elementsDo: [ :child |
 		childType := child name.
 		childType = 'type' ifTrue: [ self parseTypes: child ].
-		childType = 'groups' ifTrue: [ self parseGroups: child ].
 		childType = 'enums' ifTrue: [ self parseEnums: child ].
 		childType = 'commands' ifTrue: [ self parseCommands: child ].
 		childType = 'feature' ifTrue: [ self parseFeature: child ].
@@ -118,6 +112,22 @@ UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
 	].
 
 	^ spec
+]
+
+{ #category : #parsing }
+UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
+	| xmlSpec |
+	xmlSpec := XMLDOMParser parseFileNamed: aFileName.
+	^ self parseSpecFromDomParser: xmlSpec prefix: anApiPrefix
+
+]
+
+{ #category : #parsing }
+UFFIOpenGLSpecParser >> parseSpecFromURL: anURL prefix: anApiPrefix [
+	| xmlSpec |
+	xmlSpec := XMLDOMParser parseURL: anURL.
+	^ self parseSpecFromDomParser: xmlSpec prefix: anApiPrefix
+
 ]
 
 { #category : #parsing }
