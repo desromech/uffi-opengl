@@ -11,5 +11,5 @@ UFFIOpenGLFunctionResolutionStrategy >> isApplicableFor: aRequestor [
 
 { #category : #'as yet unclassified' }
 UFFIOpenGLFunctionResolutionStrategy >> resolve: anExternalFunction [
-	anExternalFunction setHandle: (SDL2 glGetProcAddress: anExternalFunction name) getHandle.
+	anExternalFunction setHandle: (SDL2 glGetProcAddress: anExternalFunction name asString) getHandle.
 ]

@@ -11,7 +11,7 @@ Class {
 }
 
 { #category : #buffers }
-UFFIOpenGLOffscreenSamples >> activateDefaultVertexLayoutOn: context [
+UFFIOpenGLOffscreenSamples class >> activateDefaultVertexLayoutOn: context [
 	| vertexSize |
 	vertexSize := ("position" 3 + "color" 4)*4.
 	
@@ -23,12 +23,10 @@ UFFIOpenGLOffscreenSamples >> activateDefaultVertexLayoutOn: context [
 ]
 
 { #category : #samples }
-UFFIOpenGLOffscreenSamples >> blueBackground [
-	"
-	self new blueBackground
-	"
+UFFIOpenGLOffscreenSamples class >> blueBackground [
+	<example>
 	| context gl fb |
-	context := UFFIOpenGLContext new.
+	context := self makeContext.
 	gl := context gl.
 	fb := context offscreenBufferExtent: 640@480.
 
@@ -43,7 +41,7 @@ UFFIOpenGLOffscreenSamples >> blueBackground [
 ]
 
 { #category : #shaders }
-UFFIOpenGLOffscreenSamples >> colorFragmentShader [
+UFFIOpenGLOffscreenSamples class >> colorFragmentShader [
 	^ '
 #version 120
 
@@ -58,12 +56,12 @@ void main()
 ]
 
 { #category : #shaders }
-UFFIOpenGLOffscreenSamples >> colorProgramFor: context [
+UFFIOpenGLOffscreenSamples class >> colorProgramFor: context [
 	^ self programFor: context vertex: self colorVertexShader fragment: self colorFragmentShader
 ]
 
 { #category : #shaders }
-UFFIOpenGLOffscreenSamples >> colorVertexShader [
+UFFIOpenGLOffscreenSamples class >> colorVertexShader [
 	^ '
 #version 120
 attribute vec3 vPosition;
@@ -73,7 +71,7 @@ varying vec4 fColor;
 
 void main()
 { 
-	fColor = vColor; //vec4(vPosition*0.5 + 0.5, 1.0);
+	fColor = vColor;
 	gl_Position = vec4(vPosition, 1.0);
 }
 
@@ -81,7 +79,7 @@ void main()
 ]
 
 { #category : #shaders }
-UFFIOpenGLOffscreenSamples >> context: context compileShader: shaderSource type: shaderType [
+UFFIOpenGLOffscreenSamples class >> context: context compileShader: shaderSource type: shaderType [
 	| shader |
 	shader := UFFIOpenGLShaderHandle for: context.
 	shader type: shaderType;
@@ -95,7 +93,7 @@ UFFIOpenGLOffscreenSamples >> context: context compileShader: shaderSource type:
 ]
 
 { #category : #buffers }
-UFFIOpenGLOffscreenSamples >> immutableVertexBufferFor: context withPackedFloats: arrayOfVertices [
+UFFIOpenGLOffscreenSamples class >> immutableVertexBufferFor: context withPackedFloats: arrayOfVertices [
 	| elementSize elementCount bufferSize data dataPosition buffer |
 	elementSize := arrayOfVertices first size * 4.
 	elementCount := arrayOfVertices size.
@@ -114,8 +112,13 @@ UFFIOpenGLOffscreenSamples >> immutableVertexBufferFor: context withPackedFloats
 	^ buffer
 ]
 
+{ #category : #samples }
+UFFIOpenGLOffscreenSamples class >> makeContext [
+	^ UFFIOpenGLContext new
+]
+
 { #category : #shaders }
-UFFIOpenGLOffscreenSamples >> programFor: context vertex: vertexSource fragment: fragmentSource [
+UFFIOpenGLOffscreenSamples class >> programFor: context vertex: vertexSource fragment: fragmentSource [
 	^ self programFor: context vertex: vertexSource fragment: fragmentSource vertexBindings: {
 		#vPosition -> 0.
 		#vColor -> 1.
@@ -123,7 +126,7 @@ UFFIOpenGLOffscreenSamples >> programFor: context vertex: vertexSource fragment:
 ]
 
 { #category : #shaders }
-UFFIOpenGLOffscreenSamples >> programFor: context vertex: vertexSource fragment: fragmentSource vertexBindings: vertexBindings [
+UFFIOpenGLOffscreenSamples class >> programFor: context vertex: vertexSource fragment: fragmentSource vertexBindings: vertexBindings [
 	| vertexShader fragmentShader program |
 	context asCurrentDo: [
 		vertexShader := self context: context compileShader: vertexSource type: GL_VERTEX_SHADER.
@@ -149,12 +152,10 @@ UFFIOpenGLOffscreenSamples >> programFor: context vertex: vertexSource fragment:
 ]
 
 { #category : #samples }
-UFFIOpenGLOffscreenSamples >> quad [
-	"
-	self new quad
-	"
+UFFIOpenGLOffscreenSamples class >> quad [
+	<example>
 	| context gl fb colorProgram vertexBuffer |
-	context := UFFIOpenGLContext new.
+	context := self makeContext.
 	colorProgram := self colorProgramFor: context.
 	vertexBuffer := self immutableVertexBufferFor: context withPackedFloats: {
 		"   x      y     z     r     g     b     a "
@@ -187,12 +188,10 @@ UFFIOpenGLOffscreenSamples >> quad [
 ]
 
 { #category : #samples }
-UFFIOpenGLOffscreenSamples >> triangle [
-	"
-	self new triangle
-	"
+UFFIOpenGLOffscreenSamples class >> triangle [
+	<example>
 	| context gl fb colorProgram vertexBuffer |
-	context := UFFIOpenGLContext new.
+	context := self makeContext.
 	colorProgram := self colorProgramFor: context.
 	vertexBuffer := self immutableVertexBufferFor: context withPackedFloats: {
 		"   x      y     z     r     g     b     a "
@@ -221,4 +220,8 @@ UFFIOpenGLOffscreenSamples >> triangle [
 	].
 
 	fb asForm asMorph openInWindow.
+]
+
+{ #category : #'see class side' }
+UFFIOpenGLOffscreenSamples >> seeClassSide [
 ]
