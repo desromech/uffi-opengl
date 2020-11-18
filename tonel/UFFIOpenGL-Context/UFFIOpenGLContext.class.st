@@ -13,35 +13,39 @@ Class {
 		'vendorString',
 		'rendererString',
 		'shadingLanguageVersionString',
-		'extensionsString',
 		'version',
 		'shadingLanguageVersion',
 		'hasSRGB',
-		'hasMultisample'
+		'hasMultisample',
+		'extensions',
+		'glAttributes',
+		'textureFromFormDictionary'
 	],
 	#classVars : [
-		'ErrorDictionary',
-		'GlobalContext',
-		'Session'
+		'ErrorDictionary'
 	],
 	#pools : [
 		'UFFIOpenGLConstants'
+	],
+	#classInstVars : [
+		'globalContextSession',
+		'globalContext'
 	],
 	#category : #'UFFIOpenGL-Context'
 }
 
 { #category : #settings }
-UFFIOpenGLContext class >> glAttributes [
+UFFIOpenGLContext class >> defaultGLAttributes [
 	^ OSWindowGLAttributes new.
 ]
 
 { #category : #accessing }
 UFFIOpenGLContext class >> globalContext [
-	(Session ~~ Smalltalk session or: [ GlobalContext isNil ]) ifTrue: [
-		GlobalContext := self new.
-		Session := Smalltalk session.
+	(globalContextSession ~~ Smalltalk session or: [ globalContextSession isNil ]) ifTrue: [
+		globalContext := self new.
+		globalContextSession := Smalltalk session.
 	].
-	^ GlobalContext
+	^ globalContext
 ]
 
 { #category : #initialization }
@@ -55,6 +59,11 @@ UFFIOpenGLContext class >> initialize [
 		GL_OUT_OF_MEMORY . #GL_OUT_OF_MEMORY .
 		GL_INVALID_FRAMEBUFFER_OPERATION . #GL_INVALID_FRAMEBUFFER_OPERATION .
 	}
+]
+
+{ #category : #'instance creation' }
+UFFIOpenGLContext class >> newWithAttributes: attributes [
+	^ self basicNew initializeWithAttributes: attributes
 ]
 
 { #category : #'context activation' }
@@ -86,25 +95,29 @@ UFFIOpenGLContext >> checkErrors [
 
 { #category : #extensions }
 UFFIOpenGLContext >> checkImportantExtensions [
-	hasSRGB := (self hasExtension: #GL_EXT_texture_sRGB) and: [ self hasExtension: #GL_EXT_framebuffer_sRGB ].
-	hasMultisample := self hasExtension: #GL_EXT_framebuffer_multisample.
-	
+	self isDesktopVersion ifTrue: [ 
+		hasSRGB := (self hasExtension: #GL_EXT_texture_sRGB) and: [ self hasExtension: #GL_EXT_framebuffer_sRGB ].
+		hasMultisample := self hasExtension: #GL_EXT_framebuffer_multisample.
+	] ifFalse: [
+		hasSRGB := self hasExtension: #GL_EXT_sRGB.
+		hasMultisample := self hasExtension: #GL_EXT_multisample_compatibility.
+	].
+
 ]
 
 { #category : #'session management' }
 UFFIOpenGLContext >> checkSession [
-	| glAttributes attributes |
+	| osWindowAttributes extensionsString |
 	session == Smalltalk session ifTrue: [ ^ self ].
-	glAttributes := self class glAttributes.
-	attributes := OSWindowAttributes new
+	osWindowAttributes := OSWindowAttributes new
 		visible: false;
 		extent: 1@1;
-		glAttributes: glAttributes
+		glAttributes: self glAttributes;
 		yourself.
 
-	window := OSWindow createWithAttributes: attributes.
+	window := OSWindow createWithAttributes: osWindowAttributes.
 	renderer := window newOpenGLRenderer.
-	(Smalltalk platformName beginsWith: 'Mac') ifTrue: [
+	Smalltalk os isMacOSX ifTrue: [
 		window show; hide
 	].
 
@@ -112,15 +125,40 @@ UFFIOpenGLContext >> checkSession [
 	
 	self asCurrentDo: [
 		versionString := (self gl getString: GL_VERSION) readString.
-		vendorString := (self gl getString:  GL_VENDOR) readString.
-		rendererString := (self gl getString:  GL_RENDERER) readString.
+		self assert: versionString isNotNil.
+		version :=  (versionString splitOn: '.') collect: #asInteger.
+
+		vendorString := (self gl getString: GL_VENDOR) readString.
+		self assert: vendorString isNotNil.
+
+		rendererString := (self gl getString: GL_RENDERER) readString.
+		self assert: rendererString isNotNil.
+
 		shadingLanguageVersionString := (self gl getString: GL_SHADING_LANGUAGE_VERSION) readString.
-		extensionsString := (self gl getString: GL_EXTENSIONS) readString.
+		self assert: shadingLanguageVersionString isNotNil.
+		shadingLanguageVersion :=  (shadingLanguageVersionString splitOn: '.') collect: #asInteger.
+
+		(self isAtLeastGL30 or: [ self isAtLeastGLES30 ]) ifTrue: [
+			| extensionCount extensionCountHolder|
+			extensionCountHolder := ExternalAddress allocate: 4.
+			[
+				self gl getIntegerv_pname: GL_NUM_EXTENSIONS data: extensionCountHolder.
+				extensionCount := extensionCountHolder uint32AtOffset: 0.
+			] ensure: [ extensionCountHolder free ].
+			extensions := Set new.
+			1 to: extensionCount - 1 do: [ :i |
+				extensions add: (self gl getStringi_name: GL_EXTENSIONS index: i) readString asSymbol
+			]
+		] ifFalse: [ 
+			extensionsString := (self gl getString: GL_EXTENSIONS) readString.
+			self assert: extensionsString isNotNil.
+			extensions := Set newFrom: ((shadingLanguageVersionString splitOn: ' ') collect: [ :each | each trimBoth asSymbol ]).
+		].
 	].
 
-	version :=  (versionString splitOn: '.') collect: #asInteger.
-	shadingLanguageVersion :=  (shadingLanguageVersionString splitOn: '.') collect: #asInteger.
-	self checkImportantExtensions
+	self checkImportantExtensions.
+	
+	textureFromFormDictionary := Dictionary new.
 ]
 
 { #category : #initialization }
@@ -130,8 +168,8 @@ UFFIOpenGLContext >> destroy [
 ]
 
 { #category : #version }
-UFFIOpenGLContext >> extensionsString [
-	^ extensionsString
+UFFIOpenGLContext >> extensions [
+	^ extensions
 ]
 
 { #category : #accessing }
@@ -140,9 +178,14 @@ UFFIOpenGLContext >> gl [
 	^ gl
 ]
 
+{ #category : #'session management' }
+UFFIOpenGLContext >> glAttributes [
+	^ glAttributes ifNil: [ glAttributes := self class defaultGLAttributes ]
+]
+
 { #category : #extensions }
 UFFIOpenGLContext >> hasExtension: extensionName [
-	^ extensionsString includesSubstring: extensionName
+	^ extensions includes: extensionName
 ]
 
 { #category : #extensions }
@@ -166,54 +209,91 @@ UFFIOpenGLContext >> initialize [
 
 ]
 
+{ #category : #initialization }
+UFFIOpenGLContext >> initializeWithAttributes: theGLAttributes [
+	glAttributes := theGLAttributes.
+	self initialize.
+	
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> isAtLeastDesktopVersionMajor: versionMajor versionMinor: versionMinor [
+	^ (version first > versionMajor) or: [ version first = versionMajor and: [ version second >= versionMinor] ]
+]
+
+{ #category : #version }
+UFFIOpenGLContext >> isAtLeastEmbeddedVersionMajor: versionMajor versionMinor: versionMinor [
+	^ false
+]
+
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL30 [
-	^ self isAtLeastVersionMajor: 3 versionMinor: 0
+	^ self isAtLeastDesktopVersionMajor: 3 versionMinor: 0
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL31 [
-	^ self isAtLeastVersionMajor: 3 versionMinor: 1
+	^ self isAtLeastDesktopVersionMajor: 3 versionMinor: 1
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL32 [
-	^ self isAtLeastVersionMajor: 3 versionMinor: 2
+	^ self isAtLeastDesktopVersionMajor: 3 versionMinor: 2
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL33 [
-	^ self isAtLeastVersionMajor: 3 versionMinor: 3
+	^ self isAtLeastDesktopVersionMajor: 3 versionMinor: 3
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL40 [
-	^ self isAtLeastVersionMajor: 4 versionMinor: 0
+	^ self isAtLeastDesktopVersionMajor: 4 versionMinor: 0
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL42 [
-	^ self isAtLeastVersionMajor: 4 versionMinor: 2
+	^ self isAtLeastDesktopVersionMajor: 4 versionMinor: 2
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL43 [
-	^ self isAtLeastVersionMajor: 4 versionMinor: 3
+	^ self isAtLeastDesktopVersionMajor: 4 versionMinor: 3
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL44 [
-	^ self isAtLeastVersionMajor: 4 versionMinor: 4
+	^ self isAtLeastDesktopVersionMajor: 4 versionMinor: 4
 ]
 
 { #category : #'version testing' }
 UFFIOpenGLContext >> isAtLeastGL45 [
-	^ self isAtLeastVersionMajor: 4 versionMinor: 4
+	^ self isAtLeastDesktopVersionMajor: 4 versionMinor: 5
 ]
 
-{ #category : #version }
-UFFIOpenGLContext >> isAtLeastVersionMajor: versionMajor versionMinor: versionMinor [
-	^ (version first > versionMajor) or: [ version first = versionMajor and: [ version second >= versionMinor] ]
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGL46 [
+	^ self isAtLeastDesktopVersionMajor: 4 versionMinor: 6
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGLES20 [
+	^ self isAtLeastEmbeddedVersionMajor: 2 versionMinor: 0
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isAtLeastGLES30 [
+	^ self isAtLeastEmbeddedVersionMajor: 3 versionMinor: 0
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isDesktopVersion [
+	^ true
+]
+
+{ #category : #'version testing' }
+UFFIOpenGLContext >> isEmbeddedVersion [
+	^ false
 ]
 
 { #category : #'context activation' }
@@ -296,7 +376,7 @@ UFFIOpenGLContext >> swapBuffers [
 { #category : #'context activation' }
 UFFIOpenGLContext >> swapBuffers: aWindow [
 	self checkSession.
-	^ renderer swapBuffers: aWindow
+	^ renderer swapBuffers: aWindow backendWindow
 ]
 
 { #category : #'resource creation' }
@@ -304,6 +384,15 @@ UFFIOpenGLContext >> textureObject [
 	^ (UFFIOpenGLTextureHandle for: self)
 		generate;
 		yourself
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> textureObjectFromForm: form [
+	^ textureFromFormDictionary at: form ifAbsentPut: [
+		self textureObject
+			uploadFromForm: form;
+			yourself
+	]
 ]
 
 { #category : #version }
@@ -329,7 +418,7 @@ UFFIOpenGLContext >> window [
 { #category : #'context activation' }
 UFFIOpenGLContext >> withWindow: aWindow do: aBlock [
 	self checkSession.
-	^ renderer withWindow: aWindow do: aBlock
+	^ renderer withWindow: aWindow backendWindow do: aBlock
 ]
 
 { #category : #'context activation' }

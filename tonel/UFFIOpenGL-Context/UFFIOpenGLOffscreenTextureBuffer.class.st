@@ -30,16 +30,8 @@ UFFIOpenGLOffscreenTextureBuffer >> asForm [
 	form unhibernate.
 	context asCurrentDo: [
 		self activate.
-		context gl
-			bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: 0;
-			bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
-			pixelStorei_pname: GL_PACK_ALIGNMENT param: 1;
-			pixelStorei_pname: GL_PACK_ROW_LENGTH param: extent x;
-			pixelStorei_pname: GL_PACK_IMAGE_HEIGHT param: extent y;
-			pixelStorei_pname: GL_PACK_SKIP_PIXELS param: 0;
-			pixelStorei_pname: GL_PACK_SKIP_ROWS param: 0;
-			pixelStorei_pname: GL_PACK_SKIP_IMAGES param: 0;
-			getTexImage_target: GL_TEXTURE_2D level: 0 format: GL_BGRA type: GL_UNSIGNED_BYTE pixels: form bits
+		context gl bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: 0.
+		colorTexture readIntoForm: form
 	] ifFailure: [ self error: 'Failed to read pixels into the form' ].
 	^ form
 ]

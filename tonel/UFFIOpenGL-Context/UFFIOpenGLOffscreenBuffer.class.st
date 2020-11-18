@@ -25,7 +25,9 @@ UFFIOpenGLOffscreenBuffer >> activate [
 	self checkSession.
 	context gl
 		bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle.
-	context hasSRGB ifTrue: [ context gl enable: GL_FRAMEBUFFER_SRGB_EXT ].
+	(context isDesktopVersion and: [context hasSRGB]) ifTrue: [
+		context gl enable: GL_FRAMEBUFFER_SRGB_EXT
+	].
 		
 ]
 
