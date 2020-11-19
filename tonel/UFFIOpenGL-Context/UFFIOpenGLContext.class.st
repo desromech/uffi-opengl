@@ -412,12 +412,11 @@ UFFIOpenGLContext >> textureObjectFromForm: form [
 ]
 
 { #category : #'resource creation' }
-UFFIOpenGLContext >> textureObjectFromForm: form withModificationCount: modificationCount [
-	^ (textureWithModificationCountDictionary at: form ifAbsentPut: [
+UFFIOpenGLContext >> textureObjectWithModificationCountFor: keyObject [
+	^ (textureWithModificationCountDictionary at: keyObject ifAbsentPut: [
 		self textureObject
 	])
-	uploadFromForm: form withModificationCount: modificationCount;
-	yourself
+
 ]
 
 { #category : #version }
