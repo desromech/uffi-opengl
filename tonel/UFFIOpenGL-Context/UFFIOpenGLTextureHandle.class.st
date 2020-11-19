@@ -4,6 +4,9 @@ I wrap an OpenGL texture object handle.
 Class {
 	#name : #UFFIOpenGLTextureHandle,
 	#superclass : #UFFIOpenGLIntegerHandle,
+	#instVars : [
+		'modificationCount'
+	],
 	#category : #'UFFIOpenGL-Context-Object'
 }
 
@@ -60,4 +63,12 @@ UFFIOpenGLTextureHandle >> uploadFromForm: form [
 			texParameteri_target: GL_TEXTURE_2D pname: GL_TEXTURE_MAG_FILTER param: GL_LINEAR
 	]
 
+]
+
+{ #category : #'as yet unclassified' }
+UFFIOpenGLTextureHandle >> uploadFromForm: form withModificationCount: newModificationCount [
+	(modificationCount isNil or: [modificationCount ~~ newModificationCount]) ifTrue: [ 
+		self uploadFromForm: form.
+		modificationCount := newModificationCount.
+	]
 ]

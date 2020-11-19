@@ -19,7 +19,8 @@ Class {
 		'hasMultisample',
 		'extensions',
 		'glAttributes',
-		'textureFromFormDictionary'
+		'textureFromFormDictionary',
+		'textureWithModificationCountDictionary'
 	],
 	#classVars : [
 		'ErrorDictionary'
@@ -99,7 +100,9 @@ UFFIOpenGLContext >> checkImportantExtensions [
 		hasSRGB := (self hasExtension: #GL_EXT_texture_sRGB) and: [ self hasExtension: #GL_EXT_framebuffer_sRGB ].
 		hasMultisample := self hasExtension: #GL_EXT_framebuffer_multisample.
 	] ifFalse: [
-		hasSRGB := self hasExtension: #GL_EXT_sRGB.
+		self flag: 'Disable srgb until we can blit into the main framebuffer correctly.'.
+		"hasSRGB := self hasExtension: #GL_EXT_sRGB."
+		hasSRGB := false.
 		hasMultisample := self hasExtension: #GL_EXT_multisample_compatibility.
 	].
 
@@ -159,6 +162,7 @@ UFFIOpenGLContext >> checkSession [
 	self checkImportantExtensions.
 	
 	textureFromFormDictionary := Dictionary new.
+	textureWithModificationCountDictionary := Dictionary new.
 ]
 
 { #category : #initialization }
@@ -315,6 +319,18 @@ UFFIOpenGLContext >> offscreenBufferExtent: anExtent [
 ]
 
 { #category : #'resource creation' }
+UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer [
+	^ UFFIOpenGLOffscreenTextureBuffer new
+		extent: anExtent;
+		hasColorBuffer: hasColorBuffer;
+		hasDepthBuffer: hasDepthBuffer;
+		hasStencilBuffer: hasStencilBuffer;
+		isSRGB: isSRGB;
+		context: self
+		yourself
+]
+
+{ #category : #'resource creation' }
 UFFIOpenGLContext >> offscreenBufferExtent: anExtent sampleCount: sampleCount [
 	(sampleCount = 1 or: [hasMultisample not]) ifTrue: [ ^ self offscreenBufferExtent: anExtent ].
 	^ UFFIOpenGLOffscreenMultisampleBuffer new
@@ -393,6 +409,15 @@ UFFIOpenGLContext >> textureObjectFromForm: form [
 			uploadFromForm: form;
 			yourself
 	]
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> textureObjectFromForm: form withModificationCount: modificationCount [
+	^ (textureWithModificationCountDictionary at: form ifAbsentPut: [
+		self textureObject
+	])
+	uploadFromForm: form withModificationCount: modificationCount;
+	yourself
 ]
 
 { #category : #version }

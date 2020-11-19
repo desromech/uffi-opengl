@@ -10,8 +10,10 @@ Class {
 		'form',
 		'framebufferObject',
 		'session',
+		'hasColorBuffer',
 		'hasDepthBuffer',
 		'hasStencilBuffer',
+		'isSRGB',
 		'extentChanged'
 	],
 	#pools : [
@@ -130,6 +132,36 @@ UFFIOpenGLOffscreenBuffer >> framebufferObject: anObject [
 ]
 
 { #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasColorBuffer [
+	^ hasColorBuffer
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasColorBuffer: anObject [
+	hasColorBuffer := anObject
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasDepthBuffer [
+	^ hasDepthBuffer
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasDepthBuffer: anObject [
+	hasDepthBuffer := anObject
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasStencilBuffer [
+	^ hasStencilBuffer
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasStencilBuffer: anObject [
+	hasStencilBuffer := anObject
+]
+
+{ #category : #accessing }
 UFFIOpenGLOffscreenBuffer >> height [
 	^ extent y
 ]
@@ -138,13 +170,25 @@ UFFIOpenGLOffscreenBuffer >> height [
 UFFIOpenGLOffscreenBuffer >> initialize [
 	super initialize.
 	extentChanged := true.
+	hasColorBuffer := true.
 	hasDepthBuffer := false.
 	hasStencilBuffer := false.
+	isSRGB := true.
 ]
 
 { #category : #'as yet unclassified' }
 UFFIOpenGLOffscreenBuffer >> internalColorFormat [
-	^ context hasSRGB ifTrue: [ GL_SRGB8_ALPHA8_EXT ] ifFalse: [ GL_RGBA8 ]
+	^ (context hasSRGB and: [isSRGB]) ifTrue: [ GL_SRGB8_ALPHA8_EXT ] ifFalse: [ GL_RGBA8 ]
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> isSRGB [
+	^ isSRGB
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> isSRGB: anObject [
+	isSRGB := anObject
 ]
 
 { #category : #'session management' }
