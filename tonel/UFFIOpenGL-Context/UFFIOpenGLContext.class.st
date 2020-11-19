@@ -20,7 +20,8 @@ Class {
 		'extensions',
 		'glAttributes',
 		'textureFromFormDictionary',
-		'textureWithModificationCountDictionary'
+		'textureWithModificationCountDictionary',
+		'renderTargetForObjectDictionary'
 	],
 	#classVars : [
 		'ErrorDictionary'
@@ -163,6 +164,7 @@ UFFIOpenGLContext >> checkSession [
 	
 	textureFromFormDictionary := Dictionary new.
 	textureWithModificationCountDictionary := Dictionary new.
+	renderTargetForObjectDictionary := Dictionary new.
 ]
 
 { #category : #initialization }
@@ -327,6 +329,15 @@ UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuf
 		hasStencilBuffer: hasStencilBuffer;
 		isSRGB: isSRGB;
 		context: self
+		yourself
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer for: keyObject [
+	^ (renderTargetForObjectDictionary at: keyObject ifAbsentPut: [
+			self offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer
+		])
+		extent: anExtent;
 		yourself
 ]
 

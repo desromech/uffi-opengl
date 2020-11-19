@@ -14,12 +14,6 @@ Class {
 	#category : #'UFFIOpenGL-Context-Object'
 }
 
-{ #category : #activation }
-UFFIOpenGLOffscreenTextureBuffer >> activate [
-	super activate.
-	context gl disable: GL_MULTISAMPLE_EXT
-]
-
 { #category : #converting }
 UFFIOpenGLOffscreenTextureBuffer >> asForm [
 	self checkSession.
@@ -44,10 +38,13 @@ UFFIOpenGLOffscreenTextureBuffer >> colorTexture [
 { #category : #'session management' }
 UFFIOpenGLOffscreenTextureBuffer >> createColorBuffer [
 	colorTexture := (UFFIOpenGLTextureHandle for: context) generate.
-	self resizeColorBuffer.
 	context gl
-		framebufferTexture2DEXT_target: GL_FRAMEBUFFER_EXT attachment: GL_COLOR_ATTACHMENT0_EXT textarget: GL_TEXTURE_2D texture: colorTexture handle level: 0.
-
+		bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
+		texImage2D_target: GL_TEXTURE_2D level: 0 internalformat: self internalColorFormat
+			width: extent x height: extent y border: 0 format: GL_RGBA type: GL_UNSIGNED_BYTE pixels: nil;
+		texParameteri_target: GL_TEXTURE_2D pname: GL_TEXTURE_MIN_FILTER param: GL_LINEAR;
+		texParameteri_target: GL_TEXTURE_2D pname: GL_TEXTURE_MAG_FILTER param: GL_LINEAR;
+		framebufferTexture2DEXT_target: activeTarget attachment: GL_COLOR_ATTACHMENT0_EXT textarget: GL_TEXTURE_2D texture: colorTexture handle level: 0.
 ]
 
 { #category : #accessing }
@@ -55,11 +52,11 @@ UFFIOpenGLOffscreenTextureBuffer >> depthTexture [
 	^ depthTexture
 ]
 
-{ #category : #'session management' }
-UFFIOpenGLOffscreenTextureBuffer >> resizeColorBuffer [
-	context gl
-		bindTexture_target: GL_TEXTURE_2D texture: colorTexture handle;
-		texImage2D_target: GL_TEXTURE_2D level: 0 internalformat: self internalColorFormat
-			width: extent x height: extent y border: 0 format: GL_RGBA type: GL_UNSIGNED_BYTE pixels: nil
+{ #category : #activation }
+UFFIOpenGLOffscreenTextureBuffer >> doActivate [
+	super doActivate.
+	context isEmbeddedVersion ifFalse: [ 
+		context gl disable: GL_MULTISAMPLE_EXT
+	].
 
 ]
