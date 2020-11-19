@@ -334,11 +334,9 @@ UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuf
 
 { #category : #'resource creation' }
 UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer for: keyObject [
-	^ (renderTargetForObjectDictionary at: keyObject ifAbsentPut: [
+	^ renderTargetForObjectDictionary at: keyObject ifAbsentPut: [
 			self offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer
-		])
-		extent: anExtent;
-		yourself
+		]
 ]
 
 { #category : #'resource creation' }
