@@ -162,9 +162,9 @@ UFFIOpenGLContext >> checkSession [
 
 	self checkImportantExtensions.
 	
-	textureFromFormDictionary := Dictionary new.
-	textureWithModificationCountDictionary := Dictionary new.
-	renderTargetForObjectDictionary := Dictionary new.
+	textureFromFormDictionary := WeakKeyDictionary new.
+	textureWithModificationCountDictionary := WeakKeyDictionary new.
+	renderTargetForObjectDictionary := WeakKeyDictionary new.
 ]
 
 { #category : #initialization }
