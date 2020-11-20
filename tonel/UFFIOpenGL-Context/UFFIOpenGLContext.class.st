@@ -21,7 +21,8 @@ Class {
 		'glAttributes',
 		'textureFromFormDictionary',
 		'textureWithModificationCountDictionary',
-		'renderTargetForObjectDictionary'
+		'renderTargetForObjectDictionary',
+		'ownsWindow'
 	],
 	#classVars : [
 		'ErrorDictionary'
@@ -68,6 +69,11 @@ UFFIOpenGLContext class >> newWithAttributes: attributes [
 	^ self basicNew initializeWithAttributes: attributes
 ]
 
+{ #category : #'instance creation' }
+UFFIOpenGLContext class >> newWithAttributes: attributes forWindow: aWindow [
+	^ self basicNew initializeWithAttributes: attributes forWindow: aWindow
+]
+
 { #category : #'context activation' }
 UFFIOpenGLContext >> asCurrentDo: aBlock [
 	self checkSession.
@@ -111,18 +117,12 @@ UFFIOpenGLContext >> checkImportantExtensions [
 
 { #category : #'session management' }
 UFFIOpenGLContext >> checkSession [
-	| osWindowAttributes extensionsString |
+	| extensionsString |
 	session == Smalltalk session ifTrue: [ ^ self ].
-	osWindowAttributes := OSWindowAttributes new
-		visible: false;
-		extent: 1@1;
-		glAttributes: self glAttributes;
-		yourself.
-
-	window := OSWindow createWithAttributes: osWindowAttributes.
-	renderer := window newOpenGLRenderer.
-	Smalltalk os isMacOSX ifTrue: [
-		window show; hide
+	ownsWindow ifTrue: [
+		self createContextOnlyWindow
+	] ifFalse: [
+		renderer := window newOpenGLRenderer.
 	].
 
 	session := Smalltalk session.
@@ -167,9 +167,28 @@ UFFIOpenGLContext >> checkSession [
 	renderTargetForObjectDictionary := WeakKeyDictionary new.
 ]
 
+{ #category : #'session management' }
+UFFIOpenGLContext >> createContextOnlyWindow [
+	| osWindowAttributes |
+	osWindowAttributes := OSWindowAttributes new
+		visible: false;
+		extent: 1@1;
+		glAttributes: self glAttributes;
+		yourself.
+
+	window := OSWindow createWithAttributes: osWindowAttributes.
+	renderer := window newOpenGLRenderer.
+	Smalltalk os isMacOSX ifTrue: [
+		window show; hide
+	].
+
+]
+
 { #category : #initialization }
 UFFIOpenGLContext >> destroy [
-	window ifNotNil: [window destroy].
+	ownsWindow ifTrue: [ 
+		window ifNotNil: [window destroy].
+	].
 	window := nil
 ]
 
@@ -211,6 +230,7 @@ UFFIOpenGLContext >> hasValidSession [
 
 { #category : #initialization }
 UFFIOpenGLContext >> initialize [
+	ownsWindow ifNil: [ ownsWindow := false ].
 	self checkSession.
 
 ]
@@ -218,6 +238,15 @@ UFFIOpenGLContext >> initialize [
 { #category : #initialization }
 UFFIOpenGLContext >> initializeWithAttributes: theGLAttributes [
 	glAttributes := theGLAttributes.
+	self initialize.
+	
+]
+
+{ #category : #initialization }
+UFFIOpenGLContext >> initializeWithAttributes: theGLAttributes forWindow: aWindow [
+	glAttributes := theGLAttributes.
+	ownsWindow := false.
+	window := aWindow.
 	self initialize.
 	
 ]
