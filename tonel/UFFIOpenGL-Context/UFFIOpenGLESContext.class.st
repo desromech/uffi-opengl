@@ -1,3 +1,6 @@
+"
+I am used to bind an OpenGL ES context using OSWindow.
+"
 Class {
 	#name : #UFFIOpenGLESContext,
 	#superclass : #UFFIOpenGLContext,
@@ -6,7 +9,7 @@ Class {
 
 { #category : #settings }
 UFFIOpenGLESContext class >> defaultGLAttributes [
-	^ OSWindowGLAttributes new setForOpenGLES20; srgbFramebuffer: true.
+	^ OSWindowGLAttributes new setForOpenGLES20; srgbFramebuffer: false.
 ]
 
 { #category : #version }

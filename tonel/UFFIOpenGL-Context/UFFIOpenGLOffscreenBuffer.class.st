@@ -10,9 +10,13 @@ Class {
 		'form',
 		'framebufferObject',
 		'session',
+		'hasColorBuffer',
 		'hasDepthBuffer',
 		'hasStencilBuffer',
-		'extentChanged'
+		'isSRGB',
+		'extentChanged',
+		'modificationCount',
+		'activeTarget'
 	],
 	#pools : [
 		'UFFIOpenGLConstants'
@@ -22,25 +26,21 @@ Class {
 
 { #category : #activation }
 UFFIOpenGLOffscreenBuffer >> activate [
-	self checkSession.
-	context gl
-		bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle.
-	(context isDesktopVersion and: [context hasSRGB]) ifTrue: [
-		context gl enable: GL_FRAMEBUFFER_SRGB_EXT
-	].
-		
+	activeTarget := GL_FRAMEBUFFER_EXT.
+	self doActivate.
+
 ]
 
 { #category : #activation }
 UFFIOpenGLOffscreenBuffer >> activateDrawBuffer [
-	self checkSession.
-	context gl bindFramebufferEXT_target: GL_DRAW_FRAMEBUFFER_EXT framebuffer: framebufferObject handle
+	activeTarget := GL_DRAW_FRAMEBUFFER_EXT.
+	self doActivate.
 ]
 
 { #category : #activation }
 UFFIOpenGLOffscreenBuffer >> activateReadBuffer [
-	self checkSession.
-	context gl bindFramebufferEXT_target: GL_READ_FRAMEBUFFER_EXT framebuffer: framebufferObject handle
+	activeTarget := GL_READ_FRAMEBUFFER_EXT.
+	self doActivate.
 ]
 
 { #category : #converting }
@@ -59,12 +59,11 @@ UFFIOpenGLOffscreenBuffer >> blitToMainFramebuffer [
 
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> checkSession [
-	(session ~~ Smalltalk session) ifTrue: [
+	((session ~~ Smalltalk session) or: [ extentChanged ]) ifTrue: [
 		self createSessionResources.
 		session := Smalltalk session.
 	].
 
-	self resizeAttachments
 ]
 
 { #category : #accessing }
@@ -93,7 +92,7 @@ UFFIOpenGLOffscreenBuffer >> createDepthStencilBuffer [
 { #category : #'session management' }
 UFFIOpenGLOffscreenBuffer >> createFramebufferObject [
 	framebufferObject := (UFFIOpenGLFBOHandle for: context) generate.
-	context gl bindFramebufferEXT_target: GL_FRAMEBUFFER_EXT framebuffer: framebufferObject handle.
+	context gl bindFramebufferEXT_target: activeTarget framebuffer: framebufferObject handle.
 ]
 
 { #category : #'session management' }
@@ -103,9 +102,18 @@ UFFIOpenGLOffscreenBuffer >> createSessionResources [
 			createFramebufferObject;
 			createColorBuffer;
 			createDepthStencilBuffer.
-			
-		extentChanged := false
+		extentChanged := false.
 	] ifFailure: [ self error: 'Failed to set the OpenGL context.' ]
+]
+
+{ #category : #activation }
+UFFIOpenGLOffscreenBuffer >> doActivate [
+	self checkSession.
+	context gl
+		bindFramebufferEXT_target: activeTarget framebuffer: framebufferObject handle.
+	(context isDesktopVersion and: [context hasSRGB]) ifTrue: [
+		context gl enable: GL_FRAMEBUFFER_SRGB_EXT
+	].
 ]
 
 { #category : #accessing }
@@ -115,8 +123,8 @@ UFFIOpenGLOffscreenBuffer >> extent [
 
 { #category : #accessing }
 UFFIOpenGLOffscreenBuffer >> extent: newExtent [
-	extentChanged := extent ~= newExtent.
-	extent := newExtent
+	extentChanged := extentChanged or: [extent ~= newExtent].
+	extent := newExtent.
 ]
 
 { #category : #accessing }
@@ -130,6 +138,36 @@ UFFIOpenGLOffscreenBuffer >> framebufferObject: anObject [
 ]
 
 { #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasColorBuffer [
+	^ hasColorBuffer
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasColorBuffer: anObject [
+	hasColorBuffer := anObject
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasDepthBuffer [
+	^ hasDepthBuffer
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasDepthBuffer: anObject [
+	hasDepthBuffer := anObject
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasStencilBuffer [
+	^ hasStencilBuffer
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> hasStencilBuffer: anObject [
+	hasStencilBuffer := anObject
+]
+
+{ #category : #accessing }
 UFFIOpenGLOffscreenBuffer >> height [
 	^ extent y
 ]
@@ -138,35 +176,35 @@ UFFIOpenGLOffscreenBuffer >> height [
 UFFIOpenGLOffscreenBuffer >> initialize [
 	super initialize.
 	extentChanged := true.
+	hasColorBuffer := true.
 	hasDepthBuffer := false.
 	hasStencilBuffer := false.
+	isSRGB := true.
 ]
 
 { #category : #'as yet unclassified' }
 UFFIOpenGLOffscreenBuffer >> internalColorFormat [
-	^ context hasSRGB ifTrue: [ GL_SRGB8_ALPHA8_EXT ] ifFalse: [ GL_RGBA8 ]
+	^ (context hasSRGB and: [isSRGB]) ifTrue: [ GL_SRGB8_ALPHA8_EXT ] ifFalse: [ GL_RGBA8 ]
 ]
 
-{ #category : #'session management' }
-UFFIOpenGLOffscreenBuffer >> resizeAttachments [
-	extentChanged ifFalse: [ ^ self ].
-	
-	context asCurrentDo: [
-		self
-			resizeColorBuffer;
-			resizeDepthStencilBuffer.
-			
-		extentChanged := false
-	] ifFailure: [ self error: 'Failed to resize the framebuffer attachments.' ]
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> isSRGB [
+	^ isSRGB
 ]
 
-{ #category : #'session management' }
-UFFIOpenGLOffscreenBuffer >> resizeColorBuffer [
-	self subclassResponsibility
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> isSRGB: anObject [
+	isSRGB := anObject
 ]
 
-{ #category : #'session management' }
-UFFIOpenGLOffscreenBuffer >> resizeDepthStencilBuffer [
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> modificationCount [
+	^ modificationCount
+]
+
+{ #category : #accessing }
+UFFIOpenGLOffscreenBuffer >> modificationCount: anObject [
+	modificationCount := anObject
 ]
 
 { #category : #accessing }

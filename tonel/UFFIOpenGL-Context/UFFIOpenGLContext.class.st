@@ -19,7 +19,10 @@ Class {
 		'hasMultisample',
 		'extensions',
 		'glAttributes',
-		'textureFromFormDictionary'
+		'textureFromFormDictionary',
+		'textureWithModificationCountDictionary',
+		'renderTargetForObjectDictionary',
+		'ownsWindow'
 	],
 	#classVars : [
 		'ErrorDictionary'
@@ -66,6 +69,11 @@ UFFIOpenGLContext class >> newWithAttributes: attributes [
 	^ self basicNew initializeWithAttributes: attributes
 ]
 
+{ #category : #'instance creation' }
+UFFIOpenGLContext class >> newWithAttributes: attributes forWindow: aWindow [
+	^ self basicNew initializeWithAttributes: attributes forWindow: aWindow
+]
+
 { #category : #'context activation' }
 UFFIOpenGLContext >> asCurrentDo: aBlock [
 	self checkSession.
@@ -99,7 +107,9 @@ UFFIOpenGLContext >> checkImportantExtensions [
 		hasSRGB := (self hasExtension: #GL_EXT_texture_sRGB) and: [ self hasExtension: #GL_EXT_framebuffer_sRGB ].
 		hasMultisample := self hasExtension: #GL_EXT_framebuffer_multisample.
 	] ifFalse: [
-		hasSRGB := self hasExtension: #GL_EXT_sRGB.
+		self flag: 'Disable srgb until we can blit into the main framebuffer correctly.'.
+		"hasSRGB := self hasExtension: #GL_EXT_sRGB."
+		hasSRGB := false.
 		hasMultisample := self hasExtension: #GL_EXT_multisample_compatibility.
 	].
 
@@ -107,18 +117,12 @@ UFFIOpenGLContext >> checkImportantExtensions [
 
 { #category : #'session management' }
 UFFIOpenGLContext >> checkSession [
-	| osWindowAttributes extensionsString |
+	| extensionsString |
 	session == Smalltalk session ifTrue: [ ^ self ].
-	osWindowAttributes := OSWindowAttributes new
-		visible: false;
-		extent: 1@1;
-		glAttributes: self glAttributes;
-		yourself.
-
-	window := OSWindow createWithAttributes: osWindowAttributes.
-	renderer := window newOpenGLRenderer.
-	Smalltalk os isMacOSX ifTrue: [
-		window show; hide
+	ownsWindow ifTrue: [
+		self createContextOnlyWindow
+	] ifFalse: [
+		renderer := window newOpenGLRenderer.
 	].
 
 	session := Smalltalk session.
@@ -158,12 +162,33 @@ UFFIOpenGLContext >> checkSession [
 
 	self checkImportantExtensions.
 	
-	textureFromFormDictionary := Dictionary new.
+	textureFromFormDictionary := WeakKeyDictionary new.
+	textureWithModificationCountDictionary := WeakKeyDictionary new.
+	renderTargetForObjectDictionary := WeakKeyDictionary new.
+]
+
+{ #category : #'session management' }
+UFFIOpenGLContext >> createContextOnlyWindow [
+	| osWindowAttributes |
+	osWindowAttributes := OSWindowAttributes new
+		visible: false;
+		extent: 1@1;
+		glAttributes: self glAttributes;
+		yourself.
+
+	window := OSWindow createWithAttributes: osWindowAttributes.
+	renderer := window newOpenGLRenderer.
+	Smalltalk os isMacOSX ifTrue: [
+		window show; hide
+	].
+
 ]
 
 { #category : #initialization }
 UFFIOpenGLContext >> destroy [
-	window ifNotNil: [window destroy].
+	ownsWindow ifTrue: [ 
+		window ifNotNil: [window destroy].
+	].
 	window := nil
 ]
 
@@ -205,6 +230,7 @@ UFFIOpenGLContext >> hasValidSession [
 
 { #category : #initialization }
 UFFIOpenGLContext >> initialize [
+	ownsWindow ifNil: [ ownsWindow := false ].
 	self checkSession.
 
 ]
@@ -212,6 +238,15 @@ UFFIOpenGLContext >> initialize [
 { #category : #initialization }
 UFFIOpenGLContext >> initializeWithAttributes: theGLAttributes [
 	glAttributes := theGLAttributes.
+	self initialize.
+	
+]
+
+{ #category : #initialization }
+UFFIOpenGLContext >> initializeWithAttributes: theGLAttributes forWindow: aWindow [
+	glAttributes := theGLAttributes.
+	ownsWindow := false.
+	window := aWindow.
 	self initialize.
 	
 ]
@@ -315,6 +350,25 @@ UFFIOpenGLContext >> offscreenBufferExtent: anExtent [
 ]
 
 { #category : #'resource creation' }
+UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer [
+	^ UFFIOpenGLOffscreenTextureBuffer new
+		extent: anExtent;
+		hasColorBuffer: hasColorBuffer;
+		hasDepthBuffer: hasDepthBuffer;
+		hasStencilBuffer: hasStencilBuffer;
+		isSRGB: isSRGB;
+		context: self
+		yourself
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer for: keyObject [
+	^ renderTargetForObjectDictionary at: keyObject ifAbsentPut: [
+			self offscreenBufferExtent: anExtent hasColorBuffer: hasColorBuffer isSRGB: isSRGB hasDepthBuffer: hasDepthBuffer hasStencilBuffer: hasStencilBuffer
+		]
+]
+
+{ #category : #'resource creation' }
 UFFIOpenGLContext >> offscreenBufferExtent: anExtent sampleCount: sampleCount [
 	(sampleCount = 1 or: [hasMultisample not]) ifTrue: [ ^ self offscreenBufferExtent: anExtent ].
 	^ UFFIOpenGLOffscreenMultisampleBuffer new
@@ -393,6 +447,14 @@ UFFIOpenGLContext >> textureObjectFromForm: form [
 			uploadFromForm: form;
 			yourself
 	]
+]
+
+{ #category : #'resource creation' }
+UFFIOpenGLContext >> textureObjectWithModificationCountFor: keyObject [
+	^ (textureWithModificationCountDictionary at: keyObject ifAbsentPut: [
+		self textureObject
+	])
+
 ]
 
 { #category : #version }
