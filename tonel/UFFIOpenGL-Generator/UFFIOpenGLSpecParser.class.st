@@ -71,8 +71,32 @@ UFFIOpenGLSpecParser >> parseCommands: commandsElement [
 ]
 
 { #category : #parsing }
+UFFIOpenGLSpecParser >> parseEnum: constantElement into: enum [
+	| alias group constantName constantValue constant |
+	constantName := constantElement attributeAt: 'name'.
+	constantValue := constantElement attributeAt: 'value'.
+	(constantName isEmpty or: [ constantValue isEmpty ])
+		ifTrue: [ ^ self ].
+
+	group := (constantElement attributeAt: 'group') splitOn: $,.
+	(group size == 1) ifTrue: [ group := group at: 1 ].
+	(group isEmpty) ifTrue: [ group := nil ].
+
+	alias := constantElement attributeAt: 'alias'.
+	(alias isEmpty) ifTrue: [ alias := nil ].
+		
+	constant := UFFIOpenGLSpecConstant new
+		name: constantName;
+		value: constantValue;
+		group: group;
+		alias: alias;
+		yourself.
+	enum addConstant: constant
+]
+
+{ #category : #parsing }
 UFFIOpenGLSpecParser >> parseEnums: enumsElement [
-	| namespace group type enum constantName constantValue vendor constant |
+	| namespace group type enum vendor |
 	namespace := enumsElement attributeAt: 'namespace'.
 	group := enumsElement attributeAt: 'group'.
 	type := enumsElement attributeAt: 'bitmask'.
@@ -86,15 +110,7 @@ UFFIOpenGLSpecParser >> parseEnums: enumsElement [
 	spec addEnum: enum.
 	
 	enumsElement elementsDo: [ :constantElement |
-		constantName := constantElement attributeAt: 'name'.
-		constantValue := constantElement attributeAt: 'value'.
-		(constantName isNotEmpty and: [ constantValue isNotEmpty ]) ifTrue: [
-			constant := UFFIOpenGLSpecConstant new
-				name: constantName;
-				value: constantValue;
-				yourself.
-			enum addConstant: constant
-		]
+		self parseEnum: constantElement into: enum.
 	].
 
 ]
