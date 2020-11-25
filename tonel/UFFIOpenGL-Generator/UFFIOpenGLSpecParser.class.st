@@ -75,7 +75,7 @@ UFFIOpenGLSpecParser >> parseEnums: enumsElement [
 	| namespace group type enum constantName constantValue vendor constant |
 	namespace := enumsElement attributeAt: 'namespace'.
 	group := enumsElement attributeAt: 'group'.
-	type := enumsElement attributeAt: 'bitmask'.
+	type := enumsElement attributeAt: 'type'.
 	vendor := enumsElement attributeAt: 'vendor'.
 	enum := UFFIOpenGLSpecEnum new
 		namespace: namespace;

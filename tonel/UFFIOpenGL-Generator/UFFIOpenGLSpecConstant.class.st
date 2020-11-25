@@ -50,6 +50,6 @@ UFFIOpenGLSpecConstant >> value: aNumberString [
 		]
 	].
 
-	self assert: value ~~ nil.
+	self assert: value isNotNil.
 	
 ]
