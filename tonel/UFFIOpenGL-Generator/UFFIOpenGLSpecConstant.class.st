@@ -3,10 +3,32 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'value'
+		'value',
+		'group',
+		'alias'
 	],
 	#category : #'UFFIOpenGL-Generator'
 }
+
+{ #category : #accessing }
+UFFIOpenGLSpecConstant >> alias [
+^ alias
+]
+
+{ #category : #accessing }
+UFFIOpenGLSpecConstant >> alias: anAlias [
+  alias := anAlias
+]
+
+{ #category : #accessing }
+UFFIOpenGLSpecConstant >> group [
+^ group
+]
+
+{ #category : #accessing }
+UFFIOpenGLSpecConstant >> group: aGroup [
+  group := aGroup
+]
 
 { #category : #accessing }
 UFFIOpenGLSpecConstant >> name [
