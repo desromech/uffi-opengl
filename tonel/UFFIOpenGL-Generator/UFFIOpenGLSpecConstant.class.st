@@ -75,3 +75,8 @@ UFFIOpenGLSpecConstant >> value: aNumberString [
 	self assert: value ~~ nil.
 	
 ]
+
+{ #category : #printing }
+UFFIOpenGLSpecConstant >> vendor [
+^ UFFIOpenGLSpecEnum vendorSuffixFrom: name
+]

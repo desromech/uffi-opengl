@@ -78,9 +78,7 @@ UFFIOpenGLSpecParser >> parseEnum: constantElement into: enum [
 	(constantName isEmpty or: [ constantValue isEmpty ])
 		ifTrue: [ ^ self ].
 
-	group := (constantElement attributeAt: 'group') splitOn: $,.
-	(group size == 1) ifTrue: [ group := group at: 1 ].
-	(group isEmpty) ifTrue: [ group := nil ].
+	group := (constantElement attributeAt: 'group').
 
 	alias := constantElement attributeAt: 'alias'.
 	(alias isEmpty) ifTrue: [ alias := nil ].

@@ -8,8 +8,74 @@ Class {
 		'vendor',
 		'constants'
 	],
+	#classVars : [
+		'Vendors'
+	],
 	#category : #'UFFIOpenGL-Generator'
 }
+
+{ #category : #initialization }
+UFFIOpenGLSpecEnum class >> initialize [
+"Initialize vendor suffixes in a set for classifying enums"
+Vendors := self vendorSuffixes asSet.
+]
+
+{ #category : #testing }
+UFFIOpenGLSpecEnum class >> vendorSuffixFrom: aSymbol [
+"Return the vendor suffix or an empty string for a core GL enum"
+| enum lastUnderscore suffix |
+enum := aSymbol asString.
+lastUnderscore := enum lastIndexOf: $_ ifAbsent: [ ^ '' ].
+suffix := enum copyFrom: (lastUnderscore + 1) to: enum size.
+(Vendors includes: suffix) ifTrue: [ ^ suffix ].
+^ ''
+
+]
+
+{ #category : #initialization }
+UFFIOpenGLSpecEnum class >> vendorSuffixes [
+^ #(
+'3DFX'
+'3DL'
+'AMD'
+'ANDROID'
+'ANGLE'
+'APPLE'
+'ARB'
+'ARM'
+'ATI'
+'DMP'
+'EXT'
+'FJ'
+'GREMEDY'
+'HP'
+'I3D'
+'IBM'
+'IGLOO'
+'IMG'
+'INGR'
+'INTEL'
+'KHR'
+'MESA'
+'MESAX'
+'NV'
+'NVX'
+'OES'
+'OML'
+'OVR'
+'PGI'
+'QCOM'
+'REND'
+'S3'
+'SGI'
+'SGIS'
+'SGIX'
+'SUN'
+'SUNX'
+'VIV'
+'WIN' 
+)
+]
 
 { #category : #adding }
 UFFIOpenGLSpecEnum >> addConstant: aSpecConstant [
