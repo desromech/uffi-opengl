@@ -104,6 +104,11 @@ UFFIOpenGLSpecEnum >> initialize [
 ]
 
 { #category : #accessing }
+UFFIOpenGLSpecEnum >> isBitmask [
+	^ type = 'bitmask'
+]
+
+{ #category : #accessing }
 UFFIOpenGLSpecEnum >> namespace [
 	^ namespace
 ]
