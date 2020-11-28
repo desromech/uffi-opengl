@@ -230,7 +230,7 @@ UFFIOpenGLContext >> hasValidSession [
 
 { #category : #initialization }
 UFFIOpenGLContext >> initialize [
-	ownsWindow ifNil: [ ownsWindow := false ].
+	ownsWindow ifNil: [ ownsWindow := true ].
 	self checkSession.
 
 ]
