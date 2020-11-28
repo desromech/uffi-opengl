@@ -11296,8 +11296,6 @@ UFFIOpenGLConstants class >> initialize [
 	"
 	self initialize
 	"
-	super initialize.
-
 	self constantData pairsDo: [:k :v |
 		self assert: k isSymbol.
 		(self hasClassVarNamed: k) ifFalse: [ self addClassVarNamed: k ].

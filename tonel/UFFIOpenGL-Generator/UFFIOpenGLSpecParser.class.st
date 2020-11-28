@@ -1,3 +1,15 @@
+"
+I generate an UFFIOpenGLSpec object from an XML specification file from Khronos.
+
+Specification files can be found at: https://github.com/KhronosGroup/OpenGL-Registry/tree/master/xml
+
+Currently, only types, enums and commands are parsed.
+
+Usage:
+UFFIOpenGLSpecParser new parseSpecFromFileNamed: 'gl.xml' prefix: 'gl'
+UFFIOpenGLSpecParser new parseSpecFromURL: 'https://raw.githubusercontent.com/KhronosGroup/OpenGL-Registry/master/xml/wgl.xml'  prefix: 'wgl'
+
+"
 Class {
 	#name : #UFFIOpenGLSpecParser,
 	#superclass : #Object,
@@ -59,11 +71,33 @@ UFFIOpenGLSpecParser >> parseCommands: commandsElement [
 ]
 
 { #category : #parsing }
+UFFIOpenGLSpecParser >> parseEnum: constantElement into: enum [
+	| alias group constantName constantValue constant |
+	constantName := constantElement attributeAt: 'name'.
+	constantValue := constantElement attributeAt: 'value'.
+	(constantName isEmpty or: [ constantValue isEmpty ])
+		ifTrue: [ ^ self ].
+
+	group := (constantElement attributeAt: 'group').
+
+	alias := constantElement attributeAt: 'alias'.
+	(alias isEmpty) ifTrue: [ alias := nil ].
+		
+	constant := UFFIOpenGLSpecConstant new
+		name: constantName;
+		value: constantValue;
+		group: group;
+		alias: alias;
+		yourself.
+	enum addConstant: constant
+]
+
+{ #category : #parsing }
 UFFIOpenGLSpecParser >> parseEnums: enumsElement [
-	| namespace group type enum constantName constantValue vendor constant |
+	| namespace group type enum vendor |
 	namespace := enumsElement attributeAt: 'namespace'.
 	group := enumsElement attributeAt: 'group'.
-	type := enumsElement attributeAt: 'bitmask'.
+	type := enumsElement attributeAt: 'type'.
 	vendor := enumsElement attributeAt: 'vendor'.
 	enum := UFFIOpenGLSpecEnum new
 		namespace: namespace;
@@ -74,15 +108,7 @@ UFFIOpenGLSpecParser >> parseEnums: enumsElement [
 	spec addEnum: enum.
 	
 	enumsElement elementsDo: [ :constantElement |
-		constantName := constantElement attributeAt: 'name'.
-		constantValue := constantElement attributeAt: 'value'.
-		(constantName isNotEmpty and: [ constantValue isNotEmpty ]) ifTrue: [
-			constant := UFFIOpenGLSpecConstant new
-				name: constantName;
-				value: constantValue;
-				yourself.
-			enum addConstant: constant
-		]
+		self parseEnum: constantElement into: enum.
 	].
 
 ]
@@ -96,21 +122,15 @@ UFFIOpenGLSpecParser >> parseFeature: featuresElement [
 ]
 
 { #category : #parsing }
-UFFIOpenGLSpecParser >> parseGroups: typesElement [
-]
-
-{ #category : #parsing }
-UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
-	| xmlSpec rootNode childType |
-	xmlSpec := XMLDOMParser parseFileNamed: aFileName.
+UFFIOpenGLSpecParser >> parseSpecFromDomParser: aDomParser prefix: anApiPrefix [
+	| rootNode childType |
 	spec := UFFIOpenGLSpec new.
-	rootNode := xmlSpec root.
+	rootNode := aDomParser root.
 	prefix := anApiPrefix.
 	self assert: rootNode name = 'registry'.
 	rootNode elementsDo: [ :child |
 		childType := child name.
-		childType = 'type' ifTrue: [ self parseTypes: child ].
-		childType = 'groups' ifTrue: [ self parseGroups: child ].
+		childType = 'types' ifTrue: [ self parseTypes: child ].
 		childType = 'enums' ifTrue: [ self parseEnums: child ].
 		childType = 'commands' ifTrue: [ self parseCommands: child ].
 		childType = 'feature' ifTrue: [ self parseFeature: child ].
@@ -118,6 +138,22 @@ UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
 	].
 
 	^ spec
+]
+
+{ #category : #parsing }
+UFFIOpenGLSpecParser >> parseSpecFromFileNamed: aFileName prefix: anApiPrefix [
+	| xmlSpec |
+	xmlSpec := XMLDOMParser parseFileNamed: aFileName.
+	^ self parseSpecFromDomParser: xmlSpec prefix: anApiPrefix
+
+]
+
+{ #category : #parsing }
+UFFIOpenGLSpecParser >> parseSpecFromURL: anURL prefix: anApiPrefix [
+	| xmlSpec |
+	xmlSpec := XMLDOMParser parseURL: anURL.
+	^ self parseSpecFromDomParser: xmlSpec prefix: anApiPrefix
+
 ]
 
 { #category : #parsing }
@@ -137,4 +173,26 @@ UFFIOpenGLSpecParser >> parseTypeNamePair: element [
 
 { #category : #parsing }
 UFFIOpenGLSpecParser >> parseTypes: typesElement [
+	| type nameElement name api requires group text |
+	
+	typesElement elementsDo: [ :typeElement |
+		nameElement := typeElement findElementNamed: 'name'.
+		nameElement ifNil: [ name := typeElement attributeAt: 'name' ]
+			       ifNotNil: [ name := nameElement contentString ].
+
+		api := typeElement attributeAt: 'api'.
+		requires := typeElement attributeAt: 'requires'.
+		group := typeElement attributeAt: 'type'.
+		text := typeElement contentString.
+		
+		type := UFFIOpenGLSpecType new
+			name: name;				
+			api: api;
+			requires: requires;
+			group: group;
+			text: text;
+			yourself.
+		spec addType: type
+	].
+
 ]

@@ -1,9 +1,15 @@
+"
+I am the representation of GL specification.
+
+Only the commands are currently used to generate bindings.
+
+Needs usage example.
+"
 Class {
 	#name : #UFFIOpenGLSpec,
 	#superclass : #Object,
 	#instVars : [
 		'types',
-		'groups',
 		'enums',
 		'commands',
 		'features'
@@ -20,6 +26,11 @@ UFFIOpenGLSpec >> addCommand: aCommand [
 { #category : #adding }
 UFFIOpenGLSpec >> addEnum: anEnum [
 	enums add: anEnum
+]
+
+{ #category : #adding }
+UFFIOpenGLSpec >> addType: aType [
+	types add: aType
 ]
 
 { #category : #accessing }
@@ -60,17 +71,11 @@ UFFIOpenGLSpec >> generateBindingsAt: bindingsClass constantsAt: constantsClass 
 	
 ]
 
-{ #category : #accessing }
-UFFIOpenGLSpec >> groups [
-	^ groups
-]
-
 { #category : #initialization }
 UFFIOpenGLSpec >> initialize [
 	super initialize.
 	
 	types := OrderedCollection new.
-	groups := OrderedCollection new.
 	enums := OrderedCollection new.
 	commands := OrderedCollection new.
 	features := OrderedCollection new.
